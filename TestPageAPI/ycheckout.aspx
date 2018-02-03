@@ -29,6 +29,7 @@
             <asp:Label ID="LabelInfo" runat="server" Text=""> Для тестирования оплаты c банковской карты. Номер карты:  1111 1111 1111 1026. 
                                                                 Действует до: любой год и месяц в будущем. Код CVV: 000</asp:Label>
 
+            <asp:Label ID="PayInfo" runat="server" Text="Label"></asp:Label>
 
             <asp:Label ID="LabelPayInfo" runat="server" Text="Label"></asp:Label>
 

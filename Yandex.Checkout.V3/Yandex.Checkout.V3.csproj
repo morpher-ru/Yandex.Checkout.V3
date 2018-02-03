@@ -46,10 +46,13 @@
     <Compile Include="Client.cs" />
     <Compile Include="Confirmation_Result.cs" />
     <Compile Include="Confirmation_Return.cs" />
+    <Compile Include="PayDetail.cs" />
     <Compile Include="Pay.cs" />
+    <Compile Include="Payment_Method.cs" />
     <Compile Include="Pay_Result.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Recipient.cs" />
+    <Compile Include="Waiting_For_Capture.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

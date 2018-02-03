@@ -1,7 +1,10 @@
 ﻿
+using Newtonsoft.Json;
 using System;
 using System.Globalization;
-
+using System.IO;
+using System.Web;
+using Yandex.Checkout.V3;
 
 namespace TestPageAPI
 {
@@ -14,43 +17,38 @@ namespace TestPageAPI
         protected void Page_Load(object sender, EventArgs e)
         {
 
-            System.Text.StringBuilder displayValues = new System.Text.StringBuilder();
-            System.Collections.Specialized.NameValueCollection
-                postedValues = Request.Form;
-            String nextKey;
-            for (int i = 0; i < postedValues.AllKeys.Length - 1; i++)
+
+
+            if (Request.HttpMethod == "POST" && Request.ContentType == "application/json; charset=UTF-8")
             {
-                nextKey = postedValues.AllKeys[i];
-                if (nextKey.Substring(0, 2) != "__")
+               string json;
+                using (var reader = new StreamReader(Request.InputStream))
                 {
-                    displayValues.Append("<br>");
-                    displayValues.Append(nextKey);
-                    displayValues.Append(" = ");
-                    displayValues.Append(postedValues[i]);
+                    json = reader.ReadToEnd();
                 }
+
+
+                var _url = new Yandex.Checkout.V3.Client("501156", "test_As0OONRn1SsvFr0IVlxULxst5DBIoWi_tyVaezSRTEI")
+                    .PaymentCapture(json);
+                                     
             }
-
-            if (displayValues.ToString() != string.Empty)
-            {
-                LabelPayInfo.Text = displayValues.ToString();
-            }
-
-            if (IsPostBack)
-            {
-
-            }
-
         }
+
+   
 
         protected void submit_YandexPay_Click(object sender, EventArgs e)
         {
 
             if (sum.Text!=null)
             {
-   
+
+               // string urlpay = "https://apiyandexkassa.azurewebsites.net/ConfirmPay.aspx";
+                string urlpay = "https://apiyandexkassa.azurewebsites.net/ycheckout.aspx";
+
+
                 float fsum = float.Parse(sum.Text, CultureInfo.InvariantCulture.NumberFormat);
                 string _url = new Yandex.Checkout.V3.Client("501156", "test_As0OONRn1SsvFr0IVlxULxst5DBIoWi_tyVaezSRTEI")
-                                         .CreatePayment(fsum, "RUB", "https://morpher.ru/ycheckout.aspx").ConfirmationUrl;
+                                         .CreatePayment(fsum, "RUB", urlpay).ConfirmationUrl;
                 Response.Redirect(_url);
             }
         }

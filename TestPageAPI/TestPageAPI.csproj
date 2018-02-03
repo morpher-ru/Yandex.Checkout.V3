@@ -61,11 +61,18 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="HtmlPage1.html" />
+    <Content Include="ConfirmPay.aspx" />
     <Content Include="Web.config" />
     <Content Include="ycheckout.aspx" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ConfirmPay.aspx.cs">
+      <DependentUpon>ConfirmPay.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ConfirmPay.aspx.designer.cs">
+      <DependentUpon>ConfirmPay.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ycheckout.aspx.cs">
       <DependentUpon>ycheckout.aspx</DependentUpon>
