@@ -1,9 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
 namespace Yandex.Checkout.V3
 {
+    /// <summary>
+    /// Исходные данные для создания платежа.
+    /// </summary>
     public class NewPayment
     {
         /// <summary>
@@ -31,8 +35,18 @@ namespace Yandex.Checkout.V3
         /// </summary>
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public Confirmation confirmation = new Confirmation();
+
+        /// <summary>
+        /// Дополнительные данные, которые можно передать вместе с запросом
+        /// и получить в ответе от Яндекс.Кассы для реализации внутренней логики. 
+        /// </summary>
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        public Dictionary<string, string> metadata;
     }
 
+    /// <summary>
+    /// Информация о платеже.
+    /// </summary>
     public class Payment : NewPayment
     {
         public Guid id { get; set; }

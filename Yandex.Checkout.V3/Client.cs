@@ -9,9 +9,8 @@ namespace Yandex.Checkout.V3
     public class Client
     {
         private readonly string _userAgent;
-        private readonly string _shopId;
-        private readonly string _secretKey;
         private readonly string _apiUrl;
+        private readonly string _authorization;
 
         public Client(
             string shopId, 
@@ -19,20 +18,19 @@ namespace Yandex.Checkout.V3
             string apiUrl = "https://payment.yandex.net/api/v3/payments/",
             string userAgent = ".NET API Yandex.Checkout.V3")
         {
-            _shopId = shopId;
-            _secretKey = secretKey;
             _apiUrl = apiUrl;
             _userAgent = userAgent;
+            _authorization = "Basic " + Convert.ToBase64String(Encoding.UTF8.GetBytes(shopId + ":" + secretKey));
         }
 
-        public Payment CreatePayment(NewPayment payment, string idempotenceKey)
+        public Payment CreatePayment(NewPayment payment, string idempotenceKey = null)
         {
             return Post<Payment>(payment, _apiUrl, idempotenceKey);
         }
 
-        public void Capture(Payment payment)
+        public void Capture(Payment payment, string idempotenceKey = null)
         {
-            Post<dynamic>(payment, _apiUrl + payment.id + "/capture", Guid.NewGuid().ToString());
+            Post<dynamic>(payment, _apiUrl + payment.id + "/capture", idempotenceKey);
         }
 
         public Message ParseMessage(string requestHttpMethod, string requestContentType, Stream requestInputStream)
@@ -53,35 +51,34 @@ namespace Yandex.Checkout.V3
 
         private T Post<T>(object body, string url, string idempotenceKey)
         {
-            string json = JsonConvert.SerializeObject(body);
-            byte[] postBytes = Encoding.UTF8.GetBytes(json);
-            string base64String = Convert.ToBase64String(Encoding.UTF8.GetBytes(_shopId + ":" + _secretKey));
-
             WebRequest request = WebRequest.Create(url);
             request.Method = "POST";
-            request.Headers.Add("Authorization", "Basic " + base64String);
             request.ContentType = "application/json";
-            request.Headers.Add("Idempotence-Key", idempotenceKey);
+            request.Headers.Add("Authorization", _authorization);
 
-            ((HttpWebRequest)request).UserAgent = _userAgent;
+            // Похоже, что этот заголовок обязателен, без него говорит (400) Bad Request.
+            request.Headers.Add("Idempotence-Key", idempotenceKey ?? Guid.NewGuid().ToString());
+
+            if (_userAgent != null)
+            {
+                ((HttpWebRequest)request).UserAgent = _userAgent;
+            }
+
+            string json = JsonConvert.SerializeObject(body);
+            byte[] postBytes = Encoding.UTF8.GetBytes(json);
             request.ContentLength = postBytes.Length;
-
             using (Stream stream = request.GetRequestStream())
             {
                 stream.Write(postBytes, 0, postBytes.Length);
             }
 
             using (WebResponse response = request.GetResponse())
+            using (var responseStream = response.GetResponseStream())
+            using (var sr = new StreamReader(responseStream ?? throw new InvalidOperationException("Response stream is null.")))
             {
-                using (var responseStream = response.GetResponseStream())
-                {
-                    using (var sr = new StreamReader(responseStream ?? throw new InvalidOperationException("Response is null.")))
-                    {
-                        string jsonResponse = sr.ReadToEnd();
-                        T info = JsonConvert.DeserializeObject<T>(jsonResponse);
-                        return info;
-                    }
-                }
+                string jsonResponse = sr.ReadToEnd();
+                T info = JsonConvert.DeserializeObject<T>(jsonResponse);
+                return info;
             }
         }
     }
