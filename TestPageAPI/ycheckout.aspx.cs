@@ -1,59 +1,52 @@
-﻿
-using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Globalization;
 using System.IO;
-using System.Web;
 using Yandex.Checkout.V3;
 
 namespace TestPageAPI
 {
-
-
     public partial class ycheckout : System.Web.UI.Page
     {
-   
-      
+        readonly Client _client = new Client("501156", "test_As0OONRn1SsvFr0IVlxULxst5DBIoWi_tyVaezSRTEI");
+
         protected void Page_Load(object sender, EventArgs e)
         {
-
-
-
-            if (Request.HttpMethod == "POST" && Request.ContentType == "application/json; charset=UTF-8")
+            try
             {
-               string json;
-                using (var reader = new StreamReader(Request.InputStream))
+                Log($"Page_Load: Request.HttpMethod={Request.HttpMethod}, Request.ContentType={Request.ContentType}, Request.InputStream has {Request.InputStream.Length} bytes");
+                Message message = _client.ParseMessage(Request.HttpMethod, Request.ContentType, Request.InputStream);
+                Payment payment = message?.@object;
+                if (message?.@event == Event.PaymentWaitingForCapture && payment.id != default(Guid) && payment.paid)
                 {
-                    json = reader.ReadToEnd();
+                    Log($"Got message: payment.id={payment.id}, payment.paid={payment.paid}");
+                    _client.Capture(payment);
                 }
-
-
-                var _url = new Yandex.Checkout.V3.Client("501156", "test_As0OONRn1SsvFr0IVlxULxst5DBIoWi_tyVaezSRTEI")
-                    .PaymentCapture(json);
-                                     
+            }
+            catch (Exception exception)
+            {
+                Log(exception.ToString());
             }
         }
-
-   
 
         protected void submit_YandexPay_Click(object sender, EventArgs e)
         {
+            File.Delete(Server.MapPath("log.txt"));
 
-            if (sum.Text!=null)
+            float amount = float.Parse(sum.Text, CultureInfo.InvariantCulture.NumberFormat);
+            var idempotenceKey = Guid.NewGuid().ToString();
+            var newPayment = new NewPayment
             {
-
-               // string urlpay = "https://apiyandexkassa.azurewebsites.net/ConfirmPay.aspx";
-                string urlpay = "https://apiyandexkassa.azurewebsites.net/ycheckout.aspx";
-
-
-                float fsum = float.Parse(sum.Text, CultureInfo.InvariantCulture.NumberFormat);
-                string _url = new Yandex.Checkout.V3.Client("501156", "test_As0OONRn1SsvFr0IVlxULxst5DBIoWi_tyVaezSRTEI")
-                                         .CreatePayment(fsum, "RUB", urlpay).ConfirmationUrl;
-                Response.Redirect(_url);
-            }
+                amount = new Amount { value = amount, currency = "RUB" },
+                confirmation = new Confirmation { type = ConfirmationType.redirect, return_url = Request.Url.AbsoluteUri }
+            };
+            Payment payment = _client.CreatePayment(newPayment, idempotenceKey);
+            string url = payment.confirmation.confirmation_url;
+            Response.Redirect(url);
         }
-        
-      
 
+        void Log(string msg)
+        {
+            File.AppendAllLines(Server.MapPath("log.txt"), new[] { $"{DateTime.UtcNow} {msg}" });
+        }
     }
 }

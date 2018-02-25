@@ -61,18 +61,10 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="ConfirmPay.aspx" />
     <Content Include="Web.config" />
     <Content Include="ycheckout.aspx" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ConfirmPay.aspx.cs">
-      <DependentUpon>ConfirmPay.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="ConfirmPay.aspx.designer.cs">
-      <DependentUpon>ConfirmPay.aspx</DependentUpon>
-    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ycheckout.aspx.cs">
       <DependentUpon>ycheckout.aspx</DependentUpon>
@@ -84,7 +76,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-    <None Include="Properties\PublishProfiles\apiyandexkassa - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\api.farm - Web Deploy.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -94,7 +86,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Yandex.Checkout.V3\Yandex.Checkout.V3.csproj">
-      <Project>{20e37582-a996-4851-9111-adc4d87b1eff}</Project>
+      <Project>{36a67780-4fef-447b-8f8d-c9fc58c19c2e}</Project>
       <Name>Yandex.Checkout.V3</Name>
     </ProjectReference>
   </ItemGroup>

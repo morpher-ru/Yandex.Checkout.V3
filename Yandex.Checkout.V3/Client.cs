@@ -8,117 +8,81 @@ namespace Yandex.Checkout.V3
 {
     public class Client
     {
-        public const string url_yandex_pay = "https://payment.yandex.net/api/v3/payments/";
+        private readonly string _userAgent;
+        private readonly string _shopId;
+        private readonly string _secretKey;
+        private readonly string _apiUrl;
 
-        public string ConfirmationUrl { get; private set; }
-
-        private WebRequest _request = null;
-        private string _shopid { get; set; }
-        private string _scid { get; set; }
-
-        public Client(string shopId, string secretKey, string useragent = ".NET API Yandex.Checkout.V3")
+        public Client(
+            string shopId, 
+            string secretKey,
+            string apiUrl = "https://payment.yandex.net/api/v3/payments/",
+            string userAgent = ".NET API Yandex.Checkout.V3")
         {
-            _shopid = shopId;
-            _scid = secretKey;
-            InitializeComponent(useragent, url_yandex_pay);
-
+            _shopId = shopId;
+            _secretKey = secretKey;
+            _apiUrl = apiUrl;
+            _userAgent = userAgent;
         }
 
-        private void InitializeComponent(string useragent, string url)
+        public Payment CreatePayment(NewPayment payment, string idempotenceKey)
         {
-            string _encoded = System.Convert.ToBase64String(System.Text.Encoding.GetEncoding("ISO-8859-1").GetBytes(_shopid + ":" + _scid));
-
-            _request = WebRequest.Create(url);
-            _request.Method = "POST";
-            _request.Headers.Add("Authorization", "Basic " + _encoded);
-            _request.ContentType = "application/json";
-            _request.Headers.Add("Idempotence-Key", Guid.NewGuid().ToString());
-
-            ((HttpWebRequest)_request).UserAgent = useragent;
+            return Post<Payment>(payment, _apiUrl, idempotenceKey);
         }
 
-        private T GetJsonResponse<T>()
+        public void Capture(Payment payment)
         {
-            using (var _getresp = _request.GetResponse())
+            Post<dynamic>(payment, _apiUrl + payment.id + "/capture", Guid.NewGuid().ToString());
+        }
+
+        public Message ParseMessage(string requestHttpMethod, string requestContentType, Stream requestInputStream)
+        {
+            Message message = null;
+            if (requestHttpMethod == "POST" && requestContentType == "application/json; charset=UTF-8")
             {
-                using (var responseStream = _getresp.GetResponseStream())
+                string json;
+                using (var reader = new StreamReader(requestInputStream))
                 {
-                    using (var sr = new StreamReader(responseStream))
-                    {
-                        var jsonResponse = sr.ReadToEnd();
-                        T _info = JsonConvert.DeserializeObject<T>(jsonResponse);
-                        return _info;
-                    }
-
+                    json = reader.ReadToEnd();
                 }
+
+                message = JsonConvert.DeserializeObject<Message>(json);
             }
+            return message;
         }
 
-        public Client CreatePayment(float sum, string currency, string return_url, bool capture = false)
+        private T Post<T>(object body, string url, string idempotenceKey)
         {
-
-            var _json_Pay = new Pay()
-            {
-                 capture = capture,
-                amount = new Amount() { value = sum, currency = currency },
-                confirmation = new Confirmation_Return() { type = "redirect", return_url = return_url }
-            };
-
-
-            string json = JsonConvert.SerializeObject(_json_Pay);
+            string json = JsonConvert.SerializeObject(body);
             byte[] postBytes = Encoding.UTF8.GetBytes(json);
-            _request.ContentLength = postBytes.Length;
+            string base64String = Convert.ToBase64String(Encoding.UTF8.GetBytes(_shopId + ":" + _secretKey));
 
+            WebRequest request = WebRequest.Create(url);
+            request.Method = "POST";
+            request.Headers.Add("Authorization", "Basic " + base64String);
+            request.ContentType = "application/json";
+            request.Headers.Add("Idempotence-Key", idempotenceKey);
 
+            ((HttpWebRequest)request).UserAgent = _userAgent;
+            request.ContentLength = postBytes.Length;
 
-            using (var _stream = _request.GetRequestStream())
+            using (Stream stream = request.GetRequestStream())
             {
-                _stream.Write(postBytes, 0, postBytes.Length);
+                stream.Write(postBytes, 0, postBytes.Length);
             }
 
-            ConfirmationUrl = GetJsonResponse<Pay_Result>().confirmation.confirmation_url;
-   
-
-            return this;
-        }
-
-
-
-        public Client PaymentCapture (string _json,string useragent = ".NET API Yandex.Checkout.V3")
-        {
-          
-            Waiting_For_Capture _info = JsonConvert.DeserializeObject<Waiting_For_Capture>(_json);
-            string tmp = _info.object_pay.id;
-
-            if (_info.event_status == "payment.waiting_for_capture")
+            using (WebResponse response = request.GetResponse())
             {
-                if (_info.object_pay.id != null && _info.object_pay.paid == true)
+                using (var responseStream = response.GetResponseStream())
                 {
-                   InitializeComponent(useragent, url_yandex_pay + tmp + "/capture");
-
-
-                    var amount = new Amount() { value = _info.object_pay.amount.value, currency = _info.object_pay.amount.currency };
-                    string json_fin = JsonConvert.SerializeObject(amount);
-                    byte[] postBytes = Encoding.UTF8.GetBytes(json_fin);
-                    _request.ContentLength = postBytes.Length;
-
-                    using (var _stream = _request.GetRequestStream())
+                    using (var sr = new StreamReader(responseStream ?? throw new InvalidOperationException("Response is null.")))
                     {
-                        _stream.Write(postBytes, 0, postBytes.Length);
+                        string jsonResponse = sr.ReadToEnd();
+                        T info = JsonConvert.DeserializeObject<T>(jsonResponse);
+                        return info;
                     }
                 }
             }
-
-            dynamic succeeded = GetJsonResponse<dynamic>();
-
-
-            /// TD
-            /// 
-            ///
-            return this;
-
         }
-
-
     }
 }

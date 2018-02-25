@@ -4,6 +4,5 @@
     {
         public float value { get; set; }
         public string currency { get; set; }
-
     }
 }
