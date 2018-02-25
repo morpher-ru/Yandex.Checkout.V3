@@ -6,7 +6,7 @@
     <RootNamespace>Yandex.Checkout.V3</RootNamespace>
     <PackageVersion>$(version)</PackageVersion>
     <Authors>Morpher.ru</Authors>
-    <Title>Yandex Checkout .NET Client</Title>
+    <Description>Yandex Checkout .NET Client</Description>
     <Copyright>Copyright 2018 morpher.ru</Copyright>
     <PackageTags>Yandex Checkout API</PackageTags>
     <VersionSuffix>$(VersionSuffix)</VersionSuffix>
