@@ -3,7 +3,7 @@ using System.Globalization;
 using System.IO;
 using Yandex.Checkout.V3;
 
-namespace TestPageAPI
+namespace AspNetSample
 {
     public partial class ycheckout : System.Web.UI.Page
     {

@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace TestPageAPI {
+namespace AspNetSample {
     
     
     public partial class ycheckout {
