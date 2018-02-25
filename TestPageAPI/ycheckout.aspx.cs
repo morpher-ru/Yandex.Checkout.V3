@@ -32,7 +32,7 @@ namespace TestPageAPI
         {
             File.Delete(Server.MapPath("log.txt"));
 
-            float amount = float.Parse(sum.Text, CultureInfo.InvariantCulture.NumberFormat);
+            decimal amount = decimal.Parse(sum.Text, CultureInfo.InvariantCulture.NumberFormat);
             var idempotenceKey = Guid.NewGuid().ToString();
             var newPayment = new NewPayment
             {
