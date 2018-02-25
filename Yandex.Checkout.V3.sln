@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27130.2020
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AspNetSample", "TestPageAPI\AspNetSample.csproj", "{CDB910C3-CAC0-4706-8B55-4D224D19EF41}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Yandex.Checkout.V3", "Yandex.Checkout.V3\Yandex.Checkout.V3.csproj", "{36A67780-4FEF-447B-8F8D-C9FC58C19C2E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AspNetSample", "AspNetSample\AspNetSample.csproj", "{CDB910C3-CAC0-4706-8B55-4D224D19EF41}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -13,14 +13,14 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{CDB910C3-CAC0-4706-8B55-4D224D19EF41}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{CDB910C3-CAC0-4706-8B55-4D224D19EF41}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{CDB910C3-CAC0-4706-8B55-4D224D19EF41}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{CDB910C3-CAC0-4706-8B55-4D224D19EF41}.Release|Any CPU.Build.0 = Release|Any CPU
 		{36A67780-4FEF-447B-8F8D-C9FC58C19C2E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{36A67780-4FEF-447B-8F8D-C9FC58C19C2E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{36A67780-4FEF-447B-8F8D-C9FC58C19C2E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{36A67780-4FEF-447B-8F8D-C9FC58C19C2E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CDB910C3-CAC0-4706-8B55-4D224D19EF41}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CDB910C3-CAC0-4706-8B55-4D224D19EF41}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CDB910C3-CAC0-4706-8B55-4D224D19EF41}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CDB910C3-CAC0-4706-8B55-4D224D19EF41}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -7,4 +7,4 @@
 
 На данный момент API реализован в мере, достаточной для проведения платежей по инструкции [Быстрый старт](https://kassa.yandex.ru/docs/guides/#bystryj-start) (шаги 1-4). 
 
-[Пример вызова из ASP.NET](https://github.com/morpher-ru/Yandex.Checkout.V3/blob/master/TestPageAPI/ycheckout.aspx.cs)
+[Пример вызова из ASP.NET](https://github.com/morpher-ru/Yandex.Checkout.V3/blob/master/AspNetSample/Default.aspx.cs)
