@@ -5,7 +5,7 @@
     <PackageId>Yandex.Checkout.V3</PackageId>
     <RootNamespace>Yandex.Checkout.V3</RootNamespace>
     <PackageVersion>0.0.0</PackageVersion>
-    <AssembyVersion>0.0.0.0</AssembyVersion>
+    <AssemblyVersion>0.0.0.0</AssemblyVersion>
     <Authors>Morpher.ru</Authors>
     <Description>Yandex Checkout .NET Client</Description>
     <Copyright>Copyright 2018 morpher.ru</Copyright>
