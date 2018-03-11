@@ -4,7 +4,6 @@
     <TargetFrameworks>netstandard2.0;net40</TargetFrameworks>
     <PackageId>Yandex.Checkout.V3</PackageId>
     <RootNamespace>Yandex.Checkout.V3</RootNamespace>
-    <PackageVersion>$(version)</PackageVersion>
     <Authors>Morpher.ru</Authors>
     <Description>Yandex Checkout .NET Client</Description>
     <Copyright>Copyright 2018 morpher.ru</Copyright>
@@ -12,9 +11,6 @@
     <VersionSuffix>$(VersionSuffix)</VersionSuffix>
     <RepositoryUrl>https://github.com/morpher-ru/Morpher.WebService.V3.Client</RepositoryUrl>
     <PackageReleaseNotes>First release</PackageReleaseNotes>
-    <AssemblyVersion>1.0.0</AssemblyVersion>
-    <FileVersion>1.0.0.</FileVersion>
-    <InformationalVersion>1.0.0</InformationalVersion>
   </PropertyGroup>
 
   <ItemGroup>
