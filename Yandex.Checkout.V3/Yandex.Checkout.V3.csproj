@@ -11,10 +11,12 @@
     <Authors>Morpher.ru</Authors>
     <Description>Yandex Checkout .NET Client</Description>
     <Copyright>Copyright 2018 morpher.ru</Copyright>
-    <PackageTags>Yandex Checkout API</PackageTags>
+    <PackageTags>Yandex;Checkout;API</PackageTags>
     <VersionSuffix>$(VersionSuffix)</VersionSuffix>
-    <RepositoryUrl>https://github.com/morpher-ru/Morpher.WebService.V3.Client</RepositoryUrl>
-    <PackageReleaseNotes>First release</PackageReleaseNotes>
+    <RepositoryUrl>https://github.com/morpher-ru/Yandex.Checkout.V3</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/morpher-ru/Yandex.Checkout.V3</PackageProjectUrl>
+    <PackageLicenseUrl>https://github.com/morpher-ru/Yandex.Checkout.V3/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageReleaseNotes>Fix RepositoryUrl, add PackageProjectUrl and PackageLicenseUrl.</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>
