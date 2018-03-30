@@ -16,7 +16,7 @@
     <RepositoryUrl>https://github.com/morpher-ru/Yandex.Checkout.V3</RepositoryUrl>
     <PackageProjectUrl>https://github.com/morpher-ru/Yandex.Checkout.V3</PackageProjectUrl>
     <PackageLicenseUrl>https://github.com/morpher-ru/Yandex.Checkout.V3/blob/master/LICENSE</PackageLicenseUrl>
-    <PackageReleaseNotes>Fix RepositoryUrl, add PackageProjectUrl and PackageLicenseUrl.</PackageReleaseNotes>
+    <PackageReleaseNotes>Remove nullability from created_at.</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>
