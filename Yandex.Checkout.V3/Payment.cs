@@ -56,8 +56,7 @@ namespace Yandex.Checkout.V3
 
         public bool paid { get; set; }
 
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        public DateTime? created_at { get; set; }
+        public DateTime created_at { get; set; }
 
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public DateTime? expires_at { get; set; }
