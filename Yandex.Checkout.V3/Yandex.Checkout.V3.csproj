@@ -4,7 +4,7 @@
     <TargetFrameworks>netstandard2.0;net40</TargetFrameworks>
     <PackageId>Yandex.Checkout.V3</PackageId>
     <RootNamespace>Yandex.Checkout.V3</RootNamespace>
-    <PackageVersion>0.0.2</PackageVersion>
+    <PackageVersion>0.0.3</PackageVersion>
     <AssemblyVersion>0.0.0.0</AssemblyVersion>
     <FileVersion>0.0.0.0</FileVersion>
     <InformationalVersion>0.0.0.0</InformationalVersion>
@@ -16,7 +16,12 @@
     <RepositoryUrl>https://github.com/morpher-ru/Yandex.Checkout.V3</RepositoryUrl>
     <PackageProjectUrl>https://github.com/morpher-ru/Yandex.Checkout.V3</PackageProjectUrl>
     <PackageLicenseUrl>https://github.com/morpher-ru/Yandex.Checkout.V3/blob/master/LICENSE</PackageLicenseUrl>
-    <PackageReleaseNotes>Remove nullability from created_at.</PackageReleaseNotes>
+    <PackageReleaseNotes>
+      Make ParseMessage static, add an overload that takes a string body (the other takes a Stream).
+      Add XML comments to the package.
+    </PackageReleaseNotes>
+    <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\Yandex.Checkout.V3.xml</DocumentationFile>
+    <NoWarn>1591</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>

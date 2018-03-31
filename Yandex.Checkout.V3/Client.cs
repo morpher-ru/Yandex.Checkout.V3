@@ -16,7 +16,7 @@ namespace Yandex.Checkout.V3
             string shopId, 
             string secretKey,
             string apiUrl = "https://payment.yandex.net/api/v3/payments/",
-            string userAgent = ".NET API Yandex.Checkout.V3")
+            string userAgent = "Yandex.Checkout.V3 .NET Client")
         {
             _apiUrl = apiUrl;
             _userAgent = userAgent;
@@ -33,20 +33,37 @@ namespace Yandex.Checkout.V3
             Post<dynamic>(payment, _apiUrl + payment.id + "/capture", idempotenceKey);
         }
 
-        public Message ParseMessage(string requestHttpMethod, string requestContentType, Stream requestInputStream)
+        /// <summary>
+        /// Parses an HTTP request into a <see cref="Message"/> object.
+        /// </summary>
+        /// <returns>A <see cref="Message"/> object or null.</returns>
+        public static Message ParseMessage(string requestHttpMethod, string requestContentType, Stream requestInputStream)
+        {
+            return ParseMessage(requestHttpMethod, requestContentType, ReadToEnd(requestInputStream));
+        }
+
+        /// <summary>
+        /// Parses an HTTP request into a <see cref="Message"/> object.
+        /// </summary>
+        /// <returns>A <see cref="Message"/> object or null.</returns>
+        public static Message ParseMessage(string requestHttpMethod, string requestContentType, string jsonBody)
         {
             Message message = null;
             if (requestHttpMethod == "POST" && requestContentType == "application/json; charset=UTF-8")
             {
-                string json;
-                using (var reader = new StreamReader(requestInputStream))
-                {
-                    json = reader.ReadToEnd();
-                }
-
-                message = JsonConvert.DeserializeObject<Message>(json);
+                message = JsonConvert.DeserializeObject<Message>(jsonBody);
             }
             return message;
+        }
+
+        public static string ReadToEnd(Stream stream)
+        {
+            if (stream == null) return null;
+
+            using (var reader = new StreamReader(stream))
+            {
+                return reader.ReadToEnd();
+            }
         }
 
         private T Post<T>(object body, string url, string idempotenceKey)
