@@ -14,7 +14,7 @@ namespace AspNetSample
             try
             {
                 Log($"Page_Load: Request.HttpMethod={Request.HttpMethod}, Request.ContentType={Request.ContentType}, Request.InputStream has {Request.InputStream.Length} bytes");
-                Message message = _client.ParseMessage(Request.HttpMethod, Request.ContentType, Request.InputStream);
+                Message message = Client.ParseMessage(Request.HttpMethod, Request.ContentType, Request.InputStream);
                 Payment payment = message?.@object;
                 if (message?.@event == Event.PaymentWaitingForCapture && payment.id != default(Guid) && payment.paid)
                 {
