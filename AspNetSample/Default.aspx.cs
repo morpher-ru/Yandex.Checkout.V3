@@ -9,6 +9,7 @@ namespace AspNetSample
     {
         readonly Client _client = new Client("501156", "test_As0OONRn1SsvFr0IVlxULxst5DBIoWi_tyVaezSRTEI");
 
+        // 3. Дождитесь уведомления о платеже
         protected void Page_Load(object sender, EventArgs e)
         {
             try
@@ -19,6 +20,8 @@ namespace AspNetSample
                 if (message?.@event == Event.PaymentWaitingForCapture && payment.id != default(Guid) && payment.paid)
                 {
                     Log($"Got message: payment.id={payment.id}, payment.paid={payment.paid}");
+
+                    // 4. Подтвердите готовность принять платеж
                     _client.Capture(payment);
                 }
             }
@@ -32,6 +35,7 @@ namespace AspNetSample
         {
             File.Delete(Server.MapPath("log.txt"));
 
+            // 1. Создайте платеж и получите ссылку для оплаты
             decimal amount = decimal.Parse(sum.Text, CultureInfo.InvariantCulture.NumberFormat);
             var idempotenceKey = Guid.NewGuid().ToString();
             var newPayment = new NewPayment
@@ -40,6 +44,8 @@ namespace AspNetSample
                 confirmation = new Confirmation { type = ConfirmationType.redirect, return_url = Request.Url.AbsoluteUri }
             };
             Payment payment = _client.CreatePayment(newPayment, idempotenceKey);
+            
+            // 2. Перенаправьте пользователя на страницу оплаты
             string url = payment.confirmation.confirmation_url;
             Response.Redirect(url);
         }
