@@ -17,3 +17,16 @@
 
 &lt;AssemblyVersion&gt; is currently set to 0.0.0.0 in the csproj file and is not patched during CI. It will go up to 1.0.0.0 once the API is stable and then the major version will go up ONLY when there is a breaking change.
 
+## Troubleshooting
+
+"Authentication failed because the remote party has closed the transport stream."
+
+If you get this error while trying to create a new payment, it may mean that you are using a security protocol that YC does not support. Currently (July 2018) it supports TLS 1.2 but that may change in the future. Add this code before the create payment request:
+
+    using System.Net;
+
+    ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+  
+Or, if you are targeting .NET 4.0 or lower:
+
+    ServicePointManager.SecurityProtocol = (SecurityProtocolType)3072;
