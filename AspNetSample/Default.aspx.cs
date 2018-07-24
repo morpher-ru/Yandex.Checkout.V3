@@ -9,6 +9,25 @@ namespace AspNetSample
     {
         readonly Client _client = new Client("501156", "test_As0OONRn1SsvFr0IVlxULxst5DBIoWi_tyVaezSRTEI");
 
+        protected void submit_YandexPay_Click(object sender, EventArgs e)
+        {
+            File.Delete(Server.MapPath("log.txt"));
+
+            // 1. Создайте платеж и получите ссылку для оплаты
+            decimal amount = decimal.Parse(sum.Text, CultureInfo.InvariantCulture.NumberFormat);
+            var idempotenceKey = Guid.NewGuid().ToString();
+            var newPayment = new NewPayment
+            {
+                amount = new Amount { value = amount, currency = "RUB" },
+                confirmation = new Confirmation { type = ConfirmationType.redirect, return_url = Request.Url.AbsoluteUri }
+            };
+            Payment payment = _client.CreatePayment(newPayment, idempotenceKey);
+            
+            // 2. Перенаправьте пользователя на страницу оплаты
+            string url = payment.confirmation.confirmation_url;
+            Response.Redirect(url);
+        }
+
         // 3. Дождитесь уведомления о платеже
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -29,25 +48,6 @@ namespace AspNetSample
             {
                 Log(exception.ToString());
             }
-        }
-
-        protected void submit_YandexPay_Click(object sender, EventArgs e)
-        {
-            File.Delete(Server.MapPath("log.txt"));
-
-            // 1. Создайте платеж и получите ссылку для оплаты
-            decimal amount = decimal.Parse(sum.Text, CultureInfo.InvariantCulture.NumberFormat);
-            var idempotenceKey = Guid.NewGuid().ToString();
-            var newPayment = new NewPayment
-            {
-                amount = new Amount { value = amount, currency = "RUB" },
-                confirmation = new Confirmation { type = ConfirmationType.redirect, return_url = Request.Url.AbsoluteUri }
-            };
-            Payment payment = _client.CreatePayment(newPayment, idempotenceKey);
-            
-            // 2. Перенаправьте пользователя на страницу оплаты
-            string url = payment.confirmation.confirmation_url;
-            Response.Redirect(url);
         }
 
         void Log(string msg)
