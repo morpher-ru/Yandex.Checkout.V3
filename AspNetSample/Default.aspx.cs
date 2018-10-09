@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Globalization;
 using System.IO;
+using System.Net;
 using Yandex.Checkout.V3;
 
 namespace AspNetSample
@@ -11,6 +12,7 @@ namespace AspNetSample
 
         protected void submit_YandexPay_Click(object sender, EventArgs e)
         {
+            ServicePointManager.SecurityProtocol = (SecurityProtocolType)3072;
             File.Delete(Server.MapPath("log.txt"));
 
             // 1. Создайте платеж и получите ссылку для оплаты
