@@ -1,0 +1,24 @@
+﻿@page
+@model Yandex.Checkout.V3.Demo.Pages.ConfirmSyncModel
+@{
+    ViewData["Title"] = "ConfirmSync";
+    Layout = "~/Pages/_Layout.cshtml";
+}
+
+<h2>Sync confirmation</h2>
+
+<div class="form-group">
+    <label asp-for="Payment">Payment data</label>
+    <textarea asp-for="Payment" class="form-control" rows="20"></textarea>
+</div>
+<form method="post">
+    <input type="hidden" asp-for="Id" />
+    <button type="submit" class="btn btn-default">Confirm</button>
+</form>
+
+<script type="text/javascript">
+    let ugly = document.getElementById("Payment").value;
+    let pretty = JSON.stringify(JSON.parse(ugly), undefined, 2);
+    document.getElementById("Payment").value = pretty;
+</script>
+

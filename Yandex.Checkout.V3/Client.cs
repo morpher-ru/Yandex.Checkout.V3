@@ -49,7 +49,7 @@ namespace Yandex.Checkout.V3
         /// <returns><see cref="Payment"/></returns>
         public Payment CreatePayment(NewPayment payment, string idempotenceKey = null)
         {
-            return Post<Payment>(payment, _apiUrl, idempotenceKey);
+            return Query<Payment>("POST", payment, _apiUrl, idempotenceKey);
         }
 
         /// <summary>
@@ -60,7 +60,7 @@ namespace Yandex.Checkout.V3
         /// <returns><see cref="Payment"/></returns>
         public Payment Capture(Payment payment, string idempotenceKey = null)
         {
-            return Post<Payment>(payment, _apiUrl + payment.id + "/capture", idempotenceKey);
+            return Query<Payment>("POST", payment, _apiUrl + payment.id + "/capture", idempotenceKey);
         }
 
         /// <summary>
@@ -71,7 +71,7 @@ namespace Yandex.Checkout.V3
         /// <returns><see cref="Payment"/></returns>
         public Payment QueryPayment(Payment payment, string idempotenceKey = null)
         {
-            return Post<Payment>(payment, _apiUrl + payment.id, idempotenceKey);
+            return Query<Payment>("GET", payment, _apiUrl + payment.id, idempotenceKey);
         }
 
         #region Async
@@ -87,7 +87,7 @@ namespace Yandex.Checkout.V3
         /// <param name="cancellationToken"><see cref="CancellationToken"/></param>
         /// <returns><see cref="Payment"/></returns>
         public Task<Payment> CreatePaymentAsync(NewPayment payment, string idempotenceKey, CancellationToken cancellationToken)
-            => PostAsync<Payment>(payment, _apiUrl, idempotenceKey, cancellationToken);
+            => QueryAsync<Payment>(HttpMethod.Post.Method, payment, _apiUrl, idempotenceKey, cancellationToken);
 
         /// <inheritdoc cref="CreatePaymentAsync(Yandex.Checkout.V3.NewPayment,string,System.Threading.CancellationToken)"/>
         public Task<Payment> CreatePaymentAsync(NewPayment payment, string idempotenceKey = null)
@@ -101,7 +101,7 @@ namespace Yandex.Checkout.V3
         /// <param name="cancellationToken"><see cref="CancellationToken"/></param>
         /// <returns><see cref="Payment"/></returns>
         public Task<Payment> CaptureAsync(Payment payment, string idempotenceKey, CancellationToken cancellationToken)
-            => PostAsync<Payment>(payment, _apiUrl + payment.id + "/capture", idempotenceKey, cancellationToken);
+            => QueryAsync<Payment>(HttpMethod.Post.Method, payment, _apiUrl + payment.id + "/capture", idempotenceKey, cancellationToken);
 
         /// <inheritdoc cref="CaptureAsync(Yandex.Checkout.V3.Payment,string,System.Threading.CancellationToken)"/>
         public Task<Payment> CaptureAsync(Payment payment, string idempotenceKey = null)
@@ -115,53 +115,54 @@ namespace Yandex.Checkout.V3
         /// <param name="cancellationToken"><see cref="CancellationToken"/></param>
         /// <returns><see cref="Payment"/></returns>
         public Task<Payment> QueryPaymentAsync(Payment payment, string idempotenceKey, CancellationToken cancellationToken)
-            => PostAsync<Payment>(payment, _apiUrl + payment.id, idempotenceKey, cancellationToken);
+            => QueryAsync<Payment>(HttpMethod.Get.Method, payment, _apiUrl + payment.id, idempotenceKey, cancellationToken);
       
         /// <inheritdoc cref="QueryPaymentAsync(Yandex.Checkout.V3.Payment,string,System.Threading.CancellationToken)"/>
         public Task<Payment> QueryPaymentAsync(Payment payment, string idempotenceKey = null)
             => QueryPaymentAsync(payment, idempotenceKey, CancellationToken.None);
 
-        private async Task<T> PostAsync<T>(object body, string url, string idempotenceKey, CancellationToken cancellationToken)
+        private async Task<T> QueryAsync<T>(string method, object body, string url, string idempotenceKey, CancellationToken cancellationToken)
         {
-            using (var request = CreateRequest(body, url, idempotenceKey))
+            using (var request = CreateRequest(method, body, url, idempotenceKey))
             using (var response = await _httpClient.SendAsync(request, cancellationToken))
             {
-                var responceData = response.Content == null ? null : await response.Content.ReadAsStringAsync();
+                var responceData = response.Content == null 
+                    ? null 
+                    : await response.Content.ReadAsStringAsync();
 
-                if (response.StatusCode != HttpStatusCode.OK)
-                {
-                    throw new YandexCheckoutException((int) response.StatusCode,
-                        string.IsNullOrEmpty(responceData) 
-                            ? new Error {code = "unknown", description = "Unknown error"}
-                            : JsonConvert.DeserializeObject<Error>(responceData));
-                }
-
-                return JsonConvert.DeserializeObject<T>(responceData);
+                return ProcessResponce<T>(response, responceData);
             }
         }
 
-        private T Post<T>(object body, string url, string idempotenceKey)
+        private T Query<T>(string method, object body, string url, string idempotenceKey)
         {
-            using (var request = CreateRequest(body, url, idempotenceKey))
+            using (var request = CreateRequest(method, body, url, idempotenceKey))
             using (var response = _httpClient.SendAsync(request).Result)
             {
                 var responceData = response.Content?.ReadAsStringAsync().Result;
 
-                if (response.StatusCode != HttpStatusCode.OK)
-                {
-                    throw new YandexCheckoutException((int) response.StatusCode,
-                        string.IsNullOrEmpty(responceData) 
-                            ? new Error {code = "unknown", description = "Unknown error"}
-                            : JsonConvert.DeserializeObject<Error>(responceData));
-                }
-
-                return JsonConvert.DeserializeObject<T>(responceData);
+                return ProcessResponce<T>(response, responceData);
             }
         }
 
-        private HttpRequestMessage CreateRequest(object body, string url, string idempotenceKey)
+        private static T ProcessResponce<T>(HttpResponseMessage response, string responceData)
         {
-            var request = new HttpRequestMessage(HttpMethod.Post, url);
+            if (response.StatusCode != HttpStatusCode.OK)
+            {
+                throw new YandexCheckoutException((int) response.StatusCode,
+                    string.IsNullOrEmpty(responceData)
+                        ? new Error {code = "unknown", description = "Unknown error"}
+                        : JsonConvert.DeserializeObject<Error>(responceData));
+            }
+
+            return JsonConvert.DeserializeObject<T>(responceData);
+        }
+
+        private HttpRequestMessage CreateRequest(string method, object body, string url, string idempotenceKey)
+        {
+            var request = new HttpRequestMessage();
+            request.RequestUri = new Uri(url);
+            request.Method = new HttpMethod(method);
             var content = new StringContent(JsonConvert.SerializeObject(body), Encoding.UTF8);
 
             content.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
@@ -171,14 +172,14 @@ namespace Yandex.Checkout.V3
             request.Headers.Add("Idempotence-Key", idempotenceKey ?? Guid.NewGuid().ToString());
             
             if(!string.IsNullOrEmpty(_userAgent))
-                request.Headers.UserAgent.Add(new ProductInfoHeaderValue(_userAgent, _version));
+                request.Headers.UserAgent.ParseAdd(_userAgent);
 
             return request;
         }
 #else
-        private T Post<T>(object body, string url, string idempotenceKey)
+        private T Query<T>(string method, object body, string url, string idempotenceKey)
         {
-            var request = CreateRequest<T>(body, url, idempotenceKey);
+            var request = CreateRequest<T>(method, body, url, idempotenceKey);
             using (var response = (HttpWebResponse)request.GetResponse())
             using (var responseStream = response.GetResponseStream())
             using (var sr = new StreamReader(responseStream ?? throw new InvalidOperationException("Response stream is null.")))
@@ -196,10 +197,10 @@ namespace Yandex.Checkout.V3
             }
         }
 
-        private HttpWebRequest CreateRequest<T>(object body, string url, string idempotenceKey)
+        private HttpWebRequest CreateRequest<T>(string method, object body, string url, string idempotenceKey)
         {
             var request = (HttpWebRequest)WebRequest.Create(url);
-            request.Method = "POST";
+            request.Method = method;
             request.ContentType = "application/json";
             request.Headers.Add("Authorization", _authorization);
 

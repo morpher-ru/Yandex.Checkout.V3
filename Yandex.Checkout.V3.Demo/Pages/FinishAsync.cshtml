@@ -1,0 +1,28 @@
+﻿@page
+@model Yandex.Checkout.V3.Demo.Pages.FinishAsyncModel
+@{
+    ViewData["Title"] = "FinishAsync";
+    Layout = "~/Pages/_Layout.cshtml";
+}
+
+<h2>Async payment confirmed</h2>
+
+<div class="form-group">
+    <label asp-for="Payment">Payment data</label>
+    <textarea asp-for="Payment" class="form-control" rows="20"></textarea>
+</div>
+
+<script type="text/javascript">
+    let ugly = document.getElementById("Payment").value;
+    let pretty = JSON.stringify(JSON.parse(ugly), undefined, 2);
+    document.getElementById("Payment").value = pretty;
+</script>
+
+<form method="get" asp-page="Async">
+    <button type="submit" class="btn btn-default">New async payment</button>
+</form>
+
+<hr />
+<div>
+    This page uses <a href="https://kassa.yandex.ru/docs/checkout-api/#informaciq-o-platezhe" target="_blank">payment information query</a> after <a href="https://kassa.yandex.ru/docs/checkout-api/#podtwerzhdenie-platezha" target="_blank">the capture</a>
+</div>
