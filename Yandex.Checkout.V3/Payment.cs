@@ -63,5 +63,72 @@ namespace Yandex.Checkout.V3
 
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public PaymentMethod payment_method { get; set; }
+
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        public bool? test { get; set; }
+
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        public Amount refunded_amount { get; set; }
+    }
+
+    /// <summary>
+    /// Оплата с чеком по ФЗ-54
+    /// </summary>
+    public class PaymentWithReceipt : NewPayment
+    {
+        /// <summary>
+        /// Чек, <see cref="Receipt"/>
+        /// </summary>
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        public Receipt receipt { get; set; }
+    }
+
+    /// <summary>
+    /// Чек
+    /// </summary>
+    public class Receipt
+    {
+        /// <summary>
+        /// Номер телефона плетельщика
+        /// </summary>
+        public string phone { get; set; }
+
+        /// <summary>
+        /// Пoзиции чека, <see cref="ReceiptItem"/>
+        /// </summary>
+        public List<ReceiptItem> items { get; set; } = new List<ReceiptItem>();
+
+        /// <summary>
+        /// Система налогообложения, <see cref="TaxSystem"/>
+        /// </summary>
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        public TaxSystem? tax_system_code { get; set; }
+    }
+
+    /// <summary>
+    /// Позиция чека
+    /// <seealso cref="Receipt"/>
+    /// </summary>
+    public class ReceiptItem
+    {
+        /// <summary>
+        /// Наименование товара
+        /// </summary>
+        public string description { get; set; } 
+
+        /// <summary>
+        /// Количество
+        /// </summary>
+        public decimal quantity { get; set; }
+
+        /// <summary>
+        /// Стоимость
+        /// </summary>
+        public Amount amount { get; set; }
+
+        /// <summary>
+        /// Код налога, <see cref="VatCode"/>
+        /// </summary>
+        public VatCode vat_code { get; set; }
     }
 }

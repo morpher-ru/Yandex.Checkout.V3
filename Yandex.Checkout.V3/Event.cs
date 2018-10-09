@@ -2,6 +2,7 @@
 {
     public enum Event
     {
-        PaymentWaitingForCapture = 1
+        PaymentWaitingForCapture = 1,
+        Succeeded = 2
     }
 }

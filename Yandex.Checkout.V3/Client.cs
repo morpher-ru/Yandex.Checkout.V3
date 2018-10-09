@@ -6,12 +6,22 @@ using System.Text;
 
 namespace Yandex.Checkout.V3
 {
+    /// <summary>
+    /// Yamdex.Checkout HTTP API client
+    /// </summary>
     public class Client
     {
         private readonly string _userAgent;
         private readonly string _apiUrl;
         private readonly string _authorization;
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="shopId">Shop ID</param>
+        /// <param name="secretKey">Secret web api key</param>
+        /// <param name="apiUrl">API URL</param>
+        /// <param name="userAgent">Agent name</param>
         public Client(
             string shopId, 
             string secretKey,
@@ -19,18 +29,43 @@ namespace Yandex.Checkout.V3
             string userAgent = "Yandex.Checkout.V3 .NET Client")
         {
             _apiUrl = apiUrl;
+            if (!_apiUrl.EndsWith("/"))
+                _apiUrl = apiUrl + "/";
             _userAgent = userAgent;
             _authorization = "Basic " + Convert.ToBase64String(Encoding.UTF8.GetBytes(shopId + ":" + secretKey));
         }
 
+        /// <summary>
+        /// Payment creation
+        /// </summary>
+        /// <param name="payment">Payment information, <see cref="NewPayment"/></param>
+        /// <param name="idempotenceKey">Idempotence key, use <value>null</value> to generate new one</param>
+        /// <returns><see cref="Payment"/></returns>
         public Payment CreatePayment(NewPayment payment, string idempotenceKey = null)
         {
             return Post<Payment>(payment, _apiUrl, idempotenceKey);
         }
 
-        public void Capture(Payment payment, string idempotenceKey = null)
+        /// <summary>
+        /// Payment capture
+        /// </summary>
+        /// <param name="payment">Payment information, <see cref="Payment"/></param>
+        /// <param name="idempotenceKey">Idempotence key, use <value>null</value> to generate new one</param>
+        /// <returns><see cref="Payment"/></returns>
+        public Payment Capture(Payment payment, string idempotenceKey = null)
         {
-            Post<dynamic>(payment, _apiUrl + payment.id + "/capture", idempotenceKey);
+            return Post<Payment>(payment, _apiUrl + payment.id + "/capture", idempotenceKey);
+        }
+
+        /// <summary>
+        /// Query payment state
+        /// </summary>
+        /// <param name="payment">Payment information, <see cref="Payment"/></param>
+        /// <param name="idempotenceKey">Idempotence key, use <value>null</value> to generate new one</param>
+        /// <returns><see cref="Payment"/></returns>
+        public Payment QueryPayment(Payment payment, string idempotenceKey = null)
+        {
+            return Post<Payment>(payment, _apiUrl + payment.id, idempotenceKey);
         }
 
         /// <summary>
@@ -56,7 +91,7 @@ namespace Yandex.Checkout.V3
             return message;
         }
 
-        public static string ReadToEnd(Stream stream)
+        private static string ReadToEnd(Stream stream)
         {
             if (stream == null) return null;
 
