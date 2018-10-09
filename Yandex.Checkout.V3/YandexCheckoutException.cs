@@ -1,25 +1,27 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Yandex.Checkout.V3
 {
-
+    /// <summary>
+    /// Represents Yandex.Checkout API error responce
+    /// </summary>
     [Serializable]
     public class YandexCheckoutException : Exception
     {
+        /// <summary>
+        /// Status code returned from server
+        /// </summary>
         public int StatusCode { get; }
+
+        /// <summary>
+        /// Error object returned from server
+        /// </summary>
         public Error Error { get; }
-        
-        public YandexCheckoutException(int statusCode, Error error) : this(error.description)
+
+        public YandexCheckoutException(int statusCode, Error error) : base(error.description)
         {
         	StatusCode = statusCode;
         	Error = error;
         }
-        public YandexCheckoutException(string message) : base(message) { }
-        public YandexCheckoutException(string message, Exception inner) : base(message, inner) { }
-        protected YandexCheckoutException(
-          System.Runtime.Serialization.SerializationInfo info,
-          System.Runtime.Serialization.StreamingContext context) : base(info, context) { }
     }
 }

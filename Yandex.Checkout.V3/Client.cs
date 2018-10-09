@@ -123,56 +123,40 @@ namespace Yandex.Checkout.V3
 
         private async Task<T> PostAsync<T>(object body, string url, string idempotenceKey, CancellationToken cancellationToken)
         {
-            try
+            using (var request = CreateRequest(body, url, idempotenceKey))
+            using (var response = await _httpClient.SendAsync(request, cancellationToken))
             {
-                using (var request = CreateRequest(body, url, idempotenceKey))
-                using (var response = await _httpClient.SendAsync(request, cancellationToken))
+                var responceData = response.Content == null ? null : await response.Content.ReadAsStringAsync();
+
+                if (response.StatusCode != HttpStatusCode.OK)
                 {
-                    var responceData = response.Content == null ? null : await response.Content.ReadAsStringAsync();
-
-                    if (response.StatusCode != HttpStatusCode.OK)
-                    {
-                        throw new YandexCheckoutException((int) response.StatusCode,
-                            string.IsNullOrEmpty(responceData) 
-                                ? new Error {code = "unknown", description = "Unknown error"}
-                                : JsonConvert.DeserializeObject<Error>(responceData));
-                    }
-
-                    return JsonConvert.DeserializeObject<T>(responceData);
+                    throw new YandexCheckoutException((int) response.StatusCode,
+                        string.IsNullOrEmpty(responceData) 
+                            ? new Error {code = "unknown", description = "Unknown error"}
+                            : JsonConvert.DeserializeObject<Error>(responceData));
                 }
-            }
-            catch (HttpRequestException ex)
-            {
-                throw new YandexCheckoutException(ex.Message, ex);
-            }
 
+                return JsonConvert.DeserializeObject<T>(responceData);
+            }
         }
 
         private T Post<T>(object body, string url, string idempotenceKey)
         {
-            try
+            using (var request = CreateRequest(body, url, idempotenceKey))
+            using (var response = _httpClient.SendAsync(request).Result)
             {
-                using (var request = CreateRequest(body, url, idempotenceKey))
-                using (var response = _httpClient.SendAsync(request).Result)
+                var responceData = response.Content?.ReadAsStringAsync().Result;
+
+                if (response.StatusCode != HttpStatusCode.OK)
                 {
-                    var responceData = response.Content?.ReadAsStringAsync().Result;
-
-                    if (response.StatusCode != HttpStatusCode.OK)
-                    {
-                        throw new YandexCheckoutException((int) response.StatusCode,
-                            string.IsNullOrEmpty(responceData) 
-                                ? new Error {code = "unknown", description = "Unknown error"}
-                                : JsonConvert.DeserializeObject<Error>(responceData));
-                    }
-
-                    return JsonConvert.DeserializeObject<T>(responceData);
+                    throw new YandexCheckoutException((int) response.StatusCode,
+                        string.IsNullOrEmpty(responceData) 
+                            ? new Error {code = "unknown", description = "Unknown error"}
+                            : JsonConvert.DeserializeObject<Error>(responceData));
                 }
-            }
-            catch (HttpRequestException ex)
-            {
-                throw new YandexCheckoutException(ex.Message, ex);
-            }
 
+                return JsonConvert.DeserializeObject<T>(responceData);
+            }
         }
 
         private HttpRequestMessage CreateRequest(object body, string url, string idempotenceKey)
@@ -195,20 +179,26 @@ namespace Yandex.Checkout.V3
         private T Post<T>(object body, string url, string idempotenceKey)
         {
             var request = CreateRequest<T>(body, url, idempotenceKey);
-
-            using (WebResponse response = request.GetResponse())
+            using (var response = (HttpWebResponse)request.GetResponse())
             using (var responseStream = response.GetResponseStream())
             using (var sr = new StreamReader(responseStream ?? throw new InvalidOperationException("Response stream is null.")))
             {
-                string jsonResponse = sr.ReadToEnd();
-                T info = JsonConvert.DeserializeObject<T>(jsonResponse);
+                var responceData = sr.ReadToEnd();
+                if (response.StatusCode != HttpStatusCode.OK)
+                {
+                    throw new YandexCheckoutException((int) response.StatusCode,
+                        string.IsNullOrEmpty(responceData) 
+                            ? new Error {code = "unknown", description = "Unknown error"}
+                            : JsonConvert.DeserializeObject<Error>(responceData));
+                }
+                T info = JsonConvert.DeserializeObject<T>(responceData);
                 return info;
             }
         }
 
-        private WebRequest CreateRequest<T>(object body, string url, string idempotenceKey)
+        private HttpWebRequest CreateRequest<T>(object body, string url, string idempotenceKey)
         {
-            var request = WebRequest.Create(url);
+            var request = (HttpWebRequest)WebRequest.Create(url);
             request.Method = "POST";
             request.ContentType = "application/json";
             request.Headers.Add("Authorization", _authorization);
@@ -218,7 +208,7 @@ namespace Yandex.Checkout.V3
 
             if (_userAgent != null)
             {
-                ((HttpWebRequest) request).UserAgent = _userAgent;
+                request.UserAgent = _userAgent;
             }
 
             var json = JsonConvert.SerializeObject(body);
