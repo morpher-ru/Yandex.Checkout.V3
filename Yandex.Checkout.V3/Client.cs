@@ -1,18 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Text;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
-using Newtonsoft.Json.Serialization;
 
-#if !NET40
+#if !SYNCONLY
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading;
 using System.Threading.Tasks;
 #endif
+
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 namespace Yandex.Checkout.V3
 {
@@ -32,10 +31,10 @@ namespace Yandex.Checkout.V3
             Formatting = Formatting.None,
             NullValueHandling = NullValueHandling.Ignore,
         };
-
-        public static T DeserializeObject<T>(string data) => JsonConvert.DeserializeObject<T>(data, SerializerSettings);
-
-        public static string SerializeObject(object value) => JsonConvert.SerializeObject(value, SerializerSettings);
+        
+        #if !SYNCONLY
+        private static readonly HttpClient HttpClient = new HttpClient();
+        #endif
 
         private readonly string _userAgent;
         private readonly string _apiUrl;
@@ -60,6 +59,8 @@ namespace Yandex.Checkout.V3
             _userAgent = userAgent;
             _authorization = "Basic " + Convert.ToBase64String(Encoding.UTF8.GetBytes(shopId + ":" + secretKey));
         }
+
+        #region Sync
 
         /// <summary>
         /// Payment creation
@@ -94,10 +95,10 @@ namespace Yandex.Checkout.V3
             return Query<Payment>("GET", null, _apiUrl + id, idempotenceKey);
         }
 
+        #endregion Sync
+
+        #if !SYNCONLY
         #region Async
-#if !NET40
-        private static readonly HttpClient _httpClient = new HttpClient();
-        private static readonly string _version = typeof(Client).Assembly.GetName().Version.ToString();
 
         /// <summary>
         /// Payment creation
@@ -141,27 +142,60 @@ namespace Yandex.Checkout.V3
         public Task<Payment> QueryPaymentAsync(string id, string idempotenceKey = null)
             => QueryPaymentAsync(id, idempotenceKey, CancellationToken.None);
 
-        private async Task<T> QueryAsync<T>(string method, object body, string url, string idempotenceKey, CancellationToken cancellationToken)
-        {
-            using (var request = CreateRequest(method, body, url, idempotenceKey))
-            using (var response = await _httpClient.SendAsync(request, cancellationToken))
-            {
-                var responceData = response.Content == null 
-                    ? null 
-                    : await response.Content.ReadAsStringAsync();
+        #endregion Async
+        #endif
 
-                return ProcessResponce<T>(response, responceData);
-            }
+        #region Parse
+
+        /// <summary>
+        /// Parses an HTTP request into a <see cref="Message"/> object.
+        /// </summary>
+        /// <returns>A <see cref="Message"/> object or null.</returns>
+        public static Message ParseMessage(string requestHttpMethod, string requestContentType, Stream requestInputStream)
+        {
+            return ParseMessage(requestHttpMethod, requestContentType, ReadToEnd(requestInputStream));
         }
 
-        private T Query<T>(string method, object body, string url, string idempotenceKey)
+        /// <summary>
+        /// Parses an HTTP request into a <see cref="Message"/> object.
+        /// </summary>
+        /// <returns>A <see cref="Message"/> object or null.</returns>
+        public static Message ParseMessage(string requestHttpMethod, string requestContentType, string jsonBody)
         {
-            using (var request = CreateRequest(method, body, url, idempotenceKey))
-            using (var response = _httpClient.SendAsync(request).Result)
+            Message message = null;
+            if (requestHttpMethod == "POST" && requestContentType == "application/json; charset=UTF-8")
             {
-                var responceData = response.Content?.ReadAsStringAsync().Result;
+                message = DeserializeObject<Message>(jsonBody);
+            }
+            return message;
+        }
 
-                return ProcessResponce<T>(response, responceData);
+        #endregion Parse
+
+        #region Serialization
+
+        public static T DeserializeObject<T>(string data) => JsonConvert.DeserializeObject<T>(data, SerializerSettings);
+
+        public static string SerializeObject(object value) => JsonConvert.SerializeObject(value, SerializerSettings);
+
+        #endregion Serialization
+
+        #region Helpers
+
+        #if !SYNCONLY
+        private async Task<T> QueryAsync<T>(string method, object body, string url, string idempotenceKey, CancellationToken cancellationToken)
+        {
+            using (var request = CreateAsyncRequest(method, body, url, idempotenceKey))
+            {
+                var response = await HttpClient.SendAsync(request, cancellationToken);
+                using (response)
+                {
+                    var responceData = response.Content == null
+                        ? null
+                        : await response.Content.ReadAsStringAsync();
+
+                    return ProcessResponce<T>(response, responceData);
+                }
             }
         }
 
@@ -178,7 +212,7 @@ namespace Yandex.Checkout.V3
             return DeserializeObject<T>(responceData);
         }
 
-        private HttpRequestMessage CreateRequest(string method, object body, string url, string idempotenceKey)
+        private HttpRequestMessage CreateAsyncRequest(string method, object body, string url, string idempotenceKey)
         {
             var request = new HttpRequestMessage();
             request.RequestUri = new Uri(url);
@@ -198,7 +232,8 @@ namespace Yandex.Checkout.V3
 
             return request;
         }
-#else
+        #endif
+
         private T Query<T>(string method, object body, string url, string idempotenceKey)
         {
             var request = CreateRequest(method, body, url, idempotenceKey);
@@ -244,32 +279,6 @@ namespace Yandex.Checkout.V3
 
             return request;
         }
-#endif
-        #endregion Async
-
-
-        /// <summary>
-        /// Parses an HTTP request into a <see cref="Message"/> object.
-        /// </summary>
-        /// <returns>A <see cref="Message"/> object or null.</returns>
-        public static Message ParseMessage(string requestHttpMethod, string requestContentType, Stream requestInputStream)
-        {
-            return ParseMessage(requestHttpMethod, requestContentType, ReadToEnd(requestInputStream));
-        }
-
-        /// <summary>
-        /// Parses an HTTP request into a <see cref="Message"/> object.
-        /// </summary>
-        /// <returns>A <see cref="Message"/> object or null.</returns>
-        public static Message ParseMessage(string requestHttpMethod, string requestContentType, string jsonBody)
-        {
-            Message message = null;
-            if (requestHttpMethod == "POST" && requestContentType == "application/json; charset=UTF-8")
-            {
-                message = DeserializeObject<Message>(jsonBody);
-            }
-            return message;
-        }
 
         private static string ReadToEnd(Stream stream)
         {
@@ -280,5 +289,7 @@ namespace Yandex.Checkout.V3
                 return reader.ReadToEnd();
             }
         }
+
+        #endregion Helpers
     }
 }
