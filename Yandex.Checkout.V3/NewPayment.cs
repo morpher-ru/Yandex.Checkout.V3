@@ -40,5 +40,11 @@ namespace Yandex.Checkout.V3
         /// </summary>
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public Dictionary<string, string> Metadata { get; set; }
+
+        /// <summary>
+        /// Чек, <see cref="V3.Receipt"/>
+        /// </summary>
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        public Receipt Receipt { get; set; }
     }
 }
