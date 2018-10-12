@@ -9,7 +9,7 @@ namespace Yandex.Checkout.V3
     public class Receipt
     {
         /// <summary>
-        /// Номер телефона плетельщика
+        /// Номер телефона плательщика
         /// </summary>
         public string Phone { get; set; }
 
