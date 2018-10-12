@@ -19,7 +19,7 @@ namespace Yandex.Checkout.V3.Demo.Pages.BaseModels
 
             var sb = new StringBuilder();
             if (payment.Paid == false)
-                sb.AppendLine("Not payed");
+                sb.AppendLine("Not paid");
             if (payment.Status != PaymentStatus.WaitingForCapture)
                 sb.AppendFormat("Status: {0}", payment.Status).AppendLine();
             if (payment.Status == PaymentStatus.Canceled)

@@ -10,7 +10,7 @@ namespace Yandex.Checkout.V3
     {
         /// <summary>
         /// Сумма платежа. 
-        /// Иногда партнеры Яндекс.Кассы берут с полльзователя дополнительную комиссию, которая не входит в эту сумму.
+        /// Иногда партнеры Яндекс.Кассы берут с пользователя дополнительную комиссию, которая не входит в эту сумму.
         /// </summary>
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public Amount Amount { get; set; }
