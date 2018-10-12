@@ -34,21 +34,21 @@ namespace Yandex.Checkout.V3.Demo.Pages
             var data = await client.CreatePaymentAsync(
                 new NewPayment()
                 {
-                    amount = new Amount()
+                    Amount = new Amount()
                     {
-                        value = Amount,
+                        Value = Amount,
                     },
-                    confirmation = new Confirmation()
+                    Confirmation = new Confirmation()
                     {
-                        type = ConfirmationType.redirect,
-                        return_url = redirect
+                        Type = ConfirmationType.Redirect,
+                        ReturnUrl = redirect
                     },
-                    description = "Order"
+                    Description = "Order"
                 });
 
             PaymentStorage.Payments[id] = new QueryData() {Client = client, Payment = data};
 
-            return Redirect(data.confirmation.confirmation_url);
+            return Redirect(data.Confirmation.ConfirmationUrl);
         }
     }
 }

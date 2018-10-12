@@ -18,7 +18,7 @@ namespace Yandex.Checkout.V3.Demo.Pages
             var data = PaymentStorage.Payments[id];
             Id = id;
 
-            Payment = JsonConvert.SerializeObject(data.Client.QueryPayment(data.Payment));
+            Payment = Client.SerializeObject(data.Client.QueryPayment(data.Payment));
         }
 
         public IActionResult OnPost()
@@ -26,7 +26,7 @@ namespace Yandex.Checkout.V3.Demo.Pages
             var data = PaymentStorage.Payments[Id];
 
             var capture = data.Client.Capture(data.Payment);
-            Payment = JsonConvert.SerializeObject(capture);
+            Payment = Client.SerializeObject(capture);
 
             return RedirectToPage("FinishSync", new {Id = Id});
         }

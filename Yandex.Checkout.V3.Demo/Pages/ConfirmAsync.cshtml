@@ -10,10 +10,20 @@
     <label asp-for="Payment">Payment data</label>
     <textarea asp-for="Payment" class="form-control" rows="20"></textarea>
 </div>
+
 <form method="post">
+    @foreach (var s in Model.Message.Split(Environment.NewLine))
+    {
+        <p>@s</p>
+    }
+
     <input type="hidden" asp-for="Id" />
-    <button type="submit" class="btn btn-default">Confirm</button>
+    <button type="submit" class="btn btn-default" disabled="@(Model.AllowConfirm ? null : "disabled")">Confirm</button>
 </form>
+@if (!Model.AllowConfirm)
+{
+    <button type="submit" class="btn btn-default" onclick="location.reload();">Refresh</button>
+}
 
 <script type="text/javascript">
     let ugly = document.getElementById("Payment").value;

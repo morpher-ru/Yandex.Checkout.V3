@@ -1,8 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Text;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+using Newtonsoft.Json.Serialization;
+
 #if !NET40
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -17,6 +21,22 @@ namespace Yandex.Checkout.V3
     /// </summary>
     public class Client
     {
+        private static readonly IContractResolver ContractResolver = new DefaultContractResolver()
+        {
+            NamingStrategy = new SnakeCaseNamingStrategy()
+        };
+
+        private static readonly JsonSerializerSettings SerializerSettings = new JsonSerializerSettings()
+        {
+            ContractResolver = ContractResolver,
+            Formatting = Formatting.None,
+            NullValueHandling = NullValueHandling.Ignore,
+        };
+
+        public static T DeserializeObject<T>(string data) => JsonConvert.DeserializeObject<T>(data, SerializerSettings);
+
+        public static string SerializeObject(object value) => JsonConvert.SerializeObject(value, SerializerSettings);
+
         private readonly string _userAgent;
         private readonly string _apiUrl;
         private readonly string _authorization;
@@ -60,7 +80,7 @@ namespace Yandex.Checkout.V3
         /// <returns><see cref="Payment"/></returns>
         public Payment Capture(Payment payment, string idempotenceKey = null)
         {
-            return Query<Payment>("POST", payment, _apiUrl + payment.id + "/capture", idempotenceKey);
+            return Query<Payment>("POST", payment, _apiUrl + payment.Id + "/capture", idempotenceKey);
         }
 
         /// <summary>
@@ -71,7 +91,7 @@ namespace Yandex.Checkout.V3
         /// <returns><see cref="Payment"/></returns>
         public Payment QueryPayment(Payment payment, string idempotenceKey = null)
         {
-            return Query<Payment>("GET", payment, _apiUrl + payment.id, idempotenceKey);
+            return Query<Payment>("GET", payment, _apiUrl + payment.Id, idempotenceKey);
         }
 
         #region Async
@@ -101,7 +121,7 @@ namespace Yandex.Checkout.V3
         /// <param name="cancellationToken"><see cref="CancellationToken"/></param>
         /// <returns><see cref="Payment"/></returns>
         public Task<Payment> CaptureAsync(Payment payment, string idempotenceKey, CancellationToken cancellationToken)
-            => QueryAsync<Payment>(HttpMethod.Post.Method, payment, _apiUrl + payment.id + "/capture", idempotenceKey, cancellationToken);
+            => QueryAsync<Payment>(HttpMethod.Post.Method, null, _apiUrl + payment.Id + "/capture", idempotenceKey, cancellationToken);
 
         /// <inheritdoc cref="CaptureAsync(Yandex.Checkout.V3.Payment,string,System.Threading.CancellationToken)"/>
         public Task<Payment> CaptureAsync(Payment payment, string idempotenceKey = null)
@@ -115,7 +135,7 @@ namespace Yandex.Checkout.V3
         /// <param name="cancellationToken"><see cref="CancellationToken"/></param>
         /// <returns><see cref="Payment"/></returns>
         public Task<Payment> QueryPaymentAsync(Payment payment, string idempotenceKey, CancellationToken cancellationToken)
-            => QueryAsync<Payment>(HttpMethod.Get.Method, payment, _apiUrl + payment.id, idempotenceKey, cancellationToken);
+            => QueryAsync<Payment>(HttpMethod.Get.Method, payment, _apiUrl + payment.Id, idempotenceKey, cancellationToken);
       
         /// <inheritdoc cref="QueryPaymentAsync(Yandex.Checkout.V3.Payment,string,System.Threading.CancellationToken)"/>
         public Task<Payment> QueryPaymentAsync(Payment payment, string idempotenceKey = null)
@@ -151,11 +171,11 @@ namespace Yandex.Checkout.V3
             {
                 throw new YandexCheckoutException((int) response.StatusCode,
                     string.IsNullOrEmpty(responceData)
-                        ? new Error {code = "unknown", description = "Unknown error"}
-                        : JsonConvert.DeserializeObject<Error>(responceData));
+                        ? new Error {Code = "unknown", Description = "Unknown error"}
+                        : DeserializeObject<Error>(responceData));
             }
 
-            return JsonConvert.DeserializeObject<T>(responceData);
+            return DeserializeObject<T>(responceData);
         }
 
         private HttpRequestMessage CreateRequest(string method, object body, string url, string idempotenceKey)
@@ -163,7 +183,9 @@ namespace Yandex.Checkout.V3
             var request = new HttpRequestMessage();
             request.RequestUri = new Uri(url);
             request.Method = new HttpMethod(method);
-            var content = new StringContent(JsonConvert.SerializeObject(body), Encoding.UTF8);
+            var content = body != null
+                ? new StringContent(SerializeObject(body), Encoding.UTF8)
+                : new StringContent(string.Empty);
 
             content.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
             
@@ -179,7 +201,7 @@ namespace Yandex.Checkout.V3
 #else
         private T Query<T>(string method, object body, string url, string idempotenceKey)
         {
-            var request = CreateRequest<T>(method, body, url, idempotenceKey);
+            var request = CreateRequest(method, body, url, idempotenceKey);
             using (var response = (HttpWebResponse)request.GetResponse())
             using (var responseStream = response.GetResponseStream())
             using (var sr = new StreamReader(responseStream ?? throw new InvalidOperationException("Response stream is null.")))
@@ -189,15 +211,15 @@ namespace Yandex.Checkout.V3
                 {
                     throw new YandexCheckoutException((int) response.StatusCode,
                         string.IsNullOrEmpty(responceData) 
-                            ? new Error {code = "unknown", description = "Unknown error"}
-                            : JsonConvert.DeserializeObject<Error>(responceData));
+                            ? new Error {Code = "unknown", Description = "Unknown error"}
+                            : DeserializeObject<Error>(responceData));
                 }
-                T info = JsonConvert.DeserializeObject<T>(responceData);
+                T info = DeserializeObject<T>(responceData);
                 return info;
             }
         }
 
-        private HttpWebRequest CreateRequest<T>(string method, object body, string url, string idempotenceKey)
+        private HttpWebRequest CreateRequest(string method, object body, string url, string idempotenceKey)
         {
             var request = (HttpWebRequest)WebRequest.Create(url);
             request.Method = method;
@@ -212,7 +234,7 @@ namespace Yandex.Checkout.V3
                 request.UserAgent = _userAgent;
             }
 
-            var json = JsonConvert.SerializeObject(body);
+            var json = SerializeObject(body);
             var postBytes = Encoding.UTF8.GetBytes(json);
             request.ContentLength = postBytes.Length;
             using (var stream = request.GetRequestStream())
@@ -244,7 +266,7 @@ namespace Yandex.Checkout.V3
             Message message = null;
             if (requestHttpMethod == "POST" && requestContentType == "application/json; charset=UTF-8")
             {
-                message = JsonConvert.DeserializeObject<Message>(jsonBody);
+                message = DeserializeObject<Message>(jsonBody);
             }
             return message;
         }

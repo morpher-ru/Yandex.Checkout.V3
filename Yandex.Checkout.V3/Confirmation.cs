@@ -6,18 +6,12 @@ namespace Yandex.Checkout.V3
     public class Confirmation
     {
         [JsonConverter(typeof(StringEnumConverter))]
-        public ConfirmationType type { get; set; }
+        public ConfirmationType Type { get; set; }
 
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        public string return_url { get; set; }
+        public string ReturnUrl { get; set; }
 
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        public string confirmation_url { get; set; }
-    }
-
-    public enum ConfirmationType
-    {
-        redirect,
-        external
+        public string ConfirmationUrl { get; set; }
     }
 }

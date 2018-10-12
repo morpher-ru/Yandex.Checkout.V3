@@ -18,7 +18,7 @@ namespace Yandex.Checkout.V3.Demo.Pages
             var data = PaymentStorage.Payments[id];
             Id = id;
 
-            Payment = JsonConvert.SerializeObject(data.Client.QueryPayment(data.Payment));
+            Payment = Client.SerializeObject(data.Client.QueryPayment(data.Payment));
         }
     }
 }

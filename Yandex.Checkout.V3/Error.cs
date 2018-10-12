@@ -6,10 +6,10 @@ namespace Yandex.Checkout.V3
 {
     public class Error
     {
-        public string type { get; set; }
-        public string id { get; set; }
-        public string code { get; set; }
-        public string description { get; set; }
-        public string parameter { get; set; }
+        public string Type { get; set; }
+        public string Id { get; set; }
+        public string Code { get; set; }
+        public string Description { get; set; }
+        public string Parameter { get; set; }
     }
 }

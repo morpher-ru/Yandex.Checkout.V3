@@ -20,13 +20,13 @@ namespace AspNetSample
             var idempotenceKey = Guid.NewGuid().ToString();
             var newPayment = new NewPayment
             {
-                amount = new Amount { value = amount, currency = "RUB" },
-                confirmation = new Confirmation { type = ConfirmationType.redirect, return_url = Request.Url.AbsoluteUri }
+                Amount = new Amount { Value = amount, Currency = "RUB" },
+                Confirmation = new Confirmation { Type = ConfirmationType.Redirect, ReturnUrl = Request.Url.AbsoluteUri }
             };
             Payment payment = _client.CreatePayment(newPayment, idempotenceKey);
             
             // 2. Перенаправьте пользователя на страницу оплаты
-            string url = payment.confirmation.confirmation_url;
+            string url = payment.Confirmation.ConfirmationUrl;
             Response.Redirect(url);
         }
 
@@ -37,10 +37,10 @@ namespace AspNetSample
             {
                 Log($"Page_Load: Request.HttpMethod={Request.HttpMethod}, Request.ContentType={Request.ContentType}, Request.InputStream has {Request.InputStream.Length} bytes");
                 Message message = Client.ParseMessage(Request.HttpMethod, Request.ContentType, Request.InputStream);
-                Payment payment = message?.@object;
-                if (message?.@event == Event.PaymentWaitingForCapture && payment.id != default(Guid) && payment.paid)
+                Payment payment = message?.Object;
+                if (message?.Event == Event.PaymentWaitingForCapture && payment.Paid)
                 {
-                    Log($"Got message: payment.id={payment.id}, payment.paid={payment.paid}");
+                    Log($"Got message: payment.id={payment.Id}, payment.paid={payment.Paid}");
 
                     // 4. Подтвердите готовность принять платеж
                     _client.Capture(payment);

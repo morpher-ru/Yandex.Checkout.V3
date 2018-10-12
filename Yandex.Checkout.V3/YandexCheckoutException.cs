@@ -18,7 +18,7 @@ namespace Yandex.Checkout.V3
         /// </summary>
         public Error Error { get; }
 
-        public YandexCheckoutException(int statusCode, Error error) : base(error.description)
+        public YandexCheckoutException(int statusCode, Error error) : base(error.Description)
         {
         	StatusCode = statusCode;
         	Error = error;
