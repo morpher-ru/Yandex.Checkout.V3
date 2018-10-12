@@ -25,7 +25,7 @@
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <WarningsAsErrors />
     
-    <Net40AsyncSupport>NO</Net40AsyncSupport>
+    <Net40AsyncSupport>YES</Net40AsyncSupport>
   </PropertyGroup>
     
   <ItemGroup Condition=" '$(TargetFramework)' == 'net45' ">
