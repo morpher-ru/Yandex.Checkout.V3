@@ -22,6 +22,8 @@
     </PackageReleaseNotes>
     <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\Yandex.Checkout.V3.xml</DocumentationFile>
     <NoWarn>1591</NoWarn>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <WarningsAsErrors />
     
     <Net40AsyncSupport>NO</Net40AsyncSupport>
   </PropertyGroup>
