@@ -1,13 +1,10 @@
 ﻿using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc.RazorPages;
+using Yandex.Checkout.V3.Demo.Pages.BaseModels;
 
 namespace Yandex.Checkout.V3.Demo.Pages
 {
-    public class FinishAsyncModel : PageModel
+    public class FinishAsyncModel : FinishModel
     {
-        public int Id { get; private set; }
-        public string Payment { get; private set; }
-
         public async Task OnGetAsync(int id)
         {
             var data = PaymentStorage.Payments[id];

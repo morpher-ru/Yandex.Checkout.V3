@@ -7,22 +7,4 @@
 
 <h2>Sync payment confirmed</h2>
 
-<div class="form-group">
-    <label asp-for="Payment">Payment data</label>
-    <textarea asp-for="Payment" class="form-control" rows="20"></textarea>
-</div>
-
-<script type="text/javascript">
-    let ugly = document.getElementById("Payment").value;
-    let pretty = JSON.stringify(JSON.parse(ugly), undefined, 2);
-    document.getElementById("Payment").value = pretty;
-</script>
-
-<form method="get" asp-page="Sync">
-    <button type="submit" class="btn btn-default">New sync payment</button>
-</form>
-
-<hr />
-<div>
-    This page uses <a href="https://kassa.yandex.ru/docs/checkout-api/#informaciq-o-platezhe" target="_blank">payment information query</a> after <a href="https://kassa.yandex.ru/docs/checkout-api/#podtwerzhdenie-platezha" target="_blank">the capture</a>
-</div>
+@await Html.PartialAsync("_Finish")

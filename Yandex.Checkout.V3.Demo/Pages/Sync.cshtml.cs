@@ -2,22 +2,12 @@
 using Microsoft.ApplicationInsights.AspNetCore.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Yandex.Checkout.V3.Demo.Pages.BaseModels;
 
 namespace Yandex.Checkout.V3.Demo.Pages
 {
-    public class SyncModel : PageModel
+    public class SyncModel : NewPaymentModel
     {
-        [BindProperty, Required] 
-        public string ShopId { get; set; } = "501156";
-
-        [BindProperty, Required]
-        public string SecretKey { get; set; } = "test_As0OONRn1SsvFr0IVlxULxst5DBIoWi_tyVaezSRTEI";
-
-        [BindProperty, Range(1, 2000), Required]
-        public decimal Amount { get; set; } = 2000;
-
-        [BindProperty]public string Payment { get; set; }
-
         public IActionResult OnPost()
         {
             var client = new Client(ShopId, SecretKey);

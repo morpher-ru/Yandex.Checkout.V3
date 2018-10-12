@@ -1,19 +1,18 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Yandex.Checkout.V3.Demo.Pages.BaseModels;
 
 namespace Yandex.Checkout.V3.Demo.Pages
 {
-    public class ConfirmSyncModel : PageModel
+    public class ConfirmSyncModel : ConfirmModel
     {
-        [BindProperty] public int Id { get; set; }
-        public string Payment { get; private set; }
-
         public void OnGetAsync(int id)
         {
             var data = PaymentStorage.Payments[id];
             Id = id;
 
-            Payment = Client.SerializeObject(data.Client.QueryPayment(data.Payment.Id));
+            var payment = data.Client.QueryPayment(data.Payment.Id);
+            ProcessPayment(payment);
         }
 
         public IActionResult OnPost()

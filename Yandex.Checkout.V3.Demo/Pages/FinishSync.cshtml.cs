@@ -1,12 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc.RazorPages;
+using Yandex.Checkout.V3.Demo.Pages.BaseModels;
 
 namespace Yandex.Checkout.V3.Demo.Pages
 {
-    public class FinishSyncModel : PageModel
+    public class FinishSyncModel : FinishModel
     {
-        public int Id { get; private set; }
-        public string Payment { get; private set; }
-
         public void OnGet(int id)
         {
             var data = PaymentStorage.Payments[id];
