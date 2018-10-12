@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Newtonsoft.Json;
 
 namespace Yandex.Checkout.V3.Demo.Pages
 {
@@ -18,7 +13,7 @@ namespace Yandex.Checkout.V3.Demo.Pages
             var data = PaymentStorage.Payments[id];
             Id = id;
 
-            Payment = Client.SerializeObject(await data.Client.QueryPaymentAsync(data.Payment));
+            Payment = Client.SerializeObject(await data.Client.QueryPaymentAsync(data.Payment.Id));
         }
     }
 }

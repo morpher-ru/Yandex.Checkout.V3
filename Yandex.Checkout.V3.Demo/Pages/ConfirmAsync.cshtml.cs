@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Newtonsoft.Json;
 
 namespace Yandex.Checkout.V3.Demo.Pages
 {
@@ -23,7 +19,7 @@ namespace Yandex.Checkout.V3.Demo.Pages
             var data = PaymentStorage.Payments[id];
             Id = id;
 
-            var payment = await data.Client.QueryPaymentAsync(data.Payment);
+            var payment = await data.Client.QueryPaymentAsync(data.Payment.Id);
             Payment = Client.SerializeObject(payment);
 
             AllowConfirm = payment.Paid && payment.Status == PaymentStatus.WaitingForCapture;
@@ -44,7 +40,7 @@ namespace Yandex.Checkout.V3.Demo.Pages
         {
             var data = PaymentStorage.Payments[Id];
 
-            var capture = await data.Client.CaptureAsync(new Payment() {Id = data.Payment.Id});
+            var capture = await data.Client.CaptureAsync(data.Payment.Id);
             Payment = Client.SerializeObject(capture);
 
             return RedirectToPage("FinishAsync", new {Id = Id});

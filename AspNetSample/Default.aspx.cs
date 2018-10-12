@@ -43,7 +43,7 @@ namespace AspNetSample
                     Log($"Got message: payment.id={payment.Id}, payment.paid={payment.Paid}");
 
                     // 4. Подтвердите готовность принять платеж
-                    _client.Capture(payment);
+                    _client.Capture(payment.Id);
                 }
             }
             catch (Exception exception)
