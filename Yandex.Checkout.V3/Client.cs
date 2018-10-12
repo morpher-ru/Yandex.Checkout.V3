@@ -190,26 +190,26 @@ namespace Yandex.Checkout.V3
                 var response = await HttpClient.SendAsync(request, cancellationToken);
                 using (response)
                 {
-                    var responceData = response.Content == null
+                    var responseData = response.Content == null
                         ? null
                         : await response.Content.ReadAsStringAsync();
 
-                    return ProcessResponce<T>(response, responceData);
+                    return Processresponse<T>(response, responseData);
                 }
             }
         }
 
-        private static T ProcessResponce<T>(HttpResponseMessage response, string responceData)
+        private static T Processresponse<T>(HttpResponseMessage response, string responseData)
         {
             if (response.StatusCode != HttpStatusCode.OK)
             {
                 throw new YandexCheckoutException((int) response.StatusCode,
-                    string.IsNullOrEmpty(responceData)
+                    string.IsNullOrEmpty(responseData)
                         ? new Error {Code = "unknown", Description = "Unknown error"}
-                        : DeserializeObject<Error>(responceData));
+                        : DeserializeObject<Error>(responseData));
             }
 
-            return DeserializeObject<T>(responceData);
+            return DeserializeObject<T>(responseData);
         }
 
         private HttpRequestMessage CreateAsyncRequest(string method, object body, string url, string idempotenceKey)
@@ -241,15 +241,15 @@ namespace Yandex.Checkout.V3
             using (var responseStream = response.GetResponseStream())
             using (var sr = new StreamReader(responseStream ?? throw new InvalidOperationException("Response stream is null.")))
             {
-                var responceData = sr.ReadToEnd();
+                var responseData = sr.ReadToEnd();
                 if (response.StatusCode != HttpStatusCode.OK)
                 {
                     throw new YandexCheckoutException((int) response.StatusCode,
-                        string.IsNullOrEmpty(responceData) 
+                        string.IsNullOrEmpty(responseData) 
                             ? new Error {Code = "unknown", Description = "Unknown error"}
-                            : DeserializeObject<Error>(responceData));
+                            : DeserializeObject<Error>(responseData));
                 }
-                T info = DeserializeObject<T>(responceData);
+                T info = DeserializeObject<T>(responseData);
                 return info;
             }
         }
