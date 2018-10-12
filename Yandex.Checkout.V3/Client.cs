@@ -269,12 +269,15 @@ namespace Yandex.Checkout.V3
                 request.UserAgent = _userAgent;
             }
 
-            var json = SerializeObject(body);
-            var postBytes = Encoding.UTF8.GetBytes(json);
-            request.ContentLength = postBytes.Length;
-            using (var stream = request.GetRequestStream())
+            if (body != null)
             {
-                stream.Write(postBytes, 0, postBytes.Length);
+                var json = SerializeObject(body);
+                var postBytes = Encoding.UTF8.GetBytes(json);
+                request.ContentLength = postBytes.Length;
+                using (var stream = request.GetRequestStream())
+                {
+                    stream.Write(postBytes, 0, postBytes.Length);
+                }
             }
 
             return request;
