@@ -108,9 +108,9 @@ namespace Yandex.Checkout.V3
         /// <param name="cancellationToken"><see cref="CancellationToken"/></param>
         /// <returns><see cref="Payment"/></returns>
         public Task<Payment> CreatePaymentAsync(NewPayment payment, string idempotenceKey, CancellationToken cancellationToken)
-            => QueryAsync<Payment>(HttpMethod.Post.Method, payment, _apiUrl, idempotenceKey, cancellationToken);
+            => QueryAsync<Payment>(HttpMethod.Post, payment, _apiUrl, idempotenceKey, cancellationToken);
 
-        /// <inheritdoc cref="CreatePaymentAsync(Yandex.Checkout.V3.NewPayment,string,System.Threading.CancellationToken)"/>
+        /// <inheritdoc cref="CreatePaymentAsync(NewPayment,string,CancellationToken)"/>
         public Task<Payment> CreatePaymentAsync(NewPayment payment, string idempotenceKey = null)
             => CreatePaymentAsync(payment, idempotenceKey, CancellationToken.None);
 
@@ -122,9 +122,9 @@ namespace Yandex.Checkout.V3
         /// <param name="cancellationToken"><see cref="CancellationToken"/></param>
         /// <returns><see cref="Payment"/></returns>
         public Task<Payment> CaptureAsync(string id, string idempotenceKey, CancellationToken cancellationToken)
-            => QueryAsync<Payment>(HttpMethod.Post.Method, null, _apiUrl + id + "/capture", idempotenceKey, cancellationToken);
+            => QueryAsync<Payment>(HttpMethod.Post, null, _apiUrl + id + "/capture", idempotenceKey, cancellationToken);
 
-        /// <inheritdoc cref="CaptureAsync(string,string,System.Threading.CancellationToken)"/>
+        /// <inheritdoc cref="CaptureAsync(string,string,CancellationToken)"/>
         public Task<Payment> CaptureAsync(string id, string idempotenceKey = null)
             => CaptureAsync(id, idempotenceKey, CancellationToken.None);
 
@@ -136,9 +136,9 @@ namespace Yandex.Checkout.V3
         /// <param name="cancellationToken"><see cref="CancellationToken"/></param>
         /// <returns><see cref="Payment"/></returns>
         public Task<Payment> QueryPaymentAsync(string id, string idempotenceKey, CancellationToken cancellationToken)
-            => QueryAsync<Payment>(HttpMethod.Get.Method, null, _apiUrl + id, idempotenceKey, cancellationToken);
-      
-        /// <inheritdoc cref="QueryPaymentAsync(string,string,System.Threading.CancellationToken)"/>
+            => QueryAsync<Payment>(HttpMethod.Get, null, _apiUrl + id, idempotenceKey, cancellationToken);
+
+        /// <inheritdoc cref="QueryPaymentAsync(string,string,CancellationToken)"/>
         public Task<Payment> QueryPaymentAsync(string id, string idempotenceKey = null)
             => QueryPaymentAsync(id, idempotenceKey, CancellationToken.None);
 
@@ -183,7 +183,7 @@ namespace Yandex.Checkout.V3
         #region Helpers
 
         #if !SYNCONLY
-        private async Task<T> QueryAsync<T>(string method, object body, string url, string idempotenceKey, CancellationToken cancellationToken)
+        private async Task<T> QueryAsync<T>(HttpMethod method, object body, string url, string idempotenceKey, CancellationToken cancellationToken)
         {
             using (var request = CreateAsyncRequest(method, body, url, idempotenceKey))
             {
@@ -194,16 +194,16 @@ namespace Yandex.Checkout.V3
                         ? null
                         : await response.Content.ReadAsStringAsync();
 
-                    return Processresponse<T>(response, responseData);
+                    return ProcessResponse<T>(response.StatusCode, responseData);
                 }
             }
         }
 
-        private static T Processresponse<T>(HttpResponseMessage response, string responseData)
+        private static T ProcessResponse<T>(HttpStatusCode statusCode, string responseData)
         {
-            if (response.StatusCode != HttpStatusCode.OK)
+            if (statusCode != HttpStatusCode.OK)
             {
-                throw new YandexCheckoutException((int) response.StatusCode,
+                throw new YandexCheckoutException((int) statusCode,
                     string.IsNullOrEmpty(responseData)
                         ? new Error {Code = "unknown", Description = "Unknown error"}
                         : DeserializeObject<Error>(responseData));
@@ -212,11 +212,12 @@ namespace Yandex.Checkout.V3
             return DeserializeObject<T>(responseData);
         }
 
-        private HttpRequestMessage CreateAsyncRequest(string method, object body, string url, string idempotenceKey)
+        private HttpRequestMessage CreateAsyncRequest(HttpMethod method, object body, string url,
+            string idempotenceKey)
         {
             var request = new HttpRequestMessage();
             request.RequestUri = new Uri(url);
-            request.Method = new HttpMethod(method);
+            request.Method = method;
             var content = body != null
                 ? new StringContent(SerializeObject(body), Encoding.UTF8)
                 : new StringContent(string.Empty);
@@ -236,21 +237,13 @@ namespace Yandex.Checkout.V3
 
         private T Query<T>(string method, object body, string url, string idempotenceKey)
         {
-            var request = CreateRequest(method, body, url, idempotenceKey);
+            HttpWebRequest request = CreateRequest(method, body, url, idempotenceKey);
             using (var response = (HttpWebResponse)request.GetResponse())
-            using (var responseStream = response.GetResponseStream())
+            using (Stream responseStream = response.GetResponseStream())
             using (var sr = new StreamReader(responseStream ?? throw new InvalidOperationException("Response stream is null.")))
             {
-                var responseData = sr.ReadToEnd();
-                if (response.StatusCode != HttpStatusCode.OK)
-                {
-                    throw new YandexCheckoutException((int) response.StatusCode,
-                        string.IsNullOrEmpty(responseData) 
-                            ? new Error {Code = "unknown", Description = "Unknown error"}
-                            : DeserializeObject<Error>(responseData));
-                }
-                T info = DeserializeObject<T>(responseData);
-                return info;
+                string responseData = sr.ReadToEnd();
+                return ProcessResponse<T>(response.StatusCode, responseData);
             }
         }
 

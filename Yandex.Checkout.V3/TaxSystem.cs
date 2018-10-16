@@ -13,12 +13,12 @@
         /// <summary>
         /// Упрощенная (УСН, доходы)
         /// </summary>
-        Simlified = 2,
+        Simplified = 2,
 
         /// <summary>
         /// Упрощенная (УСН, доходы минус расходы)
         /// </summary>
-        IncomeWitеExpence = 3,
+        SimplifiedWithExpenses = 3,
 
         /// <summary>
         /// Единый налог на вмененный доход (ЕНВД)
@@ -33,6 +33,6 @@
         /// <summary>
         /// Патентная система налогообложения
         /// </summary>
-        Patent
+        Patent = 6
     }
 }
