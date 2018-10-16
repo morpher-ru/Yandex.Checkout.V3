@@ -25,7 +25,7 @@
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <WarningsAsErrors />
     
-    <Net40AsyncSupport>YES</Net40AsyncSupport>
+    <Net40AsyncSupport>NO</Net40AsyncSupport>
   </PropertyGroup>
     
   <ItemGroup Condition=" '$(TargetFramework)' == 'net45' ">
@@ -39,6 +39,8 @@
   <ItemGroup Condition="'$(Net40AsyncSupport)' == 'YES' AND '$(TargetFramework)' == 'net40'">
       <PackageReference Include="Microsoft.Net.Http" Version="2.2.29" />
       <PackageReference Include="Microsoft.Bcl.Async" Version="1.0.168" />
+      <PackageReference Include="Microsoft.Bcl" Version="1.1.10" />
+      <PackageReference Include="Microsoft.Bcl.Build" Version="1.0.14" />
   </ItemGroup>
   <PropertyGroup Condition="'$(Net40AsyncSupport)' != 'YES' AND '$(TargetFramework)' == 'net40'">
       <DefineConstants>SYNCONLY</DefineConstants>

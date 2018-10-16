@@ -199,18 +199,6 @@ namespace Yandex.Checkout.V3
             }
         }
 
-        private static T ProcessResponse<T>(HttpStatusCode statusCode, string responseData)
-        {
-            if (statusCode != HttpStatusCode.OK)
-            {
-                throw new YandexCheckoutException((int) statusCode,
-                    string.IsNullOrEmpty(responseData)
-                        ? new Error {Code = "unknown", Description = "Unknown error"}
-                        : DeserializeObject<Error>(responseData));
-            }
-
-            return DeserializeObject<T>(responseData);
-        }
 
         private HttpRequestMessage CreateAsyncRequest(HttpMethod method, object body, string url,
             string idempotenceKey)
@@ -234,6 +222,19 @@ namespace Yandex.Checkout.V3
             return request;
         }
         #endif
+
+        private static T ProcessResponse<T>(HttpStatusCode statusCode, string responseData)
+        {
+            if (statusCode != HttpStatusCode.OK)
+            {
+                throw new YandexCheckoutException((int) statusCode,
+                    string.IsNullOrEmpty(responseData)
+                        ? new Error {Code = "unknown", Description = "Unknown error"}
+                        : DeserializeObject<Error>(responseData));
+            }
+
+            return DeserializeObject<T>(responseData);
+        }
 
         private T Query<T>(string method, object body, string url, string idempotenceKey)
         {
