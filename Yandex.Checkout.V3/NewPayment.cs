@@ -42,7 +42,7 @@ namespace Yandex.Checkout.V3
         public Dictionary<string, string> Metadata { get; set; }
 
         /// <summary>
-        /// Чек, <see cref="V3.Receipt"/>
+        /// Чек для проведения платежа по ФЗ-54 <see cref="V3.Receipt"/>
         /// </summary>
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public Receipt Receipt { get; set; }

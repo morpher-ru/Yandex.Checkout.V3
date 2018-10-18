@@ -4,10 +4,10 @@
     <TargetFrameworks>netstandard2.0;net40;net45</TargetFrameworks>
     <PackageId>Yandex.Checkout.V3</PackageId>
     <RootNamespace>Yandex.Checkout.V3</RootNamespace>
-    <PackageVersion>0.0.7</PackageVersion>
-    <AssemblyVersion>0.0.7.0</AssemblyVersion>
-    <FileVersion>0.0.7.0</FileVersion>
-    <InformationalVersion>0.0.7.0</InformationalVersion>
+    <PackageVersion>0.0.8</PackageVersion>
+    <AssemblyVersion>0.0.8.0</AssemblyVersion>
+    <FileVersion>0.0.8.0</FileVersion>
+    <InformationalVersion>0.0.8.0</InformationalVersion>
     <Authors>morpher</Authors>
     <Description>Yandex Checkout .NET Client</Description>
     <Copyright>Copyright 2018 morpher.ru</Copyright>
