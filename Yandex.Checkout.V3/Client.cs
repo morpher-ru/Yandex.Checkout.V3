@@ -53,6 +53,15 @@ namespace Yandex.Checkout.V3
             string apiUrl = "https://payment.yandex.net/api/v3/payments/",
             string userAgent = "Yandex.Checkout.V3 .NET Client")
         {
+            if (string.IsNullOrWhiteSpace(shopId))
+                throw new ArgumentNullException(nameof(shopId));
+            if (string.IsNullOrWhiteSpace(secretKey))
+                throw new ArgumentNullException(nameof(shopId));
+            if (string.IsNullOrWhiteSpace(apiUrl))
+                throw new ArgumentNullException(nameof(apiUrl));
+            if (!Uri.TryCreate(apiUrl, UriKind.Absolute, out var uri))
+                throw new ArgumentException($"{nameof(apiUrl)} should be valid URL");
+
             _apiUrl = apiUrl;
             if (!_apiUrl.EndsWith("/"))
                 _apiUrl = apiUrl + "/";
@@ -69,9 +78,7 @@ namespace Yandex.Checkout.V3
         /// <param name="idempotenceKey">Idempotence key, use <value>null</value> to generate new one</param>
         /// <returns><see cref="Payment"/></returns>
         public Payment CreatePayment(NewPayment payment, string idempotenceKey = null)
-        {
-            return Query<Payment>("POST", payment, _apiUrl, idempotenceKey);
-        }
+            => Query<Payment>("POST", payment, _apiUrl, idempotenceKey);
 
         /// <summary>
         /// Payment capture
@@ -80,9 +87,7 @@ namespace Yandex.Checkout.V3
         /// <param name="idempotenceKey">Idempotence key, use <value>null</value> to generate new one</param>
         /// <returns><see cref="Payment"/></returns>
         public Payment Capture(string id, string idempotenceKey = null)
-        {
-            return Query<Payment>("POST", null, _apiUrl + id + "/capture", idempotenceKey);
-        }
+            => Query<Payment>("POST", null, _apiUrl + id + "/capture", idempotenceKey);
 
         /// <summary>
         /// Query payment state
@@ -91,9 +96,16 @@ namespace Yandex.Checkout.V3
         /// <param name="idempotenceKey">Idempotence key, use <value>null</value> to generate new one</param>
         /// <returns><see cref="Payment"/></returns>
         public Payment QueryPayment(string id, string idempotenceKey = null)
-        {
-            return Query<Payment>("GET", null, _apiUrl + id, idempotenceKey);
-        }
+            => Query<Payment>("GET", null, _apiUrl + id, idempotenceKey);
+
+        /// <summary>
+        /// Refound creation
+        /// </summary>
+        /// <param name="refound">Refound data</param>
+        /// <param name="idempotenceKey">Idempotence key, use <value>null</value> to generate new one</param>
+        /// <returns><see cref="NewRefound"/></returns>
+        public Refound Refound(NewRefound refound, string idempotenceKey = null)
+            => Query<Refound>("POST", refound, _apiUrl + "refunds", idempotenceKey);
 
         #endregion Sync
 
@@ -141,6 +153,20 @@ namespace Yandex.Checkout.V3
         /// <inheritdoc cref="QueryPaymentAsync(string,string,CancellationToken)"/>
         public Task<Payment> QueryPaymentAsync(string id, string idempotenceKey = null)
             => QueryPaymentAsync(id, idempotenceKey, CancellationToken.None);
+
+        /// <summary>
+        /// Refound creation
+        /// </summary>
+        /// <param name="refound">Refound data</param>
+        /// <param name="idempotenceKey">Idempotence key, use <value>null</value> to generate new one</param>
+        /// <param name="cancellationToken"><see cref="CancellationToken"/></param>
+        /// <returns><see cref="NewRefound"/></returns>
+        public Task<Refound> RefoundAsync(NewRefound refound, string idempotenceKey, CancellationToken cancellationToken)
+            => QueryAsync<Refound>(HttpMethod.Post, refound, _apiUrl + "refunds", idempotenceKey, cancellationToken);
+
+        /// <inheritdoc cref="RefoundAsync(Yandex.Checkout.V3.NewRefound,string,System.Threading.CancellationToken)"/>
+        public Task<Refound> RefoundAsync(NewRefound refound, string idempotenceKey = null)
+            => RefoundAsync(refound, idempotenceKey, CancellationToken.None);
 
         #endregion Async
         #endif
