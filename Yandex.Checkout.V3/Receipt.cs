@@ -14,6 +14,11 @@ namespace Yandex.Checkout.V3
         public string Phone { get; set; }
 
         /// <summary>
+        /// Электронная почта плательщика
+        /// </summary>
+        public string Email { get; set; }
+
+        /// <summary>
         /// Пoзиции чека, <see cref="ReceiptItem"/>
         /// </summary>
         public List<ReceiptItem> Items { get; set; } = new List<ReceiptItem>();
