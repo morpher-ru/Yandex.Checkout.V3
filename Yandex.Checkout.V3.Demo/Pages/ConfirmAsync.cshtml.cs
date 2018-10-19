@@ -23,15 +23,15 @@ namespace Yandex.Checkout.V3.Demo.Pages
             switch (Action)
             {
                 case "Confirm":
-                    var capture = await data.Client.CaptureAsync(data.Payment.Id);
+                    var capture = await data.Client.CapturePaymentAsync(data.Payment.Id);
                     Payment = Client.SerializeObject(capture);
                     break;
                 case "Cancel":
-                    Payment = Client.SerializeObject(await data.Client.CancelAsync(data.Payment.Id));
+                    Payment = Client.SerializeObject(await data.Client.CancelPaymentAsync(data.Payment.Id));
                     break;
                 case "Return":
                     Payment = Client.SerializeObject(
-                        await data.Client.RefundAsync(new NewRefund() { Amount = data.Payment.Amount, PaymentId = data.Payment.Id}));
+                        await data.Client.CreateRefundAsync(new NewRefund() { Amount = data.Payment.Amount, PaymentId = data.Payment.Id}));
                     break;
                 default:
                     throw new InvalidOperationException(Action);

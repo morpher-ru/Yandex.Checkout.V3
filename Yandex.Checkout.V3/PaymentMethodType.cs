@@ -30,6 +30,8 @@ namespace Yandex.Checkout.V3
         [EnumMember(Value = "psb")]
         Psb,
         [EnumMember(Value = "google_pay")]
-        GooglePay
+        GooglePay,
+        [EnumMember(Value = "b2b_sberbank")]
+        B2BSberbank,
     }
 }

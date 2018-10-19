@@ -21,11 +21,11 @@ namespace Yandex.Checkout.V3.Demo.Pages
             switch (Action)
             {
                 case "Cancel":
-                    Payment = Client.SerializeObject(data.Client.Cancel(data.Payment.Id));
+                    Payment = Client.SerializeObject(data.Client.CancelPayment(data.Payment.Id));
                     break;
                 case "Return":
 
-                    var returnInfo = data.Client.Refund(new NewRefund() { Amount = data.Payment.Amount, PaymentId = data.Payment.Id});
+                    var returnInfo = data.Client.CreateRefund(new NewRefund() { Amount = data.Payment.Amount, PaymentId = data.Payment.Id});
                     var paymentInfo = data.Client.QueryPayment(data.Payment.Id);
 
                     Payment = Client.SerializeObject(new

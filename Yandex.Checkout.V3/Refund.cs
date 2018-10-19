@@ -22,5 +22,7 @@ namespace Yandex.Checkout.V3
         /// Дата создания
         /// </summary>
         public DateTime CreatedAt { get; set; }
+
+        public ReceiptRegistrationStatus? ReceiptRegistration { get; set; }
     }
 }

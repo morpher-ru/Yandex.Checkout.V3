@@ -13,5 +13,10 @@ namespace Yandex.Checkout.V3
 
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public string ConfirmationUrl { get; set; }
+
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        public bool? Enforce { get; set; }
+
+        public string Locale { get; set; }
     }
 }

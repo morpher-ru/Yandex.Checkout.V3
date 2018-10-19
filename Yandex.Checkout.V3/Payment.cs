@@ -20,6 +20,12 @@ namespace Yandex.Checkout.V3
         public DateTime CreatedAt { get; set; }
 
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        public ReceiptRegistrationStatus? ReceiptRegistration { get; set; }
+
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        public DateTime? CapturedAt { get; set; }
+
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public DateTime? ExpiresAt { get; set; }
 
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
@@ -33,5 +39,8 @@ namespace Yandex.Checkout.V3
 
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public CancellationDetails CancellationDetails { get; set; }
+
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        public AuthorizationDetails AuthorizationDetails { get; set; }
     }
 }

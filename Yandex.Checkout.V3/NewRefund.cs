@@ -26,5 +26,7 @@ namespace Yandex.Checkout.V3
         /// </summary>
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public Receipt Receipt { get; set; }
+
+        public string Description { get; set; }
     }
 }

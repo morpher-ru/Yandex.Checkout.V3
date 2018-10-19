@@ -46,5 +46,23 @@ namespace Yandex.Checkout.V3
         /// </summary>
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public Receipt Receipt { get; set; }
+
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        public Recipient Recipient { get; set; }
+
+        public string PaymentToken { get; set; }
+
+        public string PaymentMethodId { get; set; }
+
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        public PaymentMethod PaymentMethodData { get; set; }
+
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        public bool? SavePaymentMethod { get; set; }
+
+        public string ClientIp { get; set; }
+
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        public Airline Airline { get; set; }
     }
 }
