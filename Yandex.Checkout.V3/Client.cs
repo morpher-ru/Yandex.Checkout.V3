@@ -92,7 +92,7 @@ namespace Yandex.Checkout.V3
 
         /// <summary>
         /// Payment capture, can be used to change payment amount.
-        /// If you do not need to make any changes in paymnet use <see cref="Capture(string,string)"/>
+        /// If you do not need to make any changes in payment use <see cref="Capture(string,string)"/>
         /// </summary>
         /// <param name="payment">New payment data</param>
         /// <param name="idempotenceKey">Idempotence key, use <value>null</value> to generate new one</param>
@@ -112,11 +112,11 @@ namespace Yandex.Checkout.V3
         /// <summary>
         /// Refound creation
         /// </summary>
-        /// <param name="refound">Refound data</param>
+        /// <param name="refund">Refound data</param>
         /// <param name="idempotenceKey">Idempotence key, use <value>null</value> to generate new one</param>
-        /// <returns><see cref="NewRefound"/></returns>
-        public Refound Refound(NewRefound refound, string idempotenceKey = null)
-            => Query<Refound>("POST", refound, $"{_apiUrl}/refunds", idempotenceKey);
+        /// <returns><see cref="NewRefund"/></returns>
+        public Refund Refund(NewRefund refund, string idempotenceKey = null)
+            => Query<Refund>("POST", refund, $"{_apiUrl}/refunds", idempotenceKey);
 
         /// <summary>
         /// Payment cancelation
@@ -162,7 +162,7 @@ namespace Yandex.Checkout.V3
         
         /// <summary>
         /// Payment capture, can be used to change payment amount.
-        /// If you do not need to make any changes in paymnet use <see cref="CaptureAsync(string,string,System.Threading.CancellationToken)"/>
+        /// If you do not need to make any changes in payment use <see cref="CaptureAsync(string,string,System.Threading.CancellationToken)"/>
         /// </summary>
         /// <param name="payment">New payment data</param>
         /// <param name="idempotenceKey">Idempotence key, use <value>null</value> to generate new one</param>
@@ -192,16 +192,16 @@ namespace Yandex.Checkout.V3
         /// <summary>
         /// Refound creation
         /// </summary>
-        /// <param name="refound">Refound data</param>
+        /// <param name="refund">Refound data</param>
         /// <param name="idempotenceKey">Idempotence key, use <value>null</value> to generate new one</param>
         /// <param name="cancellationToken"><see cref="CancellationToken"/></param>
-        /// <returns><see cref="NewRefound"/></returns>
-        public Task<Refound> RefoundAsync(NewRefound refound, string idempotenceKey, CancellationToken cancellationToken)
-            => QueryAsync<Refound>(HttpMethod.Post, refound, $"{_apiUrl}refunds", idempotenceKey, cancellationToken);
+        /// <returns><see cref="NewRefund"/></returns>
+        public Task<Refund> RefundAsync(NewRefund refund, string idempotenceKey, CancellationToken cancellationToken)
+            => QueryAsync<Refund>(HttpMethod.Post, refund, $"{_apiUrl}refunds", idempotenceKey, cancellationToken);
 
-        /// <inheritdoc cref="RefoundAsync(Yandex.Checkout.V3.NewRefound,string,System.Threading.CancellationToken)"/>
-        public Task<Refound> RefoundAsync(NewRefound refound, string idempotenceKey = null)
-            => RefoundAsync(refound, idempotenceKey, CancellationToken.None);
+        /// <inheritdoc cref="RefundAsync(Yandex.Checkout.V3.NewRefund,string,System.Threading.CancellationToken)"/>
+        public Task<Refund> RefundAsync(NewRefund refund, string idempotenceKey = null)
+            => RefundAsync(refund, idempotenceKey, CancellationToken.None);
 
         /// <summary>
         /// Payment cancellation

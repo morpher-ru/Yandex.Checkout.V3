@@ -25,7 +25,7 @@ namespace Yandex.Checkout.V3.Demo.Pages
                     break;
                 case "Return":
 
-                    var returnInfo = data.Client.Refound(new NewRefound() { Amount = data.Payment.Amount, PaymentId = data.Payment.Id});
+                    var returnInfo = data.Client.Refund(new NewRefund() { Amount = data.Payment.Amount, PaymentId = data.Payment.Id});
                     var paymentInfo = data.Client.QueryPayment(data.Payment.Id);
 
                     Payment = Client.SerializeObject(new

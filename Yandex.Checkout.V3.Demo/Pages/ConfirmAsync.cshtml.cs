@@ -31,7 +31,7 @@ namespace Yandex.Checkout.V3.Demo.Pages
                     break;
                 case "Return":
                     Payment = Client.SerializeObject(
-                        await data.Client.RefoundAsync(new NewRefound() { Amount = data.Payment.Amount, PaymentId = data.Payment.Id}));
+                        await data.Client.RefundAsync(new NewRefund() { Amount = data.Payment.Amount, PaymentId = data.Payment.Id}));
                     break;
                 default:
                     throw new InvalidOperationException(Action);

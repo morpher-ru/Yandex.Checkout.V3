@@ -6,7 +6,7 @@ namespace Yandex.Checkout.V3
     /// <summary>
     /// Информация о возврате
     /// </summary>
-    public class Refound : NewRefound
+    public class Refund : NewRefund
     {
         /// <summary>
         /// Идентификатор возврата
