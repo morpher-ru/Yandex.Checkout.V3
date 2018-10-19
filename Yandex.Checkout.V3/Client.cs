@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Text;
@@ -50,7 +51,7 @@ namespace Yandex.Checkout.V3
         public Client(
             string shopId, 
             string secretKey,
-            string apiUrl = "https://payment.yandex.net/api/v3/payments/",
+            string apiUrl = "https://payment.yandex.net/api/v3/",
             string userAgent = "Yandex.Checkout.V3 .NET Client")
         {
             if (string.IsNullOrWhiteSpace(shopId))
@@ -78,7 +79,7 @@ namespace Yandex.Checkout.V3
         /// <param name="idempotenceKey">Idempotence key, use <value>null</value> to generate new one</param>
         /// <returns><see cref="Payment"/></returns>
         public Payment CreatePayment(NewPayment payment, string idempotenceKey = null)
-            => Query<Payment>("POST", payment, _apiUrl, idempotenceKey);
+            => Query<Payment>("POST", payment, $"{_apiUrl}payments/", idempotenceKey);
 
         /// <summary>
         /// Payment capture
@@ -87,8 +88,8 @@ namespace Yandex.Checkout.V3
         /// <param name="idempotenceKey">Idempotence key, use <value>null</value> to generate new one</param>
         /// <returns><see cref="Payment"/></returns>
         public Payment Capture(string id, string idempotenceKey = null)
-            => Query<Payment>("POST", null, _apiUrl + id + "/capture", idempotenceKey);
-        
+            => Query<Payment>("POST", null, $"{_apiUrl}payments/{id}/capture", idempotenceKey);
+
         /// <summary>
         /// Payment capture, can be used to change payment amount.
         /// If you do not need to make any changes in paymnet use <see cref="Capture(string,string)"/>
@@ -97,7 +98,7 @@ namespace Yandex.Checkout.V3
         /// <param name="idempotenceKey">Idempotence key, use <value>null</value> to generate new one</param>
         /// <returns><see cref="Payment"/></returns>
         public Payment Capture(Payment payment, string idempotenceKey = null)
-            => Query<Payment>("POST", payment, _apiUrl + payment.Id + "/capture", idempotenceKey);
+            => Query<Payment>("POST", payment,$"{_apiUrl}payments/{payment.Id}/capture", idempotenceKey);
 
         /// <summary>
         /// Query payment state
@@ -106,7 +107,7 @@ namespace Yandex.Checkout.V3
         /// <param name="idempotenceKey">Idempotence key, use <value>null</value> to generate new one</param>
         /// <returns><see cref="Payment"/></returns>
         public Payment QueryPayment(string id, string idempotenceKey = null)
-            => Query<Payment>("GET", null, _apiUrl + id, idempotenceKey);
+            => Query<Payment>("GET", null, $"{_apiUrl}payments/{id}", idempotenceKey);
 
         /// <summary>
         /// Refound creation
@@ -115,7 +116,7 @@ namespace Yandex.Checkout.V3
         /// <param name="idempotenceKey">Idempotence key, use <value>null</value> to generate new one</param>
         /// <returns><see cref="NewRefound"/></returns>
         public Refound Refound(NewRefound refound, string idempotenceKey = null)
-            => Query<Refound>("POST", refound, _apiUrl + "refunds", idempotenceKey);
+            => Query<Refound>("POST", refound, $"{_apiUrl}/refunds", idempotenceKey);
 
         /// <summary>
         /// Payment cancelation
@@ -124,7 +125,7 @@ namespace Yandex.Checkout.V3
         /// <param name="idempotenceKey">Idempotence key, use <value>null</value> to generate new one</param>
         /// <returns><see cref="Payment"/></returns>
         public Payment Cancel(string id, string idempotenceKey = null)
-            => Query<Payment>("POST", null, _apiUrl + id + "/cancel", idempotenceKey);
+            => Query<Payment>("POST", null, $"{_apiUrl}payments/{id}/cancel", idempotenceKey);
 
         #endregion Sync
 
@@ -139,7 +140,7 @@ namespace Yandex.Checkout.V3
         /// <param name="cancellationToken"><see cref="CancellationToken"/></param>
         /// <returns><see cref="Payment"/></returns>
         public Task<Payment> CreatePaymentAsync(NewPayment payment, string idempotenceKey, CancellationToken cancellationToken)
-            => QueryAsync<Payment>(HttpMethod.Post, payment, _apiUrl, idempotenceKey, cancellationToken);
+            => QueryAsync<Payment>(HttpMethod.Post, payment, $"{_apiUrl}payments", idempotenceKey, cancellationToken);
 
         /// <inheritdoc cref="CreatePaymentAsync(NewPayment,string,CancellationToken)"/>
         public Task<Payment> CreatePaymentAsync(NewPayment payment, string idempotenceKey = null)
@@ -153,7 +154,7 @@ namespace Yandex.Checkout.V3
         /// <param name="cancellationToken"><see cref="CancellationToken"/></param>
         /// <returns><see cref="Payment"/></returns>
         public Task<Payment> CaptureAsync(string id, string idempotenceKey, CancellationToken cancellationToken)
-            => QueryAsync<Payment>(HttpMethod.Post, null, _apiUrl + id + "/capture", idempotenceKey, cancellationToken);
+            => QueryAsync<Payment>(HttpMethod.Post, null, $"{_apiUrl}payments/{id}/capture", idempotenceKey, cancellationToken);
 
         /// <inheritdoc cref="CaptureAsync(string,string,CancellationToken)"/>
         public Task<Payment> CaptureAsync(string id, string idempotenceKey = null)
@@ -168,7 +169,7 @@ namespace Yandex.Checkout.V3
         /// <param name="cancellationToken"><see cref="CancellationToken"/></param>
         /// <returns><see cref="Payment"/></returns>
         public Task<Payment> CaptureAsync(Payment payment, string idempotenceKey, CancellationToken cancellationToken)
-            => QueryAsync<Payment>(HttpMethod.Post, payment, _apiUrl + payment.Id + "/capture", idempotenceKey, cancellationToken);
+            => QueryAsync<Payment>(HttpMethod.Post, payment, $"{_apiUrl}payments/{payment.Id}/capture", idempotenceKey, cancellationToken);
 
         /// <inheritdoc cref="CaptureAsync(Payment,string,CancellationToken)"/>
         public Task<Payment> CaptureAsync(Payment payment, string idempotenceKey = null)
@@ -182,7 +183,7 @@ namespace Yandex.Checkout.V3
         /// <param name="cancellationToken"><see cref="CancellationToken"/></param>
         /// <returns><see cref="Payment"/></returns>
         public Task<Payment> QueryPaymentAsync(string id, string idempotenceKey, CancellationToken cancellationToken)
-            => QueryAsync<Payment>(HttpMethod.Get, null, _apiUrl + id, idempotenceKey, cancellationToken);
+            => QueryAsync<Payment>(HttpMethod.Get, null, $"{_apiUrl}payments/{id}", idempotenceKey, cancellationToken);
 
         /// <inheritdoc cref="QueryPaymentAsync(string,string,CancellationToken)"/>
         public Task<Payment> QueryPaymentAsync(string id, string idempotenceKey = null)
@@ -196,7 +197,7 @@ namespace Yandex.Checkout.V3
         /// <param name="cancellationToken"><see cref="CancellationToken"/></param>
         /// <returns><see cref="NewRefound"/></returns>
         public Task<Refound> RefoundAsync(NewRefound refound, string idempotenceKey, CancellationToken cancellationToken)
-            => QueryAsync<Refound>(HttpMethod.Post, refound, _apiUrl + "refunds", idempotenceKey, cancellationToken);
+            => QueryAsync<Refound>(HttpMethod.Post, refound, $"{_apiUrl}refunds", idempotenceKey, cancellationToken);
 
         /// <inheritdoc cref="RefoundAsync(Yandex.Checkout.V3.NewRefound,string,System.Threading.CancellationToken)"/>
         public Task<Refound> RefoundAsync(NewRefound refound, string idempotenceKey = null)
@@ -210,7 +211,7 @@ namespace Yandex.Checkout.V3
         /// <param name="cancellationToken"><see cref="CancellationToken"/></param>
         /// <returns><see cref="Payment"/></returns>
         public Task<Payment> CancelAsync(string id, string idempotenceKey, CancellationToken cancellationToken)
-            => QueryAsync<Payment>(HttpMethod.Post, null, _apiUrl + id + "/cancel", idempotenceKey, cancellationToken);
+            => QueryAsync<Payment>(HttpMethod.Post, null, $"{_apiUrl}payments/{id}/cancel", idempotenceKey, cancellationToken);
 
         /// <inheritdoc cref="CancelAsync(string,string,CancellationToken)"/>
         public Task<Payment> CancelAsync(string id, string idempotenceKey = null)
@@ -237,7 +238,7 @@ namespace Yandex.Checkout.V3
         public static Message ParseMessage(string requestHttpMethod, string requestContentType, string jsonBody)
         {
             Message message = null;
-            if (requestHttpMethod == "POST" && requestContentType == "application/json; charset=UTF-8")
+            if (requestHttpMethod == "POST" && requestContentType.StartsWith("application/json"))
             {
                 message = DeserializeObject<Message>(jsonBody);
             }
@@ -268,7 +269,7 @@ namespace Yandex.Checkout.V3
                         ? null
                         : await response.Content.ReadAsStringAsync();
 
-                    return ProcessResponse<T>(response.StatusCode, responseData);
+                    return ProcessResponse<T>(response.StatusCode, responseData, response.Content?.Headers?.ContentType?.MediaType ?? string.Empty);
                 }
             }
         }
@@ -297,13 +298,16 @@ namespace Yandex.Checkout.V3
         }
         #endif
 
-        private static T ProcessResponse<T>(HttpStatusCode statusCode, string responseData)
+        private static readonly HashSet<int> KnownErrors = new HashSet<int>(new[] {400, 401, 403, 404, 429, 500});
+        private static T ProcessResponse<T>(HttpStatusCode statusCode, string responseData, string contentType)
         {
             if (statusCode != HttpStatusCode.OK)
             {
-                throw new YandexCheckoutException((int) statusCode,
-                    string.IsNullOrEmpty(responseData)
-                        ? new Error {Code = "unknown", Description = "Unknown error"}
+                var code = (int) statusCode;
+
+                throw new YandexCheckoutException(code,
+                    string.IsNullOrEmpty(responseData) || ! KnownErrors.Contains(code) || !contentType.StartsWith("application/json")
+                        ? new Error {Code = statusCode.ToString(), Description = statusCode.ToString()}
                         : DeserializeObject<Error>(responseData));
             }
 
@@ -318,7 +322,7 @@ namespace Yandex.Checkout.V3
             using (var sr = new StreamReader(responseStream ?? throw new InvalidOperationException("Response stream is null.")))
             {
                 string responseData = sr.ReadToEnd();
-                return ProcessResponse<T>(response.StatusCode, responseData);
+                return ProcessResponse<T>(response.StatusCode, responseData, response.ContentType);
             }
         }
 

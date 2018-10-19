@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using System;
 using Yandex.Checkout.V3.Demo.Pages.BaseModels;
 
 namespace Yandex.Checkout.V3.Demo.Pages
@@ -19,10 +20,25 @@ namespace Yandex.Checkout.V3.Demo.Pages
         {
             var data = PaymentStorage.Payments[Id];
 
-            var capture = data.Client.Capture(data.Payment.Id);
-            Payment = Client.SerializeObject(capture);
+            switch (Action)
+            {
+                case "Confirm":
+                    var capture = data.Client.Capture(data.Payment.Id);
+                    Payment = Client.SerializeObject(capture);
+                    break;
+                case "Cancel":
+                    Payment = Client.SerializeObject(data.Client.Cancel(data.Payment.Id));
+                    break;
+                case "Return":
+                    Payment = Client.SerializeObject(
+                        data.Client.Refound(new NewRefound() { Amount = data.Payment.Amount, PaymentId = data.Payment.Id}));
+                    break;
+                default:
+                    throw new InvalidOperationException(Action);
+            }
 
             return RedirectToPage("FinishSync", new {Id = Id});
         }
+
     }
 }

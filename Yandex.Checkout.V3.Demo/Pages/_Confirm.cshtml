@@ -13,12 +13,11 @@
     }
 
     <input type="hidden" asp-for="Id" />
-    <button type="submit" class="btn btn-default" disabled="@(Model.AllowConfirm ? null : "disabled")">Confirm</button>
+    <button type="submit" name="Action" class="btn btn-default" disabled="@(Model.AllowConfirm ? null : "disabled")" value="Confirm">Confirm</button>
+    <button type="submit" name="Action" class="btn btn-default" value="Cancel">Cancel</button>
+    <button type="submit" name="Action" class="btn btn-default" value="Return">Return (Error!)</button>
 </form>
-@if (!Model.AllowConfirm)
-{
-    <button type="submit" class="btn btn-default" onclick="location.reload();">Refresh</button>
-}
+<button type="submit" class="btn btn-default" onclick="location.reload();">Refresh</button>
 
 <script type="text/javascript">
     let ugly = document.getElementById("Payment").value;

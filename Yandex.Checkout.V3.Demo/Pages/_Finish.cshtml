@@ -6,6 +6,13 @@
     <textarea asp-for="Payment" class="form-control" rows="20"></textarea>
 </div>
 
+<form method="post">
+    <input type="hidden" asp-for="Id" />
+    <button type="submit" name="Action" class="btn btn-default" value="Cancel">Cancel (Error!)</button>
+    <button type="submit" name="Action" class="btn btn-default" value="Return">Return</button>
+</form>
+
+
 <script type="text/javascript">
     let ugly = document.getElementById("Payment").value;
     let pretty = JSON.stringify(JSON.parse(ugly), undefined, 2);

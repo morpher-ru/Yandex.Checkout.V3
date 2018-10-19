@@ -7,6 +7,7 @@ namespace Yandex.Checkout.V3.Demo.Pages.BaseModels
     public class ConfirmModel : PageModel
     {
         [BindProperty] public int Id { get; set; }
+        [BindProperty] public string Action { get; set; }
         public string Payment { get; set; }
         public bool AllowConfirm { get; set; }
         public string Message { get; set; }
