@@ -321,7 +321,7 @@ namespace Yandex.Checkout.V3
         }
         #endif
 
-        private static readonly HashSet<int> KnownErrors = new HashSet<int>(new[] {400, 401, 403, 404, 429, 500});
+        private static readonly HashSet<int> KnownErrors = new HashSet<int> {400, 401, 403, 404, 429, 500};
         private static T ProcessResponse<T>(HttpStatusCode statusCode, string responseData, string contentType)
         {
             if (statusCode != HttpStatusCode.OK)
