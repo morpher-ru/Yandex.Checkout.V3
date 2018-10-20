@@ -261,7 +261,7 @@ namespace Yandex.Checkout.V3
         public static Message ParseMessage(string requestHttpMethod, string requestContentType, string jsonBody)
         {
             Message message = null;
-            if (requestHttpMethod == "POST" && requestContentType.StartsWith("application/json"))
+            if (requestHttpMethod == "POST" && requestContentType.StartsWith(ApplicationJson))
             {
                 message = DeserializeObject<Message>(jsonBody);
             }
@@ -301,13 +301,11 @@ namespace Yandex.Checkout.V3
             string idempotenceKey)
         {
             var request = new HttpRequestMessage {RequestUri = new Uri(url), Method = method };
-            var content = body != null
-                ? new StringContent(SerializeObject(body), Encoding.UTF8)
-                : new StringContent(string.Empty);
 
-            content.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
-            
-            request.Content = content;
+            if (body != null)
+            {
+                request.Content = new StringContent(SerializeObject(body), Encoding.UTF8, ApplicationJson);
+            }
             request.Headers.Add("Authorization", _authorization);
             request.Headers.Add("Idempotence-Key", idempotenceKey ?? Guid.NewGuid().ToString());
             
@@ -328,12 +326,14 @@ namespace Yandex.Checkout.V3
             HttpStatusCode.InternalServerError
         };
 
+        static readonly string ApplicationJson = "application/json";
+
         private static T ProcessResponse<T>(HttpStatusCode statusCode, string responseData, string contentType)
         {
             if (statusCode != HttpStatusCode.OK)
             {
                 throw new YandexCheckoutException(statusCode,
-                    string.IsNullOrEmpty(responseData) || ! KnownErrors.Contains(statusCode) || !contentType.StartsWith("application/json")
+                    string.IsNullOrEmpty(responseData) || ! KnownErrors.Contains(statusCode) || !contentType.StartsWith(ApplicationJson)
                         ? new Error {Code = statusCode.ToString(), Description = statusCode.ToString()}
                         : DeserializeObject<Error>(responseData));
             }
@@ -357,7 +357,7 @@ namespace Yandex.Checkout.V3
         {
             var request = (HttpWebRequest)WebRequest.Create(url);
             request.Method = method;
-            request.ContentType = "application/json";
+            request.ContentType = ApplicationJson;
             request.Headers.Add("Authorization", _authorization);
 
             // Похоже, что этот заголовок обязателен, без него говорит (400) Bad Request.
