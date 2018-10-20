@@ -34,7 +34,7 @@ namespace Yandex.Checkout.V3
         };
         
         #if !SYNCONLY
-        private static readonly HttpClient HttpClient = new HttpClient();
+        private readonly HttpClient _httpClient = new HttpClient();
         #endif
 
         private readonly string _userAgent;
@@ -285,7 +285,7 @@ namespace Yandex.Checkout.V3
         {
             using (var request = CreateAsyncRequest(method, body, url, idempotenceKey))
             {
-                var response = await HttpClient.SendAsync(request, cancellationToken);
+                var response = await _httpClient.SendAsync(request, cancellationToken);
                 using (response)
                 {
                     var responseData = response.Content == null
