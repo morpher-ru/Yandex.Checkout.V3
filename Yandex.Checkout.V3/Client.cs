@@ -321,15 +321,22 @@ namespace Yandex.Checkout.V3
         }
         #endif
 
-        private static readonly HashSet<int> KnownErrors = new HashSet<int> {400, 401, 403, 404, 429, 500};
+        private static readonly HashSet<HttpStatusCode> KnownErrors = new HashSet<HttpStatusCode>
+        {
+            HttpStatusCode.BadRequest, 
+            HttpStatusCode.Unauthorized, 
+            HttpStatusCode.Forbidden, 
+            HttpStatusCode.NotFound, 
+            (HttpStatusCode) 429, // Too Many Requests
+            HttpStatusCode.InternalServerError
+        };
+
         private static T ProcessResponse<T>(HttpStatusCode statusCode, string responseData, string contentType)
         {
             if (statusCode != HttpStatusCode.OK)
             {
-                var code = (int) statusCode;
-
-                throw new YandexCheckoutException(code,
-                    string.IsNullOrEmpty(responseData) || ! KnownErrors.Contains(code) || !contentType.StartsWith("application/json")
+                throw new YandexCheckoutException(statusCode,
+                    string.IsNullOrEmpty(responseData) || ! KnownErrors.Contains(statusCode) || !contentType.StartsWith("application/json")
                         ? new Error {Code = statusCode.ToString(), Description = statusCode.ToString()}
                         : DeserializeObject<Error>(responseData));
             }

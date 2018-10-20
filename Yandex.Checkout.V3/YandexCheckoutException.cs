@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net;
 
 namespace Yandex.Checkout.V3
 {
@@ -11,14 +12,14 @@ namespace Yandex.Checkout.V3
         /// <summary>
         /// Status code returned from server
         /// </summary>
-        public int StatusCode { get; }
+        public HttpStatusCode StatusCode { get; }
 
         /// <summary>
         /// Error object returned from server
         /// </summary>
         public Error Error { get; }
 
-        public YandexCheckoutException(int statusCode, Error error) : base(error.Description)
+        public YandexCheckoutException(HttpStatusCode statusCode, Error error) : base(error.Description)
         {
         	StatusCode = statusCode;
         	Error = error;
