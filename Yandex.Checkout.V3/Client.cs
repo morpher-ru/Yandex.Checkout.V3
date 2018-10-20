@@ -297,13 +297,10 @@ namespace Yandex.Checkout.V3
             }
         }
 
-
         private HttpRequestMessage CreateAsyncRequest(HttpMethod method, object body, string url,
             string idempotenceKey)
         {
-            var request = new HttpRequestMessage();
-            request.RequestUri = new Uri(url);
-            request.Method = method;
+            var request = new HttpRequestMessage {RequestUri = new Uri(url), Method = method };
             var content = body != null
                 ? new StringContent(SerializeObject(body), Encoding.UTF8)
                 : new StringContent(string.Empty);
