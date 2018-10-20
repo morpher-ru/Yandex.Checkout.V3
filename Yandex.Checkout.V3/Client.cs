@@ -283,7 +283,7 @@ namespace Yandex.Checkout.V3
         #if !SYNCONLY
         private async Task<T> QueryAsync<T>(HttpMethod method, object body, string url, string idempotenceKey, CancellationToken cancellationToken)
         {
-            using (var request = CreateAsyncRequest(method, body, url, idempotenceKey))
+            using (var request = CreateRequest(method, body, url, idempotenceKey))
             {
                 var response = await _httpClient.SendAsync(request, cancellationToken);
                 using (response)
@@ -297,7 +297,7 @@ namespace Yandex.Checkout.V3
             }
         }
 
-        private HttpRequestMessage CreateAsyncRequest(HttpMethod method, object body, string url,
+        private HttpRequestMessage CreateRequest(HttpMethod method, object body, string url,
             string idempotenceKey)
         {
             var request = new HttpRequestMessage {RequestUri = new Uri(url), Method = method };
