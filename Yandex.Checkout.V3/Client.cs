@@ -124,7 +124,7 @@ namespace Yandex.Checkout.V3
         /// <param name="idempotenceKey">Idempotence key, use <value>null</value> to generate new one</param>
         /// <returns><see cref="NewRefund"/></returns>
         public Refund CreateRefund(NewRefund refund, string idempotenceKey = null)
-            => Query<Refund>("POST", refund, $"{_apiUrl}/refunds", idempotenceKey ?? Guid.NewGuid().ToString());
+            => Query<Refund>("POST", refund, $"{_apiUrl}refunds", idempotenceKey ?? Guid.NewGuid().ToString());
 
         /// <summary>
         /// Query refund
@@ -132,7 +132,7 @@ namespace Yandex.Checkout.V3
         /// <param name="id">Refund id</param>
         /// <returns><see cref="NewRefund"/></returns>
         public Refund QueryRefund(string id)
-            => Query<Refund>("GET", null, $"{_apiUrl}/refunds/{id}", null);
+            => Query<Refund>("GET", null, $"{_apiUrl}refunds/{id}", null);
 
         #endregion Sync
 
