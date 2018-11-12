@@ -18,7 +18,7 @@ namespace Yandex.Checkout.V3
     /// <summary>
     /// Yamdex.Checkout HTTP API client
     /// </summary>
-    public class Client
+    public class Client : IDisposable
     {
         private static readonly IContractResolver ContractResolver = new DefaultContractResolver()
         {
@@ -382,5 +382,10 @@ namespace Yandex.Checkout.V3
         }
 
         #endregion Helpers
+
+        public void Dispose()
+        {
+            _httpClient.Dispose();
+        }
     }
 }
