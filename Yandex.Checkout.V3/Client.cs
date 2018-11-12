@@ -6,7 +6,6 @@ using System.Text;
 
 #if !SYNCONLY
 using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Threading;
 using System.Threading.Tasks;
 #endif
@@ -38,7 +37,6 @@ namespace Yandex.Checkout.V3
         #endif
 
         private readonly string _userAgent;
-        private readonly string _apiUrl;
         private readonly string _authorization;
 
         /// <summary>
@@ -58,15 +56,8 @@ namespace Yandex.Checkout.V3
                 throw new ArgumentNullException(nameof(shopId));
             if (string.IsNullOrWhiteSpace(secretKey))
                 throw new ArgumentNullException(nameof(shopId));
-            if (string.IsNullOrWhiteSpace(apiUrl))
-                throw new ArgumentNullException(nameof(apiUrl));
-            if (!Uri.TryCreate(apiUrl, UriKind.Absolute, out var uri))
-                throw new ArgumentException($"{nameof(apiUrl)} should be valid URL");
-
-            _apiUrl = apiUrl;
-            if (!_apiUrl.EndsWith("/"))
-                _apiUrl = apiUrl + "/";
             _userAgent = userAgent;
+            _httpClient.BaseAddress = new Uri(apiUrl, UriKind.Absolute);
             _authorization = "Basic " + Convert.ToBase64String(Encoding.UTF8.GetBytes(shopId + ":" + secretKey));
         }
 
@@ -79,7 +70,7 @@ namespace Yandex.Checkout.V3
         /// <param name="idempotenceKey">Idempotence key, use <value>null</value> to generate new one</param>
         /// <returns><see cref="Payment"/></returns>
         public Payment CreatePayment(NewPayment payment, string idempotenceKey = null)
-            => Query<Payment>("POST", payment, $"{_apiUrl}payments/", idempotenceKey ?? Guid.NewGuid().ToString());
+            => Query<Payment>("POST", payment, "payments/", idempotenceKey ?? Guid.NewGuid().ToString());
 
         /// <summary>
         /// Payment capture
@@ -88,7 +79,7 @@ namespace Yandex.Checkout.V3
         /// <param name="idempotenceKey">Idempotence key, use <value>null</value> to generate new one</param>
         /// <returns><see cref="Payment"/></returns>
         public Payment CapturePayment(string id, string idempotenceKey = null)
-            => Query<Payment>("POST", null, $"{_apiUrl}payments/{id}/capture", idempotenceKey ?? Guid.NewGuid().ToString());
+            => Query<Payment>("POST", null, $"payments/{id}/capture", idempotenceKey ?? Guid.NewGuid().ToString());
 
         /// <summary>
         /// Payment capture, can be used to change payment amount.
@@ -98,7 +89,7 @@ namespace Yandex.Checkout.V3
         /// <param name="idempotenceKey">Idempotence key, use <value>null</value> to generate new one</param>
         /// <returns><see cref="Payment"/></returns>
         public Payment CapturePayment(Payment payment, string idempotenceKey = null)
-            => Query<Payment>("POST", payment,$"{_apiUrl}payments/{payment.Id}/capture", idempotenceKey ?? Guid.NewGuid().ToString());
+            => Query<Payment>("POST", payment,$"payments/{payment.Id}/capture", idempotenceKey ?? Guid.NewGuid().ToString());
 
         /// <summary>
         /// Query payment state
@@ -106,7 +97,7 @@ namespace Yandex.Checkout.V3
         /// <param name="id">Payment id, <see cref="Payment.Id"/></param>
         /// <returns><see cref="Payment"/></returns>
         public Payment QueryPayment(string id)
-            => Query<Payment>("GET", null, $"{_apiUrl}payments/{id}", null);
+            => Query<Payment>("GET", null, $"payments/{id}", null);
 
         /// <summary>
         /// Payment cancelation
@@ -115,7 +106,7 @@ namespace Yandex.Checkout.V3
         /// <param name="idempotenceKey">Idempotence key, use <value>null</value> to generate new one</param>
         /// <returns><see cref="Payment"/></returns>
         public Payment CancelPayment(string id, string idempotenceKey = null)
-            => Query<Payment>("POST", null, $"{_apiUrl}payments/{id}/cancel", idempotenceKey ?? Guid.NewGuid().ToString());
+            => Query<Payment>("POST", null, $"payments/{id}/cancel", idempotenceKey ?? Guid.NewGuid().ToString());
 
         /// <summary>
         /// Refund creation
@@ -124,7 +115,7 @@ namespace Yandex.Checkout.V3
         /// <param name="idempotenceKey">Idempotence key, use <value>null</value> to generate new one</param>
         /// <returns><see cref="NewRefund"/></returns>
         public Refund CreateRefund(NewRefund refund, string idempotenceKey = null)
-            => Query<Refund>("POST", refund, $"{_apiUrl}refunds", idempotenceKey ?? Guid.NewGuid().ToString());
+            => Query<Refund>("POST", refund, $"refunds", idempotenceKey ?? Guid.NewGuid().ToString());
 
         /// <summary>
         /// Query refund
@@ -132,7 +123,7 @@ namespace Yandex.Checkout.V3
         /// <param name="id">Refund id</param>
         /// <returns><see cref="NewRefund"/></returns>
         public Refund QueryRefund(string id)
-            => Query<Refund>("GET", null, $"{_apiUrl}refunds/{id}", null);
+            => Query<Refund>("GET", null, $"refunds/{id}", null);
 
         #endregion Sync
 
@@ -147,7 +138,7 @@ namespace Yandex.Checkout.V3
         /// <param name="idempotenceKey">Idempotence key, use <value>null</value> to generate new one</param>
         /// <returns><see cref="Payment"/></returns>
         public Task<Payment> CreatePaymentAsync(NewPayment payment, CancellationToken cancellationToken, string idempotenceKey = null)
-            => QueryAsync<Payment>(HttpMethod.Post, payment, $"{_apiUrl}payments", idempotenceKey ?? Guid.NewGuid().ToString(), cancellationToken);
+            => QueryAsync<Payment>(HttpMethod.Post, payment, $"payments", idempotenceKey ?? Guid.NewGuid().ToString(), cancellationToken);
 
         /// <inheritdoc cref="CreatePaymentAsync(Yandex.Checkout.V3.NewPayment,System.Threading.CancellationToken,string)"/>
         public Task<Payment> CreatePaymentAsync(NewPayment payment, string idempotenceKey = null)
@@ -161,7 +152,7 @@ namespace Yandex.Checkout.V3
         /// <param name="idempotenceKey">Idempotence key, use <value>null</value> to generate new one</param>
         /// <returns><see cref="Payment"/></returns>
         public Task<Payment> CapturePaymentAsync(string id, CancellationToken cancellationToken, string idempotenceKey = null)
-            => QueryAsync<Payment>(HttpMethod.Post, null, $"{_apiUrl}payments/{id}/capture", idempotenceKey ?? Guid.NewGuid().ToString(), cancellationToken);
+            => QueryAsync<Payment>(HttpMethod.Post, null, $"payments/{id}/capture", idempotenceKey ?? Guid.NewGuid().ToString(), cancellationToken);
 
         /// <inheritdoc cref="CapturePaymentAsync(string,System.Threading.CancellationToken,string)"/>
         public Task<Payment> CapturePaymentAsync(string id, string idempotenceKey = null)
@@ -176,7 +167,7 @@ namespace Yandex.Checkout.V3
         /// <param name="idempotenceKey">Idempotence key, use <value>null</value> to generate new one</param>
         /// <returns><see cref="Payment"/></returns>
         public Task<Payment> CapturePaymentAsync(Payment payment, CancellationToken cancellationToken, string idempotenceKey = null)
-            => QueryAsync<Payment>(HttpMethod.Post, payment, $"{_apiUrl}payments/{payment.Id}/capture", idempotenceKey ?? Guid.NewGuid().ToString(), cancellationToken);
+            => QueryAsync<Payment>(HttpMethod.Post, payment, $"payments/{payment.Id}/capture", idempotenceKey ?? Guid.NewGuid().ToString(), cancellationToken);
 
         /// <inheritdoc cref="CapturePaymentAsync(Yandex.Checkout.V3.Payment,System.Threading.CancellationToken,string)"/>
         public Task<Payment> CapturePaymentAsync(Payment payment, string idempotenceKey = null)
@@ -189,7 +180,7 @@ namespace Yandex.Checkout.V3
         /// <param name="cancellationToken"><see cref="CancellationToken"/></param>
         /// <returns><see cref="Payment"/></returns>
         public Task<Payment> QueryPaymentAsync(string id, CancellationToken cancellationToken)
-            => QueryAsync<Payment>(HttpMethod.Get, null, $"{_apiUrl}payments/{id}", null, cancellationToken);
+            => QueryAsync<Payment>(HttpMethod.Get, null, $"payments/{id}", null, cancellationToken);
 
         /// <inheritdoc cref="QueryPaymentAsync(string,CancellationToken)"/>
         public Task<Payment> QueryPaymentAsync(string id)
@@ -203,7 +194,7 @@ namespace Yandex.Checkout.V3
         /// <param name="idempotenceKey">Idempotence key, use <value>null</value> to generate new one</param>
         /// <returns><see cref="Payment"/></returns>
         public Task<Payment> CancelPaymentAsync(string id, CancellationToken cancellationToken, string idempotenceKey = null)
-            => QueryAsync<Payment>(HttpMethod.Post, null, $"{_apiUrl}payments/{id}/cancel", idempotenceKey ?? Guid.NewGuid().ToString(), cancellationToken);
+            => QueryAsync<Payment>(HttpMethod.Post, null, $"payments/{id}/cancel", idempotenceKey ?? Guid.NewGuid().ToString(), cancellationToken);
 
         /// <inheritdoc cref="CancelPaymentAsync(string,System.Threading.CancellationToken,string)"/>
         public Task<Payment> CancelPaymentAsync(string id, string idempotenceKey = null)
@@ -217,7 +208,7 @@ namespace Yandex.Checkout.V3
         /// <param name="idempotenceKey">Idempotence key, use <value>null</value> to generate new one</param>
         /// <returns><see cref="Refund"/></returns>
         public Task<Refund> CreateRefundAsync(NewRefund refund, CancellationToken cancellationToken, string idempotenceKey = null)
-            => QueryAsync<Refund>(HttpMethod.Post, refund, $"{_apiUrl}refunds", idempotenceKey ?? Guid.NewGuid().ToString(), cancellationToken);
+            => QueryAsync<Refund>(HttpMethod.Post, refund, $"refunds", idempotenceKey ?? Guid.NewGuid().ToString(), cancellationToken);
 
         /// <inheritdoc cref="CreateRefundAsync(Yandex.Checkout.V3.NewRefund,System.Threading.CancellationToken,string)"/>
         public Task<Refund> CreateRefundAsync(NewRefund refund, string idempotenceKey = null)
@@ -230,7 +221,7 @@ namespace Yandex.Checkout.V3
         /// <param name="cancellationToken"><see cref="CancellationToken"/></param>
         /// <returns><see cref="Refund"/></returns>
         public Task<Refund> QueryRefundAsync(string id, CancellationToken cancellationToken)
-            => QueryAsync<Refund>(HttpMethod.Post, null, $"{_apiUrl}refunds/{id}", null, cancellationToken);
+            => QueryAsync<Refund>(HttpMethod.Post, null, $"refunds/{id}", null, cancellationToken);
 
         /// <inheritdoc cref="QueryRefundAsync(string,System.Threading.CancellationToken)"/>
         public Task<Refund> QueryRefundAsync(string id)
