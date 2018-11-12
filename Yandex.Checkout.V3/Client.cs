@@ -350,7 +350,7 @@ namespace Yandex.Checkout.V3
             request.Headers.Add("Authorization", _authorization);
 
             if (!string.IsNullOrEmpty(idempotenceKey))
-                request.Headers.Add("Idempotence-Key", idempotenceKey ?? Guid.NewGuid().ToString());
+                request.Headers.Add("Idempotence-Key", idempotenceKey);
 
             if (_userAgent != null)
             {
