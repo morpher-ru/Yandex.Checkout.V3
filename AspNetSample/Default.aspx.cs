@@ -8,7 +8,9 @@ namespace AspNetSample
 {
     public partial class ycheckout : System.Web.UI.Page
     {
-        readonly Client _client = new Client("501156", "test_As0OONRn1SsvFr0IVlxULxst5DBIoWi_tyVaezSRTEI");
+        // It's best to have only one instance of Yandex.Checkout.V3.Client for the lifetime of an application
+        // (same as with HttpClient). Hence using static.
+        static readonly Client _client = new Client("501156", "test_As0OONRn1SsvFr0IVlxULxst5DBIoWi_tyVaezSRTEI");
 
         protected void submit_YandexPay_Click(object sender, EventArgs e)
         {
