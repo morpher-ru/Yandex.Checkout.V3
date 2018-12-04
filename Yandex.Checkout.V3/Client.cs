@@ -31,9 +31,10 @@ namespace Yandex.Checkout.V3
             Formatting = Formatting.None,
             NullValueHandling = NullValueHandling.Ignore,
         };
-        
+
         #if !SYNCONLY
-        private readonly HttpClient _httpClient = new HttpClient();
+        private readonly HttpClient _httpClient;
+        private readonly bool _disposeHttpClient;
         #endif
 
         private readonly string _userAgent;
@@ -68,6 +69,28 @@ namespace Yandex.Checkout.V3
             _userAgent = userAgent;
             _authorization = "Basic " + Convert.ToBase64String(Encoding.UTF8.GetBytes(shopId + ":" + secretKey));
         }
+
+        #if !SYNCONLY
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="httpClient"><see cref="HttpClient"/> used for connectivity. For null values new <see cref="HttpClient"/> would be created an disposed in <see cref="Dispose"/> </param>
+        /// <param name="shopId">Shop ID</param>
+        /// <param name="secretKey">Secret web api key</param>
+        /// <param name="apiUrl">API URL</param>
+        /// <param name="userAgent">Agent name</param>
+        public Client(
+            HttpClient httpClient,
+            string shopId, 
+            string secretKey,
+            string apiUrl = "https://payment.yandex.net/api/v3/",
+            string userAgent = "Yandex.Checkout.V3 .NET Client")
+            : this(shopId, secretKey, apiUrl, userAgent)
+        {
+            _httpClient = httpClient ?? new HttpClient();
+            _disposeHttpClient = httpClient == null;
+        }
+        #endif
 
         #region Sync
 
@@ -394,7 +417,8 @@ namespace Yandex.Checkout.V3
         public void Dispose()
         {
             #if !SYNCONLY
-            _httpClient.Dispose();
+            if (_disposeHttpClient)
+                _httpClient.Dispose();
             #endif
         }
     }
