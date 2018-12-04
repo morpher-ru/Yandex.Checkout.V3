@@ -6,7 +6,6 @@ using System.Text;
 
 #if !SYNCONLY
 using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Threading;
 using System.Threading.Tasks;
 #endif
@@ -19,7 +18,7 @@ namespace Yandex.Checkout.V3
     /// <summary>
     /// Yamdex.Checkout HTTP API client
     /// </summary>
-    public class Client
+    public class Client : IDisposable
     {
         private static readonly IContractResolver ContractResolver = new DefaultContractResolver()
         {
@@ -34,7 +33,7 @@ namespace Yandex.Checkout.V3
         };
         
         #if !SYNCONLY
-        private static readonly HttpClient HttpClient = new HttpClient();
+        private readonly HttpClient _httpClient = new HttpClient();
         #endif
 
         private readonly string _userAgent;
@@ -60,8 +59,8 @@ namespace Yandex.Checkout.V3
                 throw new ArgumentNullException(nameof(shopId));
             if (string.IsNullOrWhiteSpace(apiUrl))
                 throw new ArgumentNullException(nameof(apiUrl));
-            if (!Uri.TryCreate(apiUrl, UriKind.Absolute, out var uri))
-                throw new ArgumentException($"{nameof(apiUrl)} should be valid URL");
+            if (!Uri.TryCreate(apiUrl, UriKind.Absolute, out Uri _))
+                throw new ArgumentException($"'{nameof(apiUrl)}' is not a valid URL.");
 
             _apiUrl = apiUrl;
             if (!_apiUrl.EndsWith("/"))
@@ -124,7 +123,7 @@ namespace Yandex.Checkout.V3
         /// <param name="idempotenceKey">Idempotence key, use <value>null</value> to generate new one</param>
         /// <returns><see cref="NewRefund"/></returns>
         public Refund CreateRefund(NewRefund refund, string idempotenceKey = null)
-            => Query<Refund>("POST", refund, $"{_apiUrl}/refunds", idempotenceKey ?? Guid.NewGuid().ToString());
+            => Query<Refund>("POST", refund, $"{_apiUrl}refunds", idempotenceKey ?? Guid.NewGuid().ToString());
 
         /// <summary>
         /// Query refund
@@ -132,7 +131,7 @@ namespace Yandex.Checkout.V3
         /// <param name="id">Refund id</param>
         /// <returns><see cref="NewRefund"/></returns>
         public Refund QueryRefund(string id)
-            => Query<Refund>("GET", null, $"{_apiUrl}/refunds/{id}", null);
+            => Query<Refund>("GET", null, $"{_apiUrl}refunds/{id}", null);
 
         #endregion Sync
 
@@ -257,7 +256,7 @@ namespace Yandex.Checkout.V3
         public static Message ParseMessage(string requestHttpMethod, string requestContentType, string jsonBody)
         {
             Message message = null;
-            if (requestHttpMethod == "POST" && requestContentType.StartsWith("application/json"))
+            if (requestHttpMethod == "POST" && requestContentType.StartsWith(ApplicationJson))
             {
                 message = DeserializeObject<Message>(jsonBody);
             }
@@ -279,9 +278,9 @@ namespace Yandex.Checkout.V3
         #if !SYNCONLY
         private async Task<T> QueryAsync<T>(HttpMethod method, object body, string url, string idempotenceKey, CancellationToken cancellationToken)
         {
-            using (var request = CreateAsyncRequest(method, body, url, idempotenceKey))
+            using (var request = CreateRequest(method, body, url, idempotenceKey))
             {
-                var response = await HttpClient.SendAsync(request, cancellationToken);
+                var response = await _httpClient.SendAsync(request, cancellationToken);
                 using (response)
                 {
                     var responseData = response.Content == null
@@ -293,20 +292,15 @@ namespace Yandex.Checkout.V3
             }
         }
 
-
-        private HttpRequestMessage CreateAsyncRequest(HttpMethod method, object body, string url,
+        private HttpRequestMessage CreateRequest(HttpMethod method, object body, string url,
             string idempotenceKey)
         {
-            var request = new HttpRequestMessage();
-            request.RequestUri = new Uri(url);
-            request.Method = method;
-            var content = body != null
-                ? new StringContent(SerializeObject(body), Encoding.UTF8)
-                : new StringContent(string.Empty);
+            var request = new HttpRequestMessage {RequestUri = new Uri(url), Method = method };
 
-            content.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
-            
-            request.Content = content;
+            if (body != null)
+            {
+                request.Content = new StringContent(SerializeObject(body), Encoding.UTF8, ApplicationJson);
+            }
             request.Headers.Add("Authorization", _authorization);
 
             if (!string.IsNullOrEmpty(idempotenceKey))
@@ -319,15 +313,24 @@ namespace Yandex.Checkout.V3
         }
         #endif
 
-        private static readonly HashSet<int> KnownErrors = new HashSet<int>(new[] {400, 401, 403, 404, 429, 500});
+        private static readonly HashSet<HttpStatusCode> KnownErrors = new HashSet<HttpStatusCode>
+        {
+            HttpStatusCode.BadRequest, 
+            HttpStatusCode.Unauthorized, 
+            HttpStatusCode.Forbidden, 
+            HttpStatusCode.NotFound, 
+            (HttpStatusCode) 429, // Too Many Requests
+            HttpStatusCode.InternalServerError
+        };
+
+        static readonly string ApplicationJson = "application/json";
+
         private static T ProcessResponse<T>(HttpStatusCode statusCode, string responseData, string contentType)
         {
             if (statusCode != HttpStatusCode.OK)
             {
-                var code = (int) statusCode;
-
-                throw new YandexCheckoutException(code,
-                    string.IsNullOrEmpty(responseData) || ! KnownErrors.Contains(code) || !contentType.StartsWith("application/json")
+                throw new YandexCheckoutException(statusCode,
+                    string.IsNullOrEmpty(responseData) || ! KnownErrors.Contains(statusCode) || !contentType.StartsWith(ApplicationJson)
                         ? new Error {Code = statusCode.ToString(), Description = statusCode.ToString()}
                         : DeserializeObject<Error>(responseData));
             }
@@ -351,11 +354,11 @@ namespace Yandex.Checkout.V3
         {
             var request = (HttpWebRequest)WebRequest.Create(url);
             request.Method = method;
-            request.ContentType = "application/json";
+            request.ContentType = ApplicationJson;
             request.Headers.Add("Authorization", _authorization);
 
             if (!string.IsNullOrEmpty(idempotenceKey))
-                request.Headers.Add("Idempotence-Key", idempotenceKey ?? Guid.NewGuid().ToString());
+                request.Headers.Add("Idempotence-Key", idempotenceKey);
 
             if (_userAgent != null)
             {
@@ -387,5 +390,12 @@ namespace Yandex.Checkout.V3
         }
 
         #endregion Helpers
+
+        public void Dispose()
+        {
+            #if !SYNCONLY
+            _httpClient.Dispose();
+            #endif
+        }
     }
 }
