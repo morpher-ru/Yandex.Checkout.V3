@@ -33,8 +33,24 @@ namespace Yandex.Checkout.V3
         };
 
         #if !SYNCONLY
-        private readonly HttpClient _httpClient;
-        private readonly bool _disposeHttpClient;
+
+        private HttpClient _httpClient;
+        private bool _disposeHttpClient = false;
+
+        private HttpClient HttpClient
+        {
+            get
+            {
+                if (_httpClient == null)
+                {
+                    _httpClient = new HttpClient();
+                    _disposeHttpClient = true;
+                }
+
+                return _httpClient;
+            }
+        }
+
         #endif
 
         private readonly string _userAgent;
@@ -70,11 +86,11 @@ namespace Yandex.Checkout.V3
             _authorization = "Basic " + Convert.ToBase64String(Encoding.UTF8.GetBytes(shopId + ":" + secretKey));
         }
 
-        #if !SYNCONLY
+#if !SYNCONLY
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="httpClient"><see cref="HttpClient"/> used for connectivity. For null values new <see cref="HttpClient"/> would be created an disposed in <see cref="Dispose"/> </param>
+        /// <param name="httpClient"><see cref="System.Net.Http.HttpClient"/> used for connectivity. For null values new <see cref="System.Net.Http.HttpClient"/> would be created an disposed in <see cref="Dispose"/> </param>
         /// <param name="shopId">Shop ID</param>
         /// <param name="secretKey">Secret web api key</param>
         /// <param name="apiUrl">API URL</param>
@@ -87,8 +103,7 @@ namespace Yandex.Checkout.V3
             string userAgent = "Yandex.Checkout.V3 .NET Client")
             : this(shopId, secretKey, apiUrl, userAgent)
         {
-            _httpClient = httpClient ?? new HttpClient();
-            _disposeHttpClient = httpClient == null;
+            _httpClient = httpClient;
         }
         #endif
 
@@ -303,7 +318,7 @@ namespace Yandex.Checkout.V3
         {
             using (var request = CreateRequest(method, body, url, idempotenceKey))
             {
-                var response = await _httpClient.SendAsync(request, cancellationToken);
+                var response = await HttpClient.SendAsync(request, cancellationToken);
                 using (response)
                 {
                     var responseData = response.Content == null
@@ -417,7 +432,7 @@ namespace Yandex.Checkout.V3
         public void Dispose()
         {
             #if !SYNCONLY
-            if (_disposeHttpClient)
+            if (_disposeHttpClient && _httpClient != null)
                 _httpClient.Dispose();
             #endif
         }
