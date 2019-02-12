@@ -1,4 +1,7 @@
-﻿namespace Yandex.Checkout.V3
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+
+namespace Yandex.Checkout.V3
 {
     /// <summary>
     /// Позиция чека
@@ -25,5 +28,17 @@
         /// Код налога, <see cref="V3.VatCode"/>
         /// </summary>
         public VatCode VatCode { get; set; }
+
+        /// <summary>
+        /// Признак предмета расчета, <see cref="V3.PaymentSubject"/>
+        /// </summary>
+        [JsonConverter(typeof(StringEnumConverter))]
+        public PaymentSubject? PaymentSubject { get; set; }
+
+        /// <summary>
+        /// Признак способа расчета <see cref="V3.PaymentMode"/>
+        /// </summary>
+        [JsonConverter(typeof(StringEnumConverter))]
+        public PaymentMode? PaymentMode { get; set; }
     }
 }
