@@ -1,0 +1,9 @@
+﻿@page
+@model Yandex.Checkout.V3.Demo.Pages.AsyncModel
+@{
+    ViewData["Title"] = "Async";
+    Layout = "~/Pages/_Layout.cshtml";
+}
+
+<h2>Async payment</h2>
+@await Html.PartialAsync("_NewPayment")

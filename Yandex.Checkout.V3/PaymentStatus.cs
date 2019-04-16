@@ -1,10 +1,16 @@
-﻿namespace Yandex.Checkout.V3
+﻿using System.Runtime.Serialization;
+
+namespace Yandex.Checkout.V3
 {
     public enum PaymentStatus
     {
-        pending,
-        waiting_for_capture,
-        succeeded,
-        canceled
+        [EnumMember(Value = "pending")]
+        Pending,
+        [EnumMember(Value = "waiting_for_capture")]
+        WaitingForCapture,
+        [EnumMember(Value = "succeeded")]
+        Succeeded,
+        [EnumMember(Value = "canceled")]
+        Canceled
     }
 }

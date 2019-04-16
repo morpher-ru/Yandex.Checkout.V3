@@ -1,8 +1,21 @@
-﻿namespace Yandex.Checkout.V3
+﻿using Newtonsoft.Json;
+
+namespace Yandex.Checkout.V3
 {
+    /// <summary>
+    /// Payment amount
+    /// </summary>
     public class Amount
     {
-        public decimal value { get; set; }
-        public string currency { get; set; }
+        /// <summary>
+        /// Value
+        /// </summary>
+        [JsonProperty()]
+        public decimal Value { get; set; }
+
+        /// <summary>
+        /// Three letter currency code (ex: RUB)
+        /// </summary>
+        public string Currency { get; set; } = "RUB";
     }
 }

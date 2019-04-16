@@ -1,16 +1,20 @@
 ﻿using System;
 using System.Globalization;
 using System.IO;
+using System.Net;
 using Yandex.Checkout.V3;
 
 namespace AspNetSample
 {
     public partial class ycheckout : System.Web.UI.Page
     {
-        readonly Client _client = new Client("501156", "test_As0OONRn1SsvFr0IVlxULxst5DBIoWi_tyVaezSRTEI");
+        // It's best to have only one instance of Yandex.Checkout.V3.Client for the lifetime of an application
+        // (same as with HttpClient). Hence using static.
+        static readonly Client _client = new Client("501156", "test_As0OONRn1SsvFr0IVlxULxst5DBIoWi_tyVaezSRTEI");
 
         protected void submit_YandexPay_Click(object sender, EventArgs e)
         {
+            ServicePointManager.SecurityProtocol = (SecurityProtocolType)3072;
             File.Delete(Server.MapPath("log.txt"));
 
             // 1. Создайте платеж и получите ссылку для оплаты
@@ -18,13 +22,13 @@ namespace AspNetSample
             var idempotenceKey = Guid.NewGuid().ToString();
             var newPayment = new NewPayment
             {
-                amount = new Amount { value = amount, currency = "RUB" },
-                confirmation = new Confirmation { type = ConfirmationType.redirect, return_url = Request.Url.AbsoluteUri }
+                Amount = new Amount { Value = amount, Currency = "RUB" },
+                Confirmation = new Confirmation { Type = ConfirmationType.Redirect, ReturnUrl = Request.Url.AbsoluteUri }
             };
             Payment payment = _client.CreatePayment(newPayment, idempotenceKey);
             
             // 2. Перенаправьте пользователя на страницу оплаты
-            string url = payment.confirmation.confirmation_url;
+            string url = payment.Confirmation.ConfirmationUrl;
             Response.Redirect(url);
         }
 
@@ -35,13 +39,13 @@ namespace AspNetSample
             {
                 Log($"Page_Load: Request.HttpMethod={Request.HttpMethod}, Request.ContentType={Request.ContentType}, Request.InputStream has {Request.InputStream.Length} bytes");
                 Message message = Client.ParseMessage(Request.HttpMethod, Request.ContentType, Request.InputStream);
-                Payment payment = message?.@object;
-                if (message?.@event == Event.PaymentWaitingForCapture && payment.id != default(Guid) && payment.paid)
+                Payment payment = message?.Object;
+                if (message?.Event == Event.PaymentWaitingForCapture && payment.Paid)
                 {
-                    Log($"Got message: payment.id={payment.id}, payment.paid={payment.paid}");
+                    Log($"Got message: payment.id={payment.Id}, payment.paid={payment.Paid}");
 
                     // 4. Подтвердите готовность принять платеж
-                    _client.Capture(payment);
+                    _client.CapturePayment(payment.Id);
                 }
             }
             catch (Exception exception)

@@ -14,18 +14,27 @@ namespace Yandex.Checkout.V3
                 case Event.PaymentWaitingForCapture:
                     writer.WriteValue(waitingForCapture);
                     break;
+                case Event.Succeeded:
+                    writer.WriteValue(succeeded);
+                    break;
+                default:
+                    throw new JsonSerializationException($"Invalid Event: {enumValue}");
             }
-            throw new Exception("Invalid Event.");
         }
 
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
             var enumString = (string)reader.Value;
 
-            if (enumString == waitingForCapture)
-                return Event.PaymentWaitingForCapture;
-
-            throw new Exception("Invalid Event.");
+            switch (enumString)
+            {
+                case waitingForCapture:
+                    return Event.PaymentWaitingForCapture;
+                case succeeded:
+                    return Event.Succeeded;
+                default:
+                    throw new JsonSerializationException($"Invalid Event: {enumString}");
+            }
         }
 
         public override bool CanConvert(Type objectType)
@@ -34,5 +43,6 @@ namespace Yandex.Checkout.V3
         }
 
         const string waitingForCapture = "payment.waiting_for_capture";
+        const string succeeded = "payment.succeeded";
     }
 }

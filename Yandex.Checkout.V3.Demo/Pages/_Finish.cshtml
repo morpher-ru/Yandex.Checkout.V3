@@ -1,0 +1,27 @@
+﻿@model BaseModels.FinishModel
+
+<div class="form-group">
+    <label asp-for="Payment">Payment data</label>
+    <textarea asp-for="Payment" class="form-control" rows="20"></textarea>
+</div>
+
+<form method="post">
+    <input type="hidden" asp-for="Id" />
+    <button type="submit" name="Action" class="btn btn-default" value="Cancel">Cancel (Error!)</button>
+    <button type="submit" name="Action" class="btn btn-default" value="Return">Return</button>
+</form>
+
+
+<script type="text/javascript">
+    let ugly = document.getElementById("Payment").value;
+    let pretty = JSON.stringify(JSON.parse(ugly), undefined, 2);
+    document.getElementById("Payment").value = pretty;
+</script>
+
+<button class="btn btn-default" onclick="location.href = '/Async'">New async payment</button>
+<button class="btn btn-default" onclick="location.href = '/Sync'">New sync payment</button>
+
+<hr />
+<div>
+    This page uses <a href="https://kassa.yandex.ru/docs/checkout-api/#informaciq-o-platezhe" target="_blank">payment information query</a> after <a href="https://kassa.yandex.ru/docs/checkout-api/#podtwerzhdenie-platezha" target="_blank">the capture</a>
+</div>

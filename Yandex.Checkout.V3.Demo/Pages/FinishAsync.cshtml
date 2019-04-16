@@ -1,0 +1,10 @@
+﻿@page
+@model Yandex.Checkout.V3.Demo.Pages.FinishAsyncModel
+@{
+    ViewData["Title"] = "FinishAsync";
+    Layout = "~/Pages/_Layout.cshtml";
+}
+
+<h2>Async payment confirmed</h2>
+
+@await Html.PartialAsync("_Finish")

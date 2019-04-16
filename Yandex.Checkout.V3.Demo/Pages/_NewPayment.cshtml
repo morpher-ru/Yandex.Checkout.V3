@@ -1,0 +1,30 @@
+﻿@model BaseModels.NewPaymentModel
+
+<form method="post">
+    <div class="form-group">
+        <label asp-for="ShopId">Shop Id</label>
+        <input asp-for="ShopId" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="SecretKey">Secret</label>
+        <input asp-for="SecretKey" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="Amount">Amount</label>
+        <input asp-for="Amount" class="form-control" />
+    </div>
+    <button type="submit" class="btn btn-default">Process pay</button>
+</form>
+<div class="text-left" style="margin-top: 10px">
+    <p>For testing credit card payment</p>
+    <ul>
+        <li>
+            Card: 1111 1111 1111 1026, till: any future month/year, CVV: 000
+        </li>
+        <li>
+            <a href="https://kassa.yandex.ru/docs/guides/#oplata-bankowskoj-kartoj" target="_blank">More payment options</a>
+        </li>
+    </ul>
+</div>
+<hr />
+<a href="https://kassa.yandex.ru/docs/guides/#quick-start-step-1">Process will create new payment and redirect to payment page</a>

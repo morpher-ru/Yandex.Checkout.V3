@@ -1,0 +1,10 @@
+﻿@page
+@model Yandex.Checkout.V3.Demo.Pages.SyncModel
+@{
+    ViewData["Title"] = "Sync";
+    Layout = "~/Pages/_Layout.cshtml";
+}
+
+<h2>Sync payment</h2>
+
+@await Html.PartialAsync("_NewPayment")

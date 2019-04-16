@@ -1,14 +1,12 @@
-﻿using Newtonsoft.Json;
-
-namespace Yandex.Checkout.V3
+﻿namespace Yandex.Checkout.V3
 {
     public class Message
     {
-        public string type { get; set; }
+        public string Type { get; set; }
 
-        [JsonConverter(typeof(EventConverter))]
-        public Event @event { get; set; }
+        //[JsonConverter(typeof(EventConverter))]
+        public Event Event { get; set; }
 
-        public Payment @object { get; set; }
+        public Payment Object { get; set; }
     }
 }

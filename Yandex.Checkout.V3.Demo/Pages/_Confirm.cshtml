@@ -1,0 +1,32 @@
+﻿@model BaseModels.ConfirmModel
+
+<div class="form-group">
+    <label asp-for="Payment">Payment data</label>
+    <textarea asp-for="Payment" class="form-control" rows="20"></textarea>
+</div>
+
+<form method="post">
+    @foreach (var s in Model.Message.Split(Environment.NewLine))
+    {
+        <p>@s</p>
+    }
+
+    <input type="hidden" asp-for="Id" />
+    <button type="submit" name="Action" class="btn btn-default" disabled="@(Model.AllowConfirm ? null : "disabled")" value="Confirm">Confirm</button>
+    <button type="submit" name="Action" class="btn btn-default" value="Cancel">Cancel</button>
+    <button type="submit" name="Action" class="btn btn-default" value="Return">Return (Error!)</button>
+</form>
+<button type="submit" class="btn btn-default" onclick="location.reload();">Refresh</button>
+
+<script type="text/javascript">
+    let ugly = document.getElementById("Payment").value;
+    let pretty = JSON.stringify(JSON.parse(ugly), undefined, 2);
+    document.getElementById("Payment").value = pretty;
+</script>
+<hr />
+<div>
+    This page uses <a href="https://kassa.yandex.ru/docs/checkout-api/#informaciq-o-platezhe" target="_blank">payment information query</a>
+</div>
+<div>
+    Confirm will call <a href="https://kassa.yandex.ru/docs/checkout-api/#podtwerzhdenie-platezha" target="_blank">payment capture</a>
+</div>

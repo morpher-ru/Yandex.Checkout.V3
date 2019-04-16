@@ -1,0 +1,9 @@
+﻿@page
+@model Yandex.Checkout.V3.Demo.Pages.ConfirmAsyncModel
+@{
+    ViewData["Title"] = "ConfirmAsync";
+    Layout = "~/Pages/_Layout.cshtml";
+}
+<h2>Async confirmation</h2>
+
+@await Html.PartialAsync("_Confirm")
