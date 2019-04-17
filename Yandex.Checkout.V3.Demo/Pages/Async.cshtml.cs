@@ -9,7 +9,7 @@ namespace Yandex.Checkout.V3.Demo.Pages
     {
         public async Task<IActionResult> OnPostAsync()
         {
-            var client = new Client(ShopId, SecretKey);
+            var client = new Client(ShopId, SecretKey).MakeAsync();
             var id = PaymentStorage.GetNextId();
 
             var url = Request.GetUri();
@@ -30,7 +30,7 @@ namespace Yandex.Checkout.V3.Demo.Pages
                     Description = "Order"
                 });
 
-            PaymentStorage.Payments[id] = new QueryData() {Client = client, Payment = data};
+            PaymentStorage.Payments[id] = new QueryData() {AsyncClient = client, Payment = data};
 
             return Redirect(data.Confirmation.ConfirmationUrl);
         }

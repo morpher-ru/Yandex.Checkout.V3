@@ -29,7 +29,7 @@ namespace Yandex.Checkout.V3.Demo.Pages
                     Description = "Order"
                 });
 
-            PaymentStorage.Payments[id] = new QueryData() {Client = client, Payment = data};
+            PaymentStorage.Payments[id] = new QueryData() {Client = client, AsyncClient = client.MakeAsync(), Payment = data};
 
             return Redirect(data.Confirmation.ConfirmationUrl);
         }

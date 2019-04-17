@@ -14,7 +14,7 @@ namespace Yandex.Checkout.V3.Demo.Pages.BaseModels
 
         protected void ProcessPayment(Payment payment)
         {
-            Payment = Client.SerializeObject(payment);
+            Payment = Serializer.SerializeObject(payment);
 
             AllowConfirm = payment.Paid && payment.Status == PaymentStatus.WaitingForCapture;
 

@@ -23,13 +23,13 @@ namespace Yandex.Checkout.V3.Demo.Pages
             {
                 case "Confirm":
                     var capture = data.Client.CapturePayment(data.Payment.Id);
-                    Payment = Client.SerializeObject(capture);
+                    Payment = Serializer.SerializeObject(capture);
                     break;
                 case "Cancel":
-                    Payment = Client.SerializeObject(data.Client.CancelPayment(data.Payment.Id));
+                    Payment = Serializer.SerializeObject(data.Client.CancelPayment(data.Payment.Id));
                     break;
                 case "Return":
-                    Payment = Client.SerializeObject(
+                    Payment = Serializer.SerializeObject(
                         data.Client.CreateRefund(new NewRefund() { Amount = data.Payment.Amount, PaymentId = data.Payment.Id}));
                     break;
                 default:
