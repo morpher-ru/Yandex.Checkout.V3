@@ -10,7 +10,6 @@ namespace Yandex.Checkout.V3
         public VatDataType Type { get; set; }
         public string Rate { get; set; }
         public Amount Amount { get; set; }
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public PayerBankDetails PayerBankDetails { get; set; }
     }
 }

@@ -2,12 +2,15 @@
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using System.Text;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
 namespace Yandex.Checkout.V3
 {
     /// <summary>
     /// Признак способа расчета
     /// </summary>
+    [JsonConverter(typeof(StringEnumConverter))]
     public enum PaymentMode
     {
         /// <summary>

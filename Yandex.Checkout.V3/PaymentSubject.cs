@@ -1,10 +1,13 @@
 ﻿using System.Runtime.Serialization;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
 namespace Yandex.Checkout.V3
 {
     /// <summary>
     /// Признак предмета расчета
     /// </summary>
+    [JsonConverter(typeof(StringEnumConverter))]
     public enum PaymentSubject
     {
         /// <summary>
@@ -50,7 +53,7 @@ namespace Yandex.Checkout.V3
         Lottery,
 
         /// <summary>
-        /// Выигрыш в лотере
+        /// Выигрыш в лотерее
         /// </summary>
         [EnumMember(Value = "lottery_prize")]
         LotteryPrize,

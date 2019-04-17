@@ -26,7 +26,6 @@ namespace Yandex.Checkout.V3
         /// <summary>
         /// Система налогообложения, <see cref="TaxSystem"/>
         /// </summary>
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public TaxSystem? TaxSystemCode { get; set; }
     }
 }

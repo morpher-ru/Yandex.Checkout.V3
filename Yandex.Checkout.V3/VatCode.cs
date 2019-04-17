@@ -1,8 +1,12 @@
-﻿namespace Yandex.Checkout.V3
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+
+namespace Yandex.Checkout.V3
 {
     /// <summary>
     /// Коды НДС
     /// </summary>
+    [JsonConverter(typeof(StringEnumConverter))]
     public enum VatCode
     {
         /// <summary>

@@ -19,9 +19,7 @@ namespace Yandex.Checkout.V3
         public string PaymentMethodToken { get; set; }
         public string GoogleTransactionId { get; set; }
         public string PaymentData { get; set; }
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public Card Card { get; set; }
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public VatData VatData { get; set; }
 
         #region Helpers

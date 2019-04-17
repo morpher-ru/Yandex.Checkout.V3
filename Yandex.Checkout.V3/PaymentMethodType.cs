@@ -1,10 +1,13 @@
 ﻿using System.Runtime.Serialization;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
 namespace Yandex.Checkout.V3
 {
     /// <summary>
     /// Типы платежей
     /// </summary>
+    [JsonConverter(typeof(StringEnumConverter))]
     public enum PaymentMethodType
     {
         [EnumMember(Value = "sberbank")]
