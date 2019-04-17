@@ -8,19 +8,20 @@ namespace Yandex.Checkout.V3
 {
     public class AsyncClient : IDisposable
     {
-        private readonly HttpClient _httpClient;
+        readonly HttpClient _httpClient;
+        readonly bool _disposeOfHttpClient;
 
-        internal AsyncClient(
-            string authorization,
-            string apiUrl,
-            string userAgent)
+        /// <summary>
+        /// Expects the <paramref name="httpClient"/>'s BaseAddress and Authorization header to be set.
+        /// </summary>
+        /// <param name="httpClient"></param>
+        /// <param name="disposeOfHttpClient">
+        /// Dispose of the <paramref name="httpClient"/> when this AsyncClient is disposed.
+        /// </param>
+        public AsyncClient(HttpClient httpClient, bool disposeOfHttpClient = false)
         {
-            _httpClient = new HttpClient();
-            _httpClient.BaseAddress = new Uri(apiUrl);
-            _httpClient.DefaultRequestHeaders.Add("Authorization", authorization);
-
-            if (!string.IsNullOrEmpty(userAgent))
-                _httpClient.DefaultRequestHeaders.UserAgent.ParseAdd(userAgent);
+            _httpClient = httpClient;
+            _disposeOfHttpClient = disposeOfHttpClient;
         }
 
         /// <summary>
@@ -126,7 +127,8 @@ namespace Yandex.Checkout.V3
 
         public void Dispose()
         {
-            _httpClient.Dispose();
+            if (_disposeOfHttpClient)
+                _httpClient.Dispose();
         }
     }
 }
