@@ -7,6 +7,10 @@ namespace Yandex.Checkout.V3
         [EnumMember(Value = "payment.waiting_for_capture")]
         PaymentWaitingForCapture = 1,
         [EnumMember(Value = "payment.succeeded")]
-        Succeeded = 2
+        PaymentSucceeded,
+        [EnumMember(Value = "payment.canceled")]
+        PaymentCanceled,
+        [EnumMember(Value = "refund.succeeded")]
+        RefundSucceeded,
     }
 }
