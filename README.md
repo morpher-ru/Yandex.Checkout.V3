@@ -11,11 +11,44 @@
 
 Покрытие API почти полное и включает в себя создание платежа, подтверждение, возврат или отмену платежа, авиабилеты и чеки по ФЗ-54.
 
-[Пример вызова из ASP.NET](https://github.com/morpher-ru/Yandex.Checkout.V3/blob/master/AspNetSample/Default.aspx.cs) - реализует проведение платежа по инструкции [Быстрый старт](https://kassa.yandex.ru/developers/payments/quick-start) (шаги 1-4)
+## Начало использования
+
+Для проведения платежей сайт вашего магазина должен быть доступен для получения уведомлений от Яндекс.Кассы. URL для уведомлений нужно указать в [настройках магазина](https://kassa.yandex.ru/my/tunes).
+
+Все вызовы API проводятся через класс Client. Для его создания нужны номер магазина и секретный ключ:
+
+    var client = new Yandex.Checkout.V3.Client(
+        shopId: "12345", 
+        secretKey: "ASDLsdFgsJnbKeJnOuQImWuJEuRPyIrOEwsRK");
+
+Чтобы использовать async/await, создайте AsyncClient:
+
+    AsyncClient asyncClient = client.MakeAsync();
+
+AsyncClient содержит те же методы, что и Client, только с суффиксом "Async". Дальше пример для Client.
+
+Для создания платежа:
+
+    // 1. Создайте платеж и получите ссылку для оплаты
+    var newPayment = new NewPayment
+    {
+        Amount = new Amount { Value = 100.00m, Currency = "RUB" },
+        Confirmation = new Confirmation { 
+            Type = ConfirmationType.Redirect,
+            ReturnUrl = "http://myshop.ru/thankyou"
+        }
+    };
+    Payment payment = client.CreatePayment(newPayment);
+    
+    // 2. Перенаправьте пользователя на страницу оплаты
+    string url = payment.Confirmation.ConfirmationUrl;
+    Response.Redirect(url);
+
+[Пример вызова из ASP.NET](https://github.com/morpher-ru/Yandex.Checkout.V3/blob/master/AspNetSample/Default.aspx.cs) реализует проведение платежа по инструкции [Быстрый старт](https://kassa.yandex.ru/developers/payments/quick-start) (шаги 1-4).
 
 ## Dependencies
 
-The Nuget package contains versions for three platforms:
+The [Nuget package](https://www.nuget.org/packages/Yandex.Checkout.V3) contains versions for three platforms:
 
 * **.NET 4.0:** no async / await
 * **.NET 4.5**
