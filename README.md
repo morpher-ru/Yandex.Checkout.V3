@@ -5,9 +5,21 @@
 
 .NET-клиент для Яндекс.Кассы
 
-На данный момент API реализован в мере, достаточной для проведения платежей по инструкции [Быстрый старт](https://kassa.yandex.ru/developers/payments/quick-start) (шаги 1-4). 
+Клиент разработан на основе [документации по API](https://kassa.yandex.ru/developers).
 
-[Пример вызова из ASP.NET](https://github.com/morpher-ru/Yandex.Checkout.V3/blob/master/AspNetSample/Default.aspx.cs)
+Клиент поддерживает классическую синхронную модель вызовов (класс Client) и async / await (класс AsyncClient).
+
+Покрытие API почти полное и включает в себя создание платежа, подтверждение, возврат или отмену платежа, авиабилеты и чеки по ФЗ-54.
+
+[Пример вызова из ASP.NET](https://github.com/morpher-ru/Yandex.Checkout.V3/blob/master/AspNetSample/Default.aspx.cs) - реализует проведение платежа по инструкции [Быстрый старт](https://kassa.yandex.ru/developers/payments/quick-start) (шаги 1-4)
+
+## Dependencies
+
+The Nuget package contains versions for three platforms:
+
+* **.NET 4.0:** no async / await
+* **.NET 4.5**
+* **.NET Standard 2.0:** this is what most modern clients will use.
 
 ## Versioning Policy
 
