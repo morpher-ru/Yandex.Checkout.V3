@@ -9,9 +9,9 @@
 
 Клиент поддерживает классическую синхронную модель вызовов (класс Client) и async / await (класс AsyncClient).
 
-Покрытие API почти полное и включает в себя проведение платежей по инструкции [Быстрый старт](https://kassa.yandex.ru/developers/payments/quick-start) (шаги 1-4), возврат или отмену платежа, авиабилеты и чеки по ФЗ-54.
+Покрытие API почти полное и включает в себя создание платежа, подтверждение, возврат или отмену платежа, авиабилеты и чеки по ФЗ-54.
 
-[Пример вызова из ASP.NET](https://github.com/morpher-ru/Yandex.Checkout.V3/blob/master/AspNetSample/Default.aspx.cs)
+[Пример вызова из ASP.NET](https://github.com/morpher-ru/Yandex.Checkout.V3/blob/master/AspNetSample/Default.aspx.cs) - реализует проведение платежа по инструкции [Быстрый старт](https://kassa.yandex.ru/developers/payments/quick-start) (шаги 1-4)
 
 ## Dependencies
 
