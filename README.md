@@ -49,13 +49,15 @@ AsyncClient содержит те же методы, что и Client, толь�
 
 [Пример вызова из ASP.NET](https://github.com/morpher-ru/Yandex.Checkout.V3/blob/master/AspNetSample/Default.aspx.cs) реализует проведение платежа по инструкции [Быстрый старт](https://kassa.yandex.ru/developers/payments/quick-start) (шаги 1-4).
 
-## Dependencies
+## Минимальные требования
 
-The [Nuget package](https://www.nuget.org/packages/Yandex.Checkout.V3) contains versions for three platforms:
+[Nuget-пакет](https://www.nuget.org/packages/Yandex.Checkout.V3) содержит версии для трех платформ:
 
-* **.NET 4.0:** no async / await
+* **.NET 4.0:** без async / await
 * **.NET 4.5**
-* **.NET Standard 2.0:** this is what most modern clients will use.
+* **.NET Standard 2.0:** этот вариант подойдет для большинства современных проектов.
+
+Нужный вариант библиотеки выбирается автоматически при установке пакета. Инструкции по установке на [странице nuget.org](https://www.nuget.org/packages/Yandex.Checkout.V3).
 
 ## Versioning Policy
 
