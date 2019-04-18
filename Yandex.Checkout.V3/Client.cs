@@ -53,7 +53,7 @@ namespace Yandex.Checkout.V3
         /// <param name="idempotenceKey">Idempotence key, use <value>null</value> to generate a new one</param>
         /// <returns><see cref="Payment"/></returns>
         public Payment CreatePayment(NewPayment payment, string idempotenceKey = null)
-            => Query<Payment>("POST", payment, "payments/", idempotenceKey ?? Guid.NewGuid().ToString());
+            => Query<Payment>("POST", payment, "payments/", idempotenceKey);
 
         /// <summary>
         /// Payment capture
@@ -62,7 +62,7 @@ namespace Yandex.Checkout.V3
         /// <param name="idempotenceKey">Idempotence key, use <value>null</value> to generate a new one</param>
         /// <returns><see cref="Payment"/></returns>
         public Payment CapturePayment(string id, string idempotenceKey = null)
-            => Query<Payment>("POST", null, $"payments/{id}/capture", idempotenceKey ?? Guid.NewGuid().ToString());
+            => Query<Payment>("POST", null, $"payments/{id}/capture", idempotenceKey);
 
         /// <summary>
         /// Payment capture, can be used to change payment amount.
@@ -72,7 +72,7 @@ namespace Yandex.Checkout.V3
         /// <param name="idempotenceKey">Idempotence key, use <value>null</value> to generate a new one</param>
         /// <returns><see cref="Payment"/></returns>
         public Payment CapturePayment(Payment payment, string idempotenceKey = null)
-            => Query<Payment>("POST", payment, $"payments/{payment.Id}/capture", idempotenceKey ?? Guid.NewGuid().ToString());
+            => Query<Payment>("POST", payment, $"payments/{payment.Id}/capture", idempotenceKey);
 
         /// <summary>
         /// Query payment state
@@ -89,7 +89,7 @@ namespace Yandex.Checkout.V3
         /// <param name="idempotenceKey">Idempotence key, use <value>null</value> to generate a new one</param>
         /// <returns><see cref="Payment"/></returns>
         public Payment CancelPayment(string id, string idempotenceKey = null)
-            => Query<Payment>("POST", null, $"payments/{id}/cancel", idempotenceKey ?? Guid.NewGuid().ToString());
+            => Query<Payment>("POST", null, $"payments/{id}/cancel", idempotenceKey);
 
         /// <summary>
         /// Refund creation
@@ -98,7 +98,7 @@ namespace Yandex.Checkout.V3
         /// <param name="idempotenceKey">Idempotence key, use <value>null</value> to generate a new one</param>
         /// <returns><see cref="NewRefund"/></returns>
         public Refund CreateRefund(NewRefund refund, string idempotenceKey = null)
-            => Query<Refund>("POST", refund, "refunds", idempotenceKey ?? Guid.NewGuid().ToString());
+            => Query<Refund>("POST", refund, "refunds", idempotenceKey);
 
         /// <summary>
         /// Query refund
@@ -166,7 +166,7 @@ namespace Yandex.Checkout.V3
 
         private T Query<T>(string method, object body, string url, string idempotenceKey)
         {
-            HttpWebRequest request = CreateRequest(method, body, url, idempotenceKey);
+            HttpWebRequest request = CreateRequest(method, body, url, idempotenceKey ?? Guid.NewGuid().ToString());
             using (var response = (HttpWebResponse)request.GetResponse())
             using (Stream responseStream = response.GetResponseStream())
             using (var sr = new StreamReader(responseStream ?? throw new InvalidOperationException("Response stream is null.")))
