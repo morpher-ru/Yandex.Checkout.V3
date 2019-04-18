@@ -14,7 +14,7 @@
     <RepositoryUrl>https://github.com/morpher-ru/Yandex.Checkout.V3</RepositoryUrl>
     <PackageProjectUrl>https://github.com/morpher-ru/Yandex.Checkout.V3</PackageProjectUrl>
     <PackageLicenseUrl>https://github.com/morpher-ru/Yandex.Checkout.V3/blob/master/LICENSE</PackageLicenseUrl>
-    <PackageReleaseNotes>Добавлен AsyncClient. Значительно расширено покрытие API, в том числе добавлены чеки для проведения платежей по ФЗ-54.
+    <PackageReleaseNotes>Добавлена подержка async/await. Значительно расширено покрытие API Кассы: чеки по ФЗ-54, возвраты, продажа авиабилетов.
     </PackageReleaseNotes>
     <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\Yandex.Checkout.V3.xml</DocumentationFile>
     <NoWarn>1591</NoWarn>
