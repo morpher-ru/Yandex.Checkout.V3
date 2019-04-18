@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Newtonsoft.Json;
-
-namespace Yandex.Checkout.V3
+﻿namespace Yandex.Checkout.V3
 {
     public class VatData
     {

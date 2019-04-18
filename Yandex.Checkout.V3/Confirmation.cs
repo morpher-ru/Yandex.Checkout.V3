@@ -1,7 +1,4 @@
-﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
-
-namespace Yandex.Checkout.V3
+﻿namespace Yandex.Checkout.V3
 {
     public class Confirmation
     {

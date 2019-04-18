@@ -46,7 +46,7 @@ namespace Yandex.Checkout.V3
 
         /// <summary>
         /// Payment capture, can be used to change payment amount.
-        /// If you do not need to make any changes to the payment use <see cref="CapturePaymentAsync(string,string,System.Threading.CancellationToken)"/>
+        /// If you do not need to make any changes to the payment use <see cref="CapturePaymentAsync(string,string,CancellationToken)"/>
         /// </summary>
         /// <param name="payment">New payment data</param>
         /// <param name="cancellationToken"><see cref="CancellationToken"/></param>
