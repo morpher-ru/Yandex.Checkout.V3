@@ -17,18 +17,23 @@
 
 Все вызовы API проводятся через класс Client. Для его создания нужны номер магазина и секретный ключ:
 
+```csharp
     var client = new Yandex.Checkout.V3.Client(
         shopId: "12345", 
         secretKey: "ASDLsdFgsJnbKeJnOuQImWuJEuRPyIrOEwsRK");
+```
 
 Чтобы использовать async/await, создайте AsyncClient:
 
+```csharp
     AsyncClient asyncClient = client.MakeAsync();
+```
 
 AsyncClient содержит те же методы, что и Client, только с суффиксом "Async". Дальше пример для Client.
 
 Для создания платежа:
 
+```csharp
     // 1. Создайте платеж и получите ссылку для оплаты
     var newPayment = new NewPayment
     {
@@ -43,6 +48,7 @@ AsyncClient содержит те же методы, что и Client, толь�
     // 2. Перенаправьте пользователя на страницу оплаты
     string url = payment.Confirmation.ConfirmationUrl;
     Response.Redirect(url);
+```
 
 [Пример вызова из ASP.NET](https://github.com/morpher-ru/Yandex.Checkout.V3/blob/master/AspNetSample/Default.aspx.cs) реализует проведение платежа по инструкции [Быстрый старт](https://kassa.yandex.ru/developers/payments/quick-start) (шаги 1-4).
 
