@@ -12,7 +12,7 @@ namespace Yandex.Checkout.V3.Demo.Pages
             var data = PaymentStorage.Payments[id];
             Id = id;
 
-            var payment = await data.AsyncClient.QueryPaymentAsync(data.Payment.Id);
+            var payment = await data.AsyncClient.GetPaymentAsync(data.Payment.Id);
             ProcessPayment(payment);
         }
 

@@ -79,7 +79,7 @@ namespace Yandex.Checkout.V3
         /// </summary>
         /// <param name="id">Payment id, <see cref="Payment.Id"/></param>
         /// <returns><see cref="Payment"/></returns>
-        public Payment QueryPayment(string id)
+        public Payment GetPayment(string id)
             => Query<Payment>("GET", null, $"payments/{id}", null);
 
         /// <summary>
@@ -105,7 +105,7 @@ namespace Yandex.Checkout.V3
         /// </summary>
         /// <param name="id">Refund id</param>
         /// <returns><see cref="NewRefund"/></returns>
-        public Refund QueryRefund(string id)
+        public Refund GetRefund(string id)
             => Query<Refund>("GET", null, $"refunds/{id}", null);
 
         #endregion Sync

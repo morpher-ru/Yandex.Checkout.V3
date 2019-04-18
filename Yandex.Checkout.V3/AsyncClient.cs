@@ -61,7 +61,7 @@ namespace Yandex.Checkout.V3
         /// <param name="id">Payment id, <see cref="Payment.Id"/></param>
         /// <param name="cancellationToken"><see cref="CancellationToken"/></param>
         /// <returns><see cref="Payment"/></returns>
-        public Task<Payment> QueryPaymentAsync(string id, CancellationToken cancellationToken = default(CancellationToken))
+        public Task<Payment> GetPaymentAsync(string id, CancellationToken cancellationToken = default(CancellationToken))
             => QueryAsync<Payment>(HttpMethod.Get, null, $"payments/{id}", null, cancellationToken);
 
         /// <summary>
@@ -90,7 +90,7 @@ namespace Yandex.Checkout.V3
         /// <param name="id">Refund id</param>
         /// <param name="cancellationToken"><see cref="CancellationToken"/></param>
         /// <returns><see cref="Refund"/></returns>
-        public Task<Refund> QueryRefundAsync(string id, CancellationToken cancellationToken = default(CancellationToken))
+        public Task<Refund> GetRefundAsync(string id, CancellationToken cancellationToken = default(CancellationToken))
             => QueryAsync<Refund>(HttpMethod.Post, null, $"refunds/{id}", null, cancellationToken);
 
         private async Task<T> QueryAsync<T>(HttpMethod method, object body, string url, string idempotenceKey, CancellationToken cancellationToken)

@@ -10,7 +10,7 @@ namespace Yandex.Checkout.V3.Demo.Pages
             var data = PaymentStorage.Payments[id];
             Id = id;
 
-            Payment = Serializer.SerializeObject(data.Client.QueryPayment(data.Payment.Id));
+            Payment = Serializer.SerializeObject(data.Client.GetPayment(data.Payment.Id));
         }
 
         public void OnPost()
@@ -25,7 +25,7 @@ namespace Yandex.Checkout.V3.Demo.Pages
                 case "Return":
 
                     var returnInfo = data.Client.CreateRefund(new NewRefund() { Amount = data.Payment.Amount, PaymentId = data.Payment.Id});
-                    var paymentInfo = data.Client.QueryPayment(data.Payment.Id);
+                    var paymentInfo = data.Client.GetPayment(data.Payment.Id);
 
                     Payment = Serializer.SerializeObject(new
                     {
