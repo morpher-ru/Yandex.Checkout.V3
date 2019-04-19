@@ -28,7 +28,7 @@
 
 AsyncClient содержит те же методы, что и Client, только с суффиксом "Async". Дальше пример для Client.
 
-Для создания платежа:
+Для проведения платежа по инструкции [Быстрый старт](https://kassa.yandex.ru/developers/payments/quick-start) (шаги 1-4):
 
 ```csharp
     // 1. Создайте платеж и получите ссылку для оплаты
@@ -45,9 +45,19 @@ AsyncClient содержит те же методы, что и Client, толь�
     // 2. Перенаправьте пользователя на страницу оплаты
     string url = payment.Confirmation.ConfirmationUrl;
     Response.Redirect(url);
+
+    // 3. Дождитесь получения уведомления
+    Message message = Client.ParseMessage(Request.HttpMethod, Request.ContentType, Request.InputStream);
+    Payment payment = message?.Object;
+    
+    if (message?.Event == Event.PaymentWaitingForCapture && payment.Paid)
+    {
+        // 4. Подтвердите готовность принять платеж
+        _client.CapturePayment(payment.Id);
+    }
 ```
 
-[Пример вызова из ASP.NET](https://github.com/morpher-ru/Yandex.Checkout.V3/blob/master/AspNetSample/Default.aspx.cs) реализует проведение платежа по инструкции [Быстрый старт](https://kassa.yandex.ru/developers/payments/quick-start) (шаги 1-4).
+Полный код в [примере на ASP.NET](https://github.com/morpher-ru/Yandex.Checkout.V3/blob/master/AspNetSample/Default.aspx.cs).
 
 ## Минимальные требования
 
