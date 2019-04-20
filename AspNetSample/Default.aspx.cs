@@ -19,13 +19,12 @@ namespace AspNetSample
 
             // 1. Создайте платеж и получите ссылку для оплаты
             decimal amount = decimal.Parse(sum.Text, CultureInfo.InvariantCulture.NumberFormat);
-            var idempotenceKey = Guid.NewGuid().ToString();
             var newPayment = new NewPayment
             {
                 Amount = new Amount { Value = amount, Currency = "RUB" },
                 Confirmation = new Confirmation { Type = ConfirmationType.Redirect, ReturnUrl = Request.Url.AbsoluteUri }
             };
-            Payment payment = _client.CreatePayment(newPayment, idempotenceKey);
+            Payment payment = _client.CreatePayment(newPayment);
             
             // 2. Перенаправьте пользователя на страницу оплаты
             string url = payment.Confirmation.ConfirmationUrl;
