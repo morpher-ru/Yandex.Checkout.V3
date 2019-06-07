@@ -6,7 +6,6 @@ namespace Yandex.Checkout.V3
     /// <summary>
     /// Коды НДС
     /// </summary>
-    [JsonConverter(typeof(StringEnumConverter))]
     public enum VatCode
     {
         /// <summary>
