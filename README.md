@@ -71,19 +71,19 @@ AsyncClient содержит те же методы, что и Client, толь�
 
 Нужный вариант библиотеки выбирается автоматически при установке пакета. Инструкции по установке на [странице nuget.org](https://www.nuget.org/packages/Yandex.Checkout.V3).
 
-## Versioning Policy
+## Политика версионирования
 
-&lt;PackageVersion&gt; follows [SemVer](https://semver.org/).
+&lt;PackageVersion&gt; следует правилам [семантического версионирования](https://semver.org/lang/ru/).
 
-&lt;FileVersion&gt; and &lt;InformationalVersion&gt; are both equal to &lt;PackageVersion&gt; followed by a dot and the build number. They are [patched by AppVeyor](https://ci.appveyor.com/project/morpher/yandex-checkout-v3/settings).
+&lt;FileVersion&gt; и &lt;InformationalVersion&gt; равны &lt;PackageVersion&gt;, за которой следует точка и номер сборки. Они назначаются в [AppVeyor](https://ci.appveyor.com/project/morpher/yandex-checkout-v3/settings).
 
-&lt;AssemblyVersion&gt; is currently set to 0.0.0.0 in the csproj file and is not patched during CI. It will go up to 1.0.0.0 once the API is stable and then the major version will go up ONLY when there is a breaking change.
+&lt;AssemblyVersion&gt; установлена в значение 0.0.0.0 в файле csproj и не меняется в процессе сборки. Она будет установлена в значение 1.0.0.0, когда API станет стабильным, и впоследствии мажорная версия (и только она) будет увеличиваться при внесении изменений, нарушающих обратную совместимость API.
 
-## Troubleshooting
+## Устранение проблем
 
 "Authentication failed because the remote party has closed the transport stream."
 
-If you get this error while trying to create a new payment, it may mean that you are using a security protocol that YC does not support. Currently (July 2018) it supports TLS 1.2 but that may change in the future. Add this code before the create payment request:
+Если вы получили эту ошибку при попытке создания платежа, возможно, вы используете протокол, не поддерживаемый Яндекс.Кассой. По состоянию на июль 2018 поддерживается TLS 1.2, что может измениться в будущем. Добавьте следующий код перед посылкой запроса:
 
 ```csharp
     using System.Net;
@@ -91,7 +91,7 @@ If you get this error while trying to create a new payment, it may mean that you
     ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
 ```
   
-Or, if you are targeting .NET 4.0 or lower:
+Или, если вы используете .NET 4.0 или ниже:
 
 ```csharp
     ServicePointManager.SecurityProtocol = (SecurityProtocolType)3072;
