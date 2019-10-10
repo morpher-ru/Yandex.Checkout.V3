@@ -49,7 +49,7 @@ namespace Yandex.Checkout.V3
         public static Message ParseMessage(string requestHttpMethod, string requestContentType, string jsonBody)
         {
             Message message = null;
-            if (requestHttpMethod == "POST" && requestContentType == "application/json; charset=UTF-8")
+            if (requestHttpMethod == "POST"/* && requestContentType == "application/json; charset=UTF-8"*/)
             {
                 message = JsonConvert.DeserializeObject<Message>(jsonBody);
             }
