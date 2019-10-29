@@ -193,13 +193,11 @@ namespace Yandex.Checkout.V3
 
             if (body != null)
             {
-                var json = Serializer.SerializeObject(body);
-                var postBytes = Encoding.UTF8.GetBytes(json);
+                string json = Serializer.SerializeObject(body);
+                byte[] postBytes = Encoding.UTF8.GetBytes(json);
                 request.ContentLength = postBytes.Length;
-                using (var stream = request.GetRequestStream())
-                {
-                    stream.Write(postBytes, 0, postBytes.Length);
-                }
+                using Stream stream = request.GetRequestStream();
+                stream.Write(postBytes, 0, postBytes.Length);
             }
 
             return request;
