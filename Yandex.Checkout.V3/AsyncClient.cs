@@ -112,12 +112,10 @@ namespace Yandex.Checkout.V3
         private HttpRequestMessage CreateRequest(HttpMethod method, object body, string url,
             string idempotenceKey)
         {
-            var request = new HttpRequestMessage(method, url);
-
-            if (body != null)
+            var request = new HttpRequestMessage(method, url)
             {
-                request.Content = new StringContent(Serializer.SerializeObject(body), Encoding.UTF8, Client.ApplicationJson);
-            }
+                Content = new StringContent(Serializer.SerializeObject(body), Encoding.UTF8, Client.ApplicationJson)
+            };
 
             if (!string.IsNullOrEmpty(idempotenceKey))
                 request.Headers.Add("Idempotence-Key", idempotenceKey);
