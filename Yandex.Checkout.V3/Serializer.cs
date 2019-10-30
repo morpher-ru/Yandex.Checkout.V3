@@ -7,7 +7,7 @@ namespace Yandex.Checkout.V3
     {
         public static T DeserializeObject<T>(string data) => JsonConvert.DeserializeObject<T>(data, SerializerSettings);
 
-        public static string SerializeObject(object value) => JsonConvert.SerializeObject(value, SerializerSettings);
+        public static string SerializeObject(object value) => value == null ? "" : JsonConvert.SerializeObject(value, SerializerSettings);
         
         private static readonly IContractResolver ContractResolver = new DefaultContractResolver()
         {
