@@ -6,7 +6,6 @@ namespace Yandex.Checkout.V3
     /// <summary>
     /// Коды систем налогообложения
     /// </summary>
-    [JsonConverter(typeof(StringEnumConverter))]
     public enum TaxSystem
     {
         /// <summary>
