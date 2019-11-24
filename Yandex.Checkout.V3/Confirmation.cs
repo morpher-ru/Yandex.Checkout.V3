@@ -12,6 +12,6 @@
 
         public string Locale { get; set; }
 
-        public string Confirmation_token { get; set; }
+        public string ConfirmationToken { get; set; }
     }
 }
