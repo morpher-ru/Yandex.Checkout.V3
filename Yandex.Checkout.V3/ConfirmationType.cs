@@ -10,6 +10,10 @@ namespace Yandex.Checkout.V3
         [EnumMember(Value = "redirect")]
         Redirect,
         [EnumMember(Value = "external")]
-        External
+        External,
+        [EnumMember(Value = "embedded")]
+        Embedded,
+        [EnumMember(Value = "qr")]
+        QR
     }
 }

@@ -11,5 +11,7 @@
         public bool? Enforce { get; set; }
 
         public string Locale { get; set; }
+
+        public string ConfirmationToken { get; set; }
     }
 }
