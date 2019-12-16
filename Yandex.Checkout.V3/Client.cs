@@ -167,12 +167,26 @@ namespace Yandex.Checkout.V3
         private T Query<T>(string method, object body, string url, string idempotenceKey)
         {
             HttpWebRequest request = CreateRequest(method, body, url, idempotenceKey ?? Guid.NewGuid().ToString());
-            using var response = (HttpWebResponse)request.GetResponse();
-            using Stream responseStream = response.GetResponseStream();
-            using var sr = new StreamReader(responseStream ?? throw new InvalidOperationException("Response stream is null."));
-            string responseData = sr.ReadToEnd();
-            return ProcessResponse<T>(response.StatusCode, responseData, response.ContentType);
+            try
+            {
+                using var response = (HttpWebResponse)request.GetResponse();
+                return GetResponse<T>(response);
+
+            }
+            catch (WebException e)
+            {
+                using var response = (HttpWebResponse)e.Response;
+                return GetResponse<T>(response);
+            }
         }
+
+        private T GetResponse<T>(HttpWebResponse response) 
+        {
+            using var responseStream = response.GetResponseStream();
+            using var reader = new StreamReader(responseStream ?? throw new InvalidOperationException("Response stream is null."));
+            string responseData = reader.ReadToEnd();
+            return ProcessResponse<T>(response.StatusCode, responseData, response.ContentType);
+        } 
 
         private HttpWebRequest CreateRequest(string method, object body, string url, string idempotenceKey)
         {
