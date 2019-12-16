@@ -94,3 +94,8 @@ Or, if you are targeting .NET 4.0 or lower:
 ```csharp
     ServicePointManager.SecurityProtocol = (SecurityProtocolType)3072;
 ```
+
+## Contributing
+
+If you would like to work on one of the [open issues](https://github.com/morpher-ru/Yandex.Checkout.V3/issues),
+please indicate this first by commenting on the issue. This is to avoid duplicating efforts.
