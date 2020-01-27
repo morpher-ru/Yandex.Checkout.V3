@@ -1,6 +1,4 @@
-﻿using System.Runtime.Serialization;
-
-namespace Yandex.Checkout.V3
+﻿namespace Yandex.Checkout.V3
 {
     /// <summary>
     /// Типы платежей
@@ -20,5 +18,7 @@ namespace Yandex.Checkout.V3
         public const string Psb = "psb";
         public const string GooglePay = "google_pay";
         public const string B2BSberbank = "b2b_sberbank";
+        public const string WeChat = "wechat";
+        public const string Tinkoff = "tinkoff_bank";
     }
 }
