@@ -1,12 +1,13 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+// ReSharper disable MemberCanBePrivate.Global
+// ReSharper disable UnusedAutoPropertyAccessor.Global
 
 namespace Yandex.Checkout.V3
 {
     public class PaymentMethod
     {
-        [JsonConverter(typeof(StringEnumConverter))]
-        public PaymentMethodType Type { get; set; }
+        public string Type { get; set; }
 
         public string Id { get; set; }
         public bool Saved { get; set; }
