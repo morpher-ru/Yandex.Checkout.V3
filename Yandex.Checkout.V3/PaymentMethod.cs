@@ -1,6 +1,4 @@
-﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
-// ReSharper disable MemberCanBePrivate.Global
+﻿// ReSharper disable MemberCanBePrivate.Global
 // ReSharper disable UnusedAutoPropertyAccessor.Global
 
 namespace Yandex.Checkout.V3
@@ -90,6 +88,16 @@ namespace Yandex.Checkout.V3
         public static PaymentMethod YandexMoney() => new PaymentMethod
         {
             Type = PaymentMethodType.YandexMoney,
+        };
+
+        public static PaymentMethod WeChat() => new PaymentMethod
+        {
+            Type = PaymentMethodType.WeChat,
+        };
+
+        public static PaymentMethod Tinkoff() => new PaymentMethod
+        {
+            Type = PaymentMethodType.Tinkoff,
         };
 
         #endregion
