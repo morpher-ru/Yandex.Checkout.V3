@@ -2,10 +2,7 @@
 
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;net40;net45</TargetFrameworks>
-    <PackageVersion>1.0.1</PackageVersion>
-    <AssemblyVersion>1.0.1.0</AssemblyVersion>
-    <FileVersion>1.0.1.0</FileVersion>
-    <InformationalVersion>1.0.1.0</InformationalVersion>
+    <Version>1.0.1</Version>
     <Authors>morpher;ili</Authors>
     <Description>Yandex Checkout .NET Client</Description>
     <Copyright>Copyright 2018 morpher.ru</Copyright>
