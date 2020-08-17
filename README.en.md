@@ -1,4 +1,5 @@
-[![Build status](https://ci.appveyor.com/api/projects/status/80n6r6lbn2c7p34o?svg=true)](https://ci.appveyor.com/project/morpher/yandex-checkout-v3) | [Nuget Package](https://www.nuget.org/packages/Yandex.Checkout.V3/) | [По-русски](https://github.com/morpher-ru/Yandex.Checkout.V3/blob/master/README.md) 
+[![Build status](https://ci.appveyor.com/api/projects/status/mgyl8ebfc5149uy5?svg=true)](https://ci.appveyor.com/project/morpher/yandex-checkout-v3)
+ | [Nuget Package](https://www.nuget.org/packages/Yandex.Checkout.V3/) | [По-русски](https://github.com/morpher-ru/Yandex.Checkout.V3/blob/master/README.md) 
 
 # Yandex.Checkout .NET client
 
