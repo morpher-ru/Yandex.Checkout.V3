@@ -71,11 +71,7 @@ The required version is chosen automatically for you when you install the Nuget 
 
 ## Versioning Policy
 
-&lt;PackageVersion&gt; follows [SemVer](https://semver.org/).
-
-&lt;FileVersion&gt; and &lt;InformationalVersion&gt; are both equal to &lt;PackageVersion&gt; followed by a dot and the build number. They are [patched by AppVeyor](https://ci.appveyor.com/project/morpher/yandex-checkout-v3/settings).
-
-&lt;AssemblyVersion&gt; is currently set to 0.0.0.0 in the csproj file and is not patched during CI. It will go up to 1.0.0.0 once the API is stable and then the major version will go up ONLY when there is a breaking change.
+The package version is set by the &lt;Version&gt; tag in [Yandex.Checkout.V3.csproj](https://github.com/morpher-ru/Yandex.Checkout.V3/blob/master/Yandex.Checkout.V3/Yandex.Checkout.V3.csproj#L5) and follows [SemVer](https://semver.org/).
 
 ## Troubleshooting
 
