@@ -11,7 +11,7 @@
     <RepositoryUrl>https://github.com/morpher-ru/Yandex.Checkout.V3</RepositoryUrl>
     <PackageProjectUrl>https://github.com/morpher-ru/Yandex.Checkout.V3</PackageProjectUrl>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <PackageReleaseNotes>Add issuer country and name to card payment method
+    <PackageReleaseNotes>Added AccountId to Recipient
     </PackageReleaseNotes>
     <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\Yandex.Checkout.V3.xml</DocumentationFile>
     <NoWarn>1591</NoWarn>
