@@ -1,6 +1,7 @@
 ﻿using System.Text;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Newtonsoft.Json;
 
 namespace Yandex.Checkout.V3.Demo.Pages.BaseModels
 {
@@ -24,7 +25,7 @@ namespace Yandex.Checkout.V3.Demo.Pages.BaseModels
             if (payment.Status != PaymentStatus.WaitingForCapture)
                 sb.AppendFormat("Status: {0}", payment.Status).AppendLine();
             if (payment.Status == PaymentStatus.Canceled)
-                sb.AppendFormat("Payment canceled: {0} at {1}", payment.CancellationDetails.Reason,
+                sb.AppendFormat("Payment canceled: {0} at {1}", JsonConvert.SerializeObject(payment.CancellationDetails.Reason),
                     payment.CancellationDetails.Party).AppendLine();
 
             Message = sb.ToString();
