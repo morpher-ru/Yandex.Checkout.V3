@@ -190,6 +190,8 @@ namespace Yandex.Checkout.V3
 
         private HttpWebRequest CreateRequest(string method, object body, string url, string idempotenceKey)
         {
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+            
             var request = (HttpWebRequest)WebRequest.Create(ApiUrl + url);
             request.Method = method;
             request.ContentType = ApplicationJson;
