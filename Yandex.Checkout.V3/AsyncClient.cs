@@ -116,7 +116,7 @@ namespace Yandex.Checkout.V3
             {
                 Content = method == HttpMethod.Post 
                     ? new StringContent(Serializer.SerializeObject(body), Encoding.UTF8, Client.ApplicationJson)
-                    : null;
+                    : null
             };
 
             if (!string.IsNullOrEmpty(idempotenceKey))
