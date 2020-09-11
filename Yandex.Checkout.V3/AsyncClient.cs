@@ -114,7 +114,9 @@ namespace Yandex.Checkout.V3
         {
             var request = new HttpRequestMessage(method, url)
             {
-                Content = new StringContent(Serializer.SerializeObject(body), Encoding.UTF8, Client.ApplicationJson)
+                Content = method == HttpMethod.Post 
+                    ? new StringContent(Serializer.SerializeObject(body), Encoding.UTF8, Client.ApplicationJson)
+                    : null
             };
 
             if (!string.IsNullOrEmpty(idempotenceKey))
