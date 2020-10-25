@@ -203,11 +203,14 @@ namespace Yandex.Checkout.V3
                 request.UserAgent = UserAgent;
             }
 
-            string json = Serializer.SerializeObject(body);
-            byte[] postBytes = Encoding.UTF8.GetBytes(json);
-            request.ContentLength = postBytes.Length;
-            using Stream stream = request.GetRequestStream();
-            stream.Write(postBytes, 0, postBytes.Length);
+            if (body != null)
+            {
+                string json = Serializer.SerializeObject(body);
+                byte[] postBytes = Encoding.UTF8.GetBytes(json);
+                request.ContentLength = postBytes.Length;
+                using Stream stream = request.GetRequestStream();
+                stream.Write(postBytes, 0, postBytes.Length);
+            }
 
             return request;
         }
