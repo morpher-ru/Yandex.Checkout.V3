@@ -171,7 +171,6 @@ namespace Yandex.Checkout.V3
             {
                 using var response = (HttpWebResponse)request.GetResponse();
                 return GetResponse<T>(response);
-
             }
             catch (WebException e)
             {
