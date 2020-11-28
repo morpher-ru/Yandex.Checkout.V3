@@ -31,7 +31,7 @@ namespace Yandex.Checkout.V3
             if (string.IsNullOrWhiteSpace(shopId))
                 throw new ArgumentNullException(nameof(shopId));
             if (string.IsNullOrWhiteSpace(secretKey))
-                throw new ArgumentNullException(nameof(shopId));
+                throw new ArgumentNullException(nameof(secretKey));
             if (string.IsNullOrWhiteSpace(apiUrl))
                 throw new ArgumentNullException(nameof(apiUrl));
             if (!Uri.TryCreate(apiUrl, UriKind.Absolute, out Uri _))
