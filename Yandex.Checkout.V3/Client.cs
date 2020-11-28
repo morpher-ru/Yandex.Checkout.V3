@@ -25,7 +25,7 @@ namespace Yandex.Checkout.V3
         public Client(
             string shopId, 
             string secretKey,
-            string apiUrl = "https://payment.yandex.net/api/v3/",
+            string apiUrl = "https://api.yookassa.ru/v3/",
             string userAgent = "Yandex.Checkout.V3 .NET Client")
         {
             if (string.IsNullOrWhiteSpace(shopId))
