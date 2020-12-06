@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;net40;net45</TargetFrameworks>
-    <Version>1.0.5</Version>
+    <Version>1.0.6</Version>
     <Authors>morpher;ili</Authors>
     <Description>Yandex Checkout .NET Client</Description>
     <Copyright>Copyright 2018 morpher.ru</Copyright>
@@ -11,7 +11,7 @@
     <RepositoryUrl>https://github.com/morpher-ru/Yandex.Checkout.V3</RepositoryUrl>
     <PackageProjectUrl>https://github.com/morpher-ru/Yandex.Checkout.V3</PackageProjectUrl>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <PackageReleaseNotes>Bugfix: Do not send body with GET in Client.GetPayment().
+    <PackageReleaseNotes>API changes due to YooKassa rebranding
     </PackageReleaseNotes>
     <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\Yandex.Checkout.V3.xml</DocumentationFile>
     <NoWarn>1591</NoWarn>
