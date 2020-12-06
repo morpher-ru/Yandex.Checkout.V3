@@ -8,7 +8,7 @@
         public const string Sberbank = "sberbank";
         public const string BankCard = "bank_card";
         public const string Cash = "cash";
-        public const string YandexMoney = "yandex_money";
+        public const string YooMoney = "yoo_money";
         public const string Qiwi = "qiwi";
         public const string Alfabank = "alfabank";
         public const string Webmoney = "webmoney";

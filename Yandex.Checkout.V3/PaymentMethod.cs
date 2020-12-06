@@ -85,9 +85,9 @@ namespace Yandex.Checkout.V3
             Type = PaymentMethodType.Webmoney,
         };
 
-        public static PaymentMethod YandexMoney() => new PaymentMethod
+        public static PaymentMethod YooMoney() => new PaymentMethod
         {
-            Type = PaymentMethodType.YandexMoney,
+            Type = PaymentMethodType.YooMoney
         };
 
         public static PaymentMethod WeChat() => new PaymentMethod
