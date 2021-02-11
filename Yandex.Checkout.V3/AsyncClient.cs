@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Net.Http;
 using System.Text;
 using System.Threading;
@@ -129,6 +130,24 @@ namespace Yandex.Checkout.V3
         {
             if (_disposeOfHttpClient)
                 _httpClient.Dispose();
+        }
+
+        /// <summary>
+        /// Parses an HTTP request into a <see cref="Yandex.Checkout.V3.Message"/> object.
+        /// </summary>
+        /// <returns>A <see cref="Yandex.Checkout.V3.Message"/> object or null.</returns>
+        public static async Task<Message> ParseMessageAsync(string requestHttpMethod, string requestContentType, Stream requestInputStream)
+        {
+            return Client.ParseMessage(requestHttpMethod, requestContentType, await ReadToEndAsync(requestInputStream));
+        }
+
+        private static async Task<string> ReadToEndAsync(Stream stream)
+        {
+            if (stream == null) return null;
+
+            using var reader = new StreamReader(stream);
+            
+            return await reader.ReadToEndAsync();
         }
     }
 }
