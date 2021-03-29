@@ -23,7 +23,7 @@ namespace Yandex.Checkout.V3
         /// <param name="apiUrl">API URL</param>
         /// <param name="userAgent">Agent name</param>
         public Client(
-            string shopId, 
+            string shopId,
             string secretKey,
             string apiUrl = "https://api.yookassa.ru/v3/",
             string userAgent = "Yandex.Checkout.V3 .NET Client")
@@ -108,6 +108,15 @@ namespace Yandex.Checkout.V3
         public Refund GetRefund(string id)
             => Query<Refund>("GET", null, $"refunds/{id}", null);
 
+        /// <summary>
+        /// Receipt creation
+        /// </summary>
+        /// <param name="receipt">Receipt information, <see cref="SettlementReceipt"/></param>
+        /// <param name="idempotenceKey">Idempotence key, use <value>null</value> to generate a new one</param>
+        /// <returns><see cref="SettlementReceipt"/></returns>
+        public SettlementReceipt CreateSettlementReceipt(SettlementReceipt receipt, string idempotenceKey = null)
+            => Query<SettlementReceipt>("POST", receipt, "receipts", idempotenceKey);
+
         #endregion Sync
 
         #region Parse
@@ -141,10 +150,10 @@ namespace Yandex.Checkout.V3
 
         private static readonly HashSet<HttpStatusCode> KnownErrors = new HashSet<HttpStatusCode>
         {
-            HttpStatusCode.BadRequest, 
-            HttpStatusCode.Unauthorized, 
-            HttpStatusCode.Forbidden, 
-            HttpStatusCode.NotFound, 
+            HttpStatusCode.BadRequest,
+            HttpStatusCode.Unauthorized,
+            HttpStatusCode.Forbidden,
+            HttpStatusCode.NotFound,
             (HttpStatusCode) 429, // Too Many Requests
             HttpStatusCode.InternalServerError
         };
@@ -156,8 +165,8 @@ namespace Yandex.Checkout.V3
             if (statusCode != HttpStatusCode.OK)
             {
                 throw new YandexCheckoutException(statusCode,
-                    string.IsNullOrEmpty(responseData) || ! KnownErrors.Contains(statusCode) || !contentType.StartsWith(ApplicationJson)
-                        ? new Error {Code = statusCode.ToString(), Description = statusCode.ToString()}
+                    string.IsNullOrEmpty(responseData) || !KnownErrors.Contains(statusCode) || !contentType.StartsWith(ApplicationJson)
+                        ? new Error { Code = statusCode.ToString(), Description = statusCode.ToString() }
                         : Serializer.DeserializeObject<Error>(responseData));
             }
 
@@ -179,13 +188,13 @@ namespace Yandex.Checkout.V3
             }
         }
 
-        private T GetResponse<T>(HttpWebResponse response) 
+        private T GetResponse<T>(HttpWebResponse response)
         {
             using var responseStream = response.GetResponseStream();
             using var reader = new StreamReader(responseStream ?? throw new InvalidOperationException("Response stream is null."));
             string responseData = reader.ReadToEnd();
             return ProcessResponse<T>(response.StatusCode, responseData, response.ContentType);
-        } 
+        }
 
         private HttpWebRequest CreateRequest(string method, object body, string url, string idempotenceKey)
         {
