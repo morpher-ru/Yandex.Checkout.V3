@@ -94,6 +94,17 @@ namespace Yandex.Checkout.V3
         public Task<Refund> GetRefundAsync(string id, CancellationToken cancellationToken = default(CancellationToken))
             => QueryAsync<Refund>(HttpMethod.Post, null, $"refunds/{id}", null, cancellationToken);
 
+        /// <summary>
+        /// Receipt creation
+        /// </summary>
+        /// <param name="receipt">Receipt information, <see cref="SettlementReceipt"/></param>
+        /// <param name="idempotenceKey">Idempotence key, use <value>null</value> to generate a new one</param>
+        /// <param name="cancellationToken"><see cref="CancellationToken"/></param>
+        /// <returns><see cref="SettlementReceipt"/></returns>
+        public Task<SettlementReceipt> CreateSettlementReceiptAsync(SettlementReceipt receipt, string idempotenceKey = null,
+            CancellationToken cancellationToken = default(CancellationToken))
+            => QueryAsync<SettlementReceipt>(HttpMethod.Post, receipt, "receipts", idempotenceKey, cancellationToken);
+
         private async Task<T> QueryAsync<T>(HttpMethod method, object body, string url, string idempotenceKey, CancellationToken cancellationToken)
         {
             using (var request = CreateRequest(method, body, url, idempotenceKey ?? Guid.NewGuid().ToString()))
