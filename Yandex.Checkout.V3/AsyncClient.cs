@@ -92,7 +92,7 @@ namespace Yandex.Checkout.V3
         /// <param name="cancellationToken"><see cref="CancellationToken"/></param>
         /// <returns><see cref="Refund"/></returns>
         public Task<Refund> GetRefundAsync(string id, CancellationToken cancellationToken = default(CancellationToken))
-            => QueryAsync<Refund>(HttpMethod.Post, null, $"refunds/{id}", null, cancellationToken);
+            => QueryAsync<Refund>(HttpMethod.Get, null, $"refunds/{id}", null, cancellationToken);
 
         /// <summary>
         /// Receipt creation
