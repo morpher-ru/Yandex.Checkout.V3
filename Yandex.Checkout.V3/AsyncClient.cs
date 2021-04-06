@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Yandex.Checkout.V3
 {
-    public class AsyncClient : IDisposable
+    public partial class AsyncClient : IDisposable
     {
         readonly HttpClient _httpClient;
         readonly bool _disposeOfHttpClient;
