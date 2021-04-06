@@ -117,6 +117,14 @@ namespace Yandex.Checkout.V3
         public SettlementReceipt CreateSettlementReceipt(SettlementReceipt receipt, string idempotenceKey = null)
             => Query<SettlementReceipt>("POST", receipt, "receipts", idempotenceKey);
 
+        /// <summary>
+        /// Query receipt
+        /// </summary>
+        /// <param name="id">Receipt id</param>
+        /// <returns><see cref="ReceiptInformation"/></returns>
+        public ReceiptInformation GetReceipt(string id)
+            => Query<ReceiptInformation>("GET", null, $"receipts/{id}", null);
+
         #endregion Sync
 
         #region Parse
