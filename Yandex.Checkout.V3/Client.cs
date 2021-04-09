@@ -132,7 +132,8 @@ namespace Yandex.Checkout.V3
         /// <param name="filter">Request filter parameters</param>
         /// <param name="cancellationToken"><see cref="CancellationToken"/></param>
         /// <returns><see cref="ReceiptInformation"/></returns>
-        public IEnumerable<ReceiptInformation> GetReceipts(GetReceiptsFilter filter = null, CancellationToken cancellationToken = default(CancellationToken))
+        public IEnumerable<ReceiptInformation> GetReceipts(GetReceiptsFilter filter = null,
+            CancellationToken cancellationToken = default)
         {
             string cursor = null;
             do
