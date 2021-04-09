@@ -40,5 +40,10 @@ namespace Yandex.Checkout.V3
         /// </summary>
         [JsonConverter(typeof(StringEnumConverter))]
         public PaymentMode? PaymentMode { get; set; }
+
+        /// <summary>
+        /// Тип посредника, реализующего товар или услугу
+        /// </summary>
+        public AgentType? AgentType { get; set; }
     }
 }

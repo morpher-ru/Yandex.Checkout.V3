@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Text;
+using System.Threading;
 
 namespace Yandex.Checkout.V3
 {
@@ -116,6 +117,39 @@ namespace Yandex.Checkout.V3
         /// <returns><see cref="SettlementReceipt"/></returns>
         public SettlementReceipt CreateSettlementReceipt(SettlementReceipt receipt, string idempotenceKey = null)
             => Query<SettlementReceipt>("POST", receipt, "receipts", idempotenceKey);
+
+        /// <summary>
+        /// Query receipt
+        /// </summary>
+        /// <param name="id">Receipt id</param>
+        /// <returns><see cref="ReceiptInformation"/></returns>
+        public ReceiptInformation GetReceipt(string id)
+            => Query<ReceiptInformation>("GET", null, $"receipts/{id}", null);
+
+        /// <summary>
+        /// Query receipts
+        /// </summary>
+        /// <param name="filter">Request filter parameters</param>
+        /// <param name="cancellationToken"><see cref="CancellationToken"/></param>
+        /// <returns><see cref="ReceiptInformation"/></returns>
+        public IEnumerable<ReceiptInformation> GetReceipts(GetReceiptsFilter filter = null,
+            CancellationToken cancellationToken = default)
+        {
+            string cursor = null;
+            do
+            {
+                cancellationToken.ThrowIfCancellationRequested();
+                var batch = Query<ReceiptInformationResponse>("GET", null, filter.CreateRequestUrl(cursor), null);
+
+                foreach (var item in batch.Items)
+                {
+                    cancellationToken.ThrowIfCancellationRequested();
+                    yield return item;
+                }
+
+                cursor = batch.NextCursor;
+            } while (!string.IsNullOrEmpty(cursor));
+        }
 
         #endregion Sync
 

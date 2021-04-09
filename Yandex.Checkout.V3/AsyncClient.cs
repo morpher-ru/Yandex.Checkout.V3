@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Yandex.Checkout.V3
 {
-    public class AsyncClient : IDisposable
+    public partial class AsyncClient : IDisposable
     {
         readonly HttpClient _httpClient;
         readonly bool _disposeOfHttpClient;
@@ -92,7 +92,7 @@ namespace Yandex.Checkout.V3
         /// <param name="cancellationToken"><see cref="CancellationToken"/></param>
         /// <returns><see cref="Refund"/></returns>
         public Task<Refund> GetRefundAsync(string id, CancellationToken cancellationToken = default(CancellationToken))
-            => QueryAsync<Refund>(HttpMethod.Post, null, $"refunds/{id}", null, cancellationToken);
+            => QueryAsync<Refund>(HttpMethod.Get, null, $"refunds/{id}", null, cancellationToken);
 
         /// <summary>
         /// Receipt creation
@@ -104,6 +104,15 @@ namespace Yandex.Checkout.V3
         public Task<SettlementReceipt> CreateSettlementReceiptAsync(SettlementReceipt receipt, string idempotenceKey = null,
             CancellationToken cancellationToken = default(CancellationToken))
             => QueryAsync<SettlementReceipt>(HttpMethod.Post, receipt, "receipts", idempotenceKey, cancellationToken);
+
+        /// <summary>
+        /// Query receipt
+        /// </summary>
+        /// <param name="id">Receipt id</param>
+        /// <param name="cancellationToken"><see cref="CancellationToken"/></param>
+        /// <returns><see cref="Refund"/></returns>
+        public Task<ReceiptInformation> GetReceiptAsync(string id, CancellationToken cancellationToken = default(CancellationToken))
+            => QueryAsync<ReceiptInformation>(HttpMethod.Get, null, $"receipts/{id}", null, cancellationToken);
 
         private async Task<T> QueryAsync<T>(HttpMethod method, object body, string url, string idempotenceKey, CancellationToken cancellationToken)
         {
