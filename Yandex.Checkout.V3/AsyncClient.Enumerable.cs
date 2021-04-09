@@ -21,9 +21,10 @@ namespace Yandex.Checkout.V3
                 filter = new GetReceiptsFilter();
             }
 
+            string cursor = null;
             do
             {
-                var batch = await QueryAsync<ReceiptInformationResponse>(HttpMethod.Get, null, filter.CreateRequestUrl(), null, cancellationToken);
+                var batch = await QueryAsync<ReceiptInformationResponse>(HttpMethod.Get, null, filter.CreateRequestUrl(cursor), null, cancellationToken);
 
                 foreach (var item in batch.Items)
                 {
@@ -31,8 +32,8 @@ namespace Yandex.Checkout.V3
                     yield return item;
                 }
 
-                filter.Cursor = batch.NextCursor;
-            } while (!string.IsNullOrEmpty(filter.Cursor));
+                cursor = batch.NextCursor;
+            } while (!string.IsNullOrEmpty(cursor));
         }
     }
 }

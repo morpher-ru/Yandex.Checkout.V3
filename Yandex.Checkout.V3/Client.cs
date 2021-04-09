@@ -139,10 +139,11 @@ namespace Yandex.Checkout.V3
                 filter = new GetReceiptsFilter();
             }
 
+            string cursor = null;
             do
             {
                 cancellationToken.ThrowIfCancellationRequested();
-                var batch = Query<ReceiptInformationResponse>("GET", null, filter.CreateRequestUrl(), null);
+                var batch = Query<ReceiptInformationResponse>("GET", null, filter.CreateRequestUrl(cursor), null);
 
                 foreach (var item in batch.Items)
                 {
@@ -150,8 +151,8 @@ namespace Yandex.Checkout.V3
                     yield return item;
                 }
 
-                filter.Cursor = batch.NextCursor;
-            } while (!string.IsNullOrEmpty(filter.Cursor));
+                cursor = batch.NextCursor;
+            } while (!string.IsNullOrEmpty(cursor));
         }
 
         #endregion Sync

@@ -49,11 +49,10 @@ namespace Yandex.Checkout.V3
         public int? Limit { get; set; }
 
         /// <summary>
-        /// Указатель на следующий фрагмент списка
+        /// Создать строку для запроса списка чеков
         /// </summary>
-        internal string Cursor { get; set; }
-
-        internal string CreateRequestUrl()
+        /// <param name="cursor">Указатель на следующий фрагмент списка</param>
+        internal string CreateRequestUrl(string cursor)
         {
             var url = new StringBuilder();
             url.Append("receipts?");
@@ -114,10 +113,10 @@ namespace Yandex.Checkout.V3
                 url.Append("&");
             }
 
-            if (!string.IsNullOrEmpty(Cursor))
+            if (!string.IsNullOrEmpty(cursor))
             {
                 url.Append("cursor=");
-                url.Append(Cursor);
+                url.Append(cursor);
                 url.Append("&");
             }
 
