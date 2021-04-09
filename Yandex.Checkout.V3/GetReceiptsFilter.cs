@@ -11,22 +11,22 @@ namespace Yandex.Checkout.V3
         /// <summary>
         /// Фильтр по времени создания: время должно быть больше указанного значения или равно ему («с такого-то момента включительно»)
         /// </summary>
-        public DateTime? CreatedAtGte { get; set; }
+        public DateTimeOffset? CreatedAtGte { get; set; }
 
         /// <summary>
         /// Фильтр по времени создания: время должно быть больше указанного значения («с такого-то момента, не включая его»)
         /// </summary>
-        public DateTime? CreatedAtGt { get; set; }
+        public DateTimeOffset? CreatedAtGt { get; set; }
 
         /// <summary>
         /// Фильтр по времени создания: время должно быть меньше указанного значения или равно ему («по такой-то момент включительно»)
         /// </summary>
-        public DateTime? CreatedAtLte { get; set; }
+        public DateTimeOffset? CreatedAtLte { get; set; }
 
         /// <summary>
         /// Фильтр по времени создания: время должно быть меньше указанного значения («по такой-то момент, не включая его»)
         /// </summary>
-        public DateTime? CreatedAtLt { get; set; }
+        public DateTimeOffset? CreatedAtLt { get; set; }
 
         /// <summary>
         /// Фильтр по статусу чека
@@ -55,36 +55,34 @@ namespace Yandex.Checkout.V3
 
         internal string CreateRequestUrl()
         {
-            const string dateTimeFormat = "yyyy-MM-ddTHH:mm:ssZ";
-
             var url = new StringBuilder();
             url.Append("receipts?");
 
             if (CreatedAtGte.HasValue)
             {
                 url.Append("created_at.gte=");
-                url.Append(CreatedAtGte.Value.ToString(dateTimeFormat));
+                AppendTime(CreatedAtGte.Value);
                 url.Append("&");
             }
 
             if (CreatedAtGt.HasValue)
             {
                 url.Append("created_at.gt=");
-                url.Append(CreatedAtGt.Value.ToString(dateTimeFormat));
+                AppendTime(CreatedAtGt.Value);
                 url.Append("&");
             }
 
             if (CreatedAtLte.HasValue)
             {
                 url.Append("created_at.lte=");
-                url.Append(CreatedAtLte.Value.ToString(dateTimeFormat));
+                AppendTime(CreatedAtLte.Value);
                 url.Append("&");
             }
 
             if (CreatedAtLt.HasValue)
             {
                 url.Append("created_at.lt=");
-                url.Append(CreatedAtLt.Value.ToString(dateTimeFormat));
+                AppendTime(CreatedAtLt.Value);
                 url.Append("&");
             }
 
@@ -125,6 +123,12 @@ namespace Yandex.Checkout.V3
 
             url.Length--; // remove last ? or &
             return url.ToString();
+
+            void AppendTime(DateTimeOffset dt)
+            {
+                url.Append(dt.UtcDateTime.ToString("s"));
+                url.Append("Z");
+            }
         }
     }
 }
