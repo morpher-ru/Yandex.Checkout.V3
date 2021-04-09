@@ -47,69 +47,73 @@ namespace Yandex.Checkout.V3
         /// Размер выдачи результатов запроса — количество объектов, передаваемых в ответе. Возможные значения: от 1 до 100
         /// </summary>
         public int? Limit { get; set; }
+    }
 
+    internal static class GetReceiptsFilterExtensions
+    {
         /// <summary>
         /// Создать строку для запроса списка чеков
         /// </summary>
+        /// <param name="filter"><see cref="GetReceiptsFilter"/></param>
         /// <param name="cursor">Указатель на следующий фрагмент списка</param>
-        internal string CreateRequestUrl(string cursor)
+        internal static string CreateRequestUrl(this GetReceiptsFilter filter, string cursor)
         {
             var url = new StringBuilder();
             url.Append("receipts?");
 
-            if (CreatedAtGte.HasValue)
+            if (filter?.CreatedAtGte != null)
             {
                 url.Append("created_at.gte=");
-                AppendTime(CreatedAtGte.Value);
+                AppendTime(filter.CreatedAtGte.Value);
                 url.Append("&");
             }
 
-            if (CreatedAtGt.HasValue)
+            if (filter?.CreatedAtGt != null)
             {
                 url.Append("created_at.gt=");
-                AppendTime(CreatedAtGt.Value);
+                AppendTime(filter.CreatedAtGt.Value);
                 url.Append("&");
             }
 
-            if (CreatedAtLte.HasValue)
+            if (filter?.CreatedAtLte != null)
             {
                 url.Append("created_at.lte=");
-                AppendTime(CreatedAtLte.Value);
+                AppendTime(filter.CreatedAtLte.Value);
                 url.Append("&");
             }
 
-            if (CreatedAtLt.HasValue)
+            if (filter?.CreatedAtLt != null)
             {
                 url.Append("created_at.lt=");
-                AppendTime(CreatedAtLt.Value);
+                AppendTime(filter.CreatedAtLt.Value);
                 url.Append("&");
             }
 
-            if (Status.HasValue)
+            if (filter?.Status != null)
             {
                 url.Append("status=");
-                url.Append(Status.Value.ToText());
+                url.Append(filter.Status.Value.ToText());
                 url.Append("&");
             }
 
-            if (!string.IsNullOrEmpty(PaymentId))
+            if (!string.IsNullOrEmpty(filter?.PaymentId))
             {
                 url.Append("payment_id=");
-                url.Append(PaymentId);
+                url.Append(filter.PaymentId);
                 url.Append("&");
             }
 
-            if (!string.IsNullOrEmpty(RefundId))
+            if (!string.IsNullOrEmpty(filter?.RefundId))
             {
                 url.Append("refund_id=");
-                url.Append(RefundId);
+                url.Append(filter.RefundId);
                 url.Append("&");
             }
 
-            if (Limit.HasValue)
+            if (filter?.Limit != null)
             {
                 url.Append("limit=");
-                url.Append(Limit.Value);
+                url.Append(filter.Limit.Value);
                 url.Append("&");
             }
 

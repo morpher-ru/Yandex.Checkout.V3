@@ -13,14 +13,9 @@ namespace Yandex.Checkout.V3
         /// <param name="filter">Request filter parameters</param>
         /// <param name="cancellationToken"><see cref="CancellationToken"/></param>
         /// <returns><see cref="ReceiptInformation"/></returns>
-        public async IAsyncEnumerable<ReceiptInformation> GetReceiptsAsync(GetReceiptsFilter filter,
+        public async IAsyncEnumerable<ReceiptInformation> GetReceiptsAsync(GetReceiptsFilter filter = null,
             [EnumeratorCancellation] CancellationToken cancellationToken = default(CancellationToken))
         {
-            if (filter == null)
-            {
-                filter = new GetReceiptsFilter();
-            }
-
             string cursor = null;
             do
             {
