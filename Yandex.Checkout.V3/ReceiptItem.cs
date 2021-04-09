@@ -12,38 +12,38 @@ namespace Yandex.Checkout.V3
         /// <summary>
         /// Наименование товара
         /// </summary>
-        public string Description { get; set; } 
+        public string Description { get; init; } 
 
         /// <summary>
         /// Количество
         /// </summary>
-        public decimal Quantity { get; set; }
+        public decimal Quantity { get; init; }
 
         /// <summary>
         /// Стоимость
         /// </summary>
-        public Amount Amount { get; set; }
+        public Amount Amount { get; init; }
 
         /// <summary>
         /// Код налога, <see cref="V3.VatCode"/>
         /// </summary>
-        public VatCode VatCode { get; set; }
+        public VatCode VatCode { get; init; }
 
         /// <summary>
         /// Признак предмета расчета, <see cref="V3.PaymentSubject"/>
         /// </summary>
         [JsonConverter(typeof(StringEnumConverter))]
-        public PaymentSubject? PaymentSubject { get; set; }
+        public PaymentSubject? PaymentSubject { get; init; }
 
         /// <summary>
         /// Признак способа расчета <see cref="V3.PaymentMode"/>
         /// </summary>
         [JsonConverter(typeof(StringEnumConverter))]
-        public PaymentMode? PaymentMode { get; set; }
+        public PaymentMode? PaymentMode { get; init; }
 
         /// <summary>
         /// Тип посредника, реализующего товар или услугу
         /// </summary>
-        public AgentType? AgentType { get; set; }
+        public AgentType? AgentType { get; init; }
     }
 }

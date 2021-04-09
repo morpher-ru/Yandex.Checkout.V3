@@ -2,15 +2,15 @@
 {
     public class Card
     {
-        public string First6 { get; set; }
-        public string Last4 { get; set; }
-        public string ExpiryYear { get; set; }
-        public string ExpiryMonth { get; set; }
-        public string CardType { get; set; }
-        public string Csc { get; set; }
-        public string CardHolder { get; set; }
-        public string Number { get; set; }
-        public string IssuerCountry { get; set; }
-        public string IssuerName { get; set; }
+        public string First6 { get; init; }
+        public string Last4 { get; init; }
+        public string ExpiryYear { get; init; }
+        public string ExpiryMonth { get; init; }
+        public string CardType { get; init; }
+        public string Csc { get; init; }
+        public string CardHolder { get; init; }
+        public string Number { get; init; }
+        public string IssuerCountry { get; init; }
+        public string IssuerName { get; init; }
     }
 }

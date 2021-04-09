@@ -5,11 +5,11 @@ namespace Yandex.Checkout.V3
 {
     public class Message
     {
-        public string Type { get; set; }
+        public string Type { get; init; }
 
         [JsonConverter(typeof(StringEnumConverter))]
-        public Event Event { get; set; }
+        public Event Event { get; init; }
 
-        public Payment Object { get; set; }
+        public Payment Object { get; init; }
     }
 }

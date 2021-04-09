@@ -8,11 +8,11 @@
         /// <summary>
         /// Тип расчета
         /// </summary>
-        public SettlementType Type { get; set; }
+        public SettlementType Type { get; init; }
 
         /// <summary>
         /// Сумма расчета
         /// </summary>
-        public Amount Amount { get; set; }
+        public Amount Amount { get; init; }
     }
 }

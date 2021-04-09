@@ -2,10 +2,10 @@
 {
     public class Error
     {
-        public string Type { get; set; }
-        public string Id { get; set; }
-        public string Code { get; set; }
-        public string Description { get; set; }
-        public string Parameter { get; set; }
+        public string Type { get; init; }
+        public string Id { get; init; }
+        public string Code { get; init; }
+        public string Description { get; init; }
+        public string Parameter { get; init; }
     }
 }

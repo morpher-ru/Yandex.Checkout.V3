@@ -5,20 +5,20 @@ namespace Yandex.Checkout.V3
 {
     public class PaymentMethod
     {
-        public string Type { get; set; }
+        public string Type { get; init; }
 
-        public string Id { get; set; }
-        public bool Saved { get; set; }
-        public string Title { get; set; }
-        public string Phone { get; set; }
-        public string Login { get; set; }
-        public string PaymentPurpose { get; set; }
-        public string AccountNumber { get; set; }
-        public string PaymentMethodToken { get; set; }
-        public string GoogleTransactionId { get; set; }
-        public string PaymentData { get; set; }
-        public Card Card { get; set; }
-        public VatData VatData { get; set; }
+        public string Id { get; init; }
+        public bool Saved { get; init; }
+        public string Title { get; init; }
+        public string Phone { get; init; }
+        public string Login { get; init; }
+        public string PaymentPurpose { get; init; }
+        public string AccountNumber { get; init; }
+        public string PaymentMethodToken { get; init; }
+        public string GoogleTransactionId { get; init; }
+        public string PaymentData { get; init; }
+        public Card Card { get; init; }
+        public VatData VatData { get; init; }
 
         #region Helpers
 

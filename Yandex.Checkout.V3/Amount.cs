@@ -11,11 +11,11 @@ namespace Yandex.Checkout.V3
         /// Value
         /// </summary>
         [JsonProperty()]
-        public decimal Value { get; set; }
+        public decimal Value { get; init; }
 
         /// <summary>
         /// Three letter currency code (ex: RUB)
         /// </summary>
-        public string Currency { get; set; } = "RUB";
+        public string Currency { get; init; } = "RUB";
     }
 }

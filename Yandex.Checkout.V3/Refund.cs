@@ -13,19 +13,19 @@ namespace Yandex.Checkout.V3
         /// <summary>
         /// Идентификатор возврата
         /// </summary>
-        public string Id { get; set; }
+        public string Id { get; init; }
 
         /// <summary>
         /// Статус
         /// </summary>
         [JsonConverter(typeof(StringEnumConverter))]
-        public PaymentStatus Status { get; set; }
+        public PaymentStatus Status { get; init; }
 
         /// <summary>
         /// Дата создания
         /// </summary>
-        public DateTime CreatedAt { get; set; }
+        public DateTime CreatedAt { get; init; }
 
-        public ReceiptRegistrationStatus? ReceiptRegistration { get; set; }
+        public ReceiptRegistrationStatus? ReceiptRegistration { get; init; }
     }
 }

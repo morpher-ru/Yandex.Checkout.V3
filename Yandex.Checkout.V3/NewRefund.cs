@@ -11,19 +11,19 @@ namespace Yandex.Checkout.V3
         /// Сумма к возврату
         /// </summary>
         [JsonRequired]
-        public Amount Amount { get; set; }
+        public Amount Amount { get; init; }
 
         /// <summary>
         /// Идентификатор платежа
         /// </summary>
         [JsonRequired]
-        public string PaymentId { get; set; }
+        public string PaymentId { get; init; }
 
         /// <summary>
         /// Чек, для проведения возврата по 54-ФЗ <see cref="V3.Receipt"/>
         /// </summary>
-        public Receipt Receipt { get; set; }
+        public Receipt Receipt { get; init; }
 
-        public string Description { get; set; }
+        public string Description { get; init; }
     }
 }

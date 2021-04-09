@@ -8,17 +8,17 @@ namespace Yandex.Checkout.V3
     /// </summary>
     public class Payment : NewPayment
     {
-        public string Id { get; set; }
-        public PaymentStatus Status { get; set; }
-        public bool Paid { get; set; }
-        public DateTime CreatedAt { get; set; }
-        public ReceiptRegistrationStatus? ReceiptRegistration { get; set; }
-        public DateTime? CapturedAt { get; set; }
-        public DateTime? ExpiresAt { get; set; }
-        public PaymentMethod PaymentMethod { get; set; }
-        public bool? Test { get; set; }
-        public Amount RefundedAmount { get; set; }
-        public CancellationDetails CancellationDetails { get; set; }
-        public AuthorizationDetails AuthorizationDetails { get; set; }
+        public string Id { get; init; }
+        public PaymentStatus Status { get; init; }
+        public bool Paid { get; init; }
+        public DateTime CreatedAt { get; init; }
+        public ReceiptRegistrationStatus? ReceiptRegistration { get; init; }
+        public DateTime? CapturedAt { get; init; }
+        public DateTime? ExpiresAt { get; init; }
+        public PaymentMethod PaymentMethod { get; init; }
+        public bool? Test { get; init; }
+        public Amount RefundedAmount { get; init; }
+        public CancellationDetails CancellationDetails { get; init; }
+        public AuthorizationDetails AuthorizationDetails { get; init; }
     }
 }

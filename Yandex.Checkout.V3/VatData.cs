@@ -2,9 +2,9 @@
 {
     public class VatData
     {
-        public VatDataType Type { get; set; }
-        public string Rate { get; set; }
-        public Amount Amount { get; set; }
-        public PayerBankDetails PayerBankDetails { get; set; }
+        public VatDataType Type { get; init; }
+        public string Rate { get; init; }
+        public Amount Amount { get; init; }
+        public PayerBankDetails PayerBankDetails { get; init; }
     }
 }

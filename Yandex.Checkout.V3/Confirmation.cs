@@ -2,16 +2,16 @@
 {
     public class Confirmation
     {
-        public ConfirmationType Type { get; set; }
+        public ConfirmationType Type { get; init; }
 
-        public string ReturnUrl { get; set; }
+        public string ReturnUrl { get; init; }
 
-        public string ConfirmationUrl { get; set; }
+        public string ConfirmationUrl { get; init; }
 
-        public bool? Enforce { get; set; }
+        public bool? Enforce { get; init; }
 
-        public string Locale { get; set; }
+        public string Locale { get; init; }
 
-        public string ConfirmationToken { get; set; }
+        public string ConfirmationToken { get; init; }
     }
 }

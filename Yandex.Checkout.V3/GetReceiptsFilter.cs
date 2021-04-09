@@ -11,42 +11,42 @@ namespace Yandex.Checkout.V3
         /// <summary>
         /// Фильтр по времени создания: время должно быть больше указанного значения или равно ему («с такого-то момента включительно»)
         /// </summary>
-        public DateTimeOffset? CreatedAtGte { get; set; }
+        public DateTimeOffset? CreatedAtGte { get; init; }
 
         /// <summary>
         /// Фильтр по времени создания: время должно быть больше указанного значения («с такого-то момента, не включая его»)
         /// </summary>
-        public DateTimeOffset? CreatedAtGt { get; set; }
+        public DateTimeOffset? CreatedAtGt { get; init; }
 
         /// <summary>
         /// Фильтр по времени создания: время должно быть меньше указанного значения или равно ему («по такой-то момент включительно»)
         /// </summary>
-        public DateTimeOffset? CreatedAtLte { get; set; }
+        public DateTimeOffset? CreatedAtLte { get; init; }
 
         /// <summary>
         /// Фильтр по времени создания: время должно быть меньше указанного значения («по такой-то момент, не включая его»)
         /// </summary>
-        public DateTimeOffset? CreatedAtLt { get; set; }
+        public DateTimeOffset? CreatedAtLt { get; init; }
 
         /// <summary>
         /// Фильтр по статусу чека
         /// </summary>
-        public ReceiptStatus? Status { get; set; }
+        public ReceiptStatus? Status { get; init; }
 
         /// <summary>
         /// Фильтр по идентификатору платежа (получить все чеки для указанного платежа)
         /// </summary>
-        public string PaymentId { get; set; }
+        public string PaymentId { get; init; }
 
         /// <summary>
         /// Фильтр по идентификатору возврата (получить все чеки для указанного возврата)
         /// </summary>
-        public string RefundId { get; set; }
+        public string RefundId { get; init; }
 
         /// <summary>
         /// Размер выдачи результатов запроса — количество объектов, передаваемых в ответе. Возможные значения: от 1 до 100
         /// </summary>
-        public int? Limit { get; set; }
+        public int? Limit { get; init; }
     }
 
     internal static class GetReceiptsFilterExtensions

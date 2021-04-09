@@ -2,7 +2,7 @@
 {
     public class AuthorizationDetails
     {
-        public string Rnn { get; set; }
-        public string AuthCode { get; set; }
+        public string Rnn { get; init; }
+        public string AuthCode { get; init; }
     }
 }
