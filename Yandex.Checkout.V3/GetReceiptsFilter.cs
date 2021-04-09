@@ -56,82 +56,33 @@ namespace Yandex.Checkout.V3
         /// </summary>
         /// <param name="filter"><see cref="GetReceiptsFilter"/></param>
         /// <param name="cursor">Указатель на следующий фрагмент списка</param>
-        internal static string CreateRequestUrl(this GetReceiptsFilter filter, string cursor)
+        public static string CreateRequestUrl(this GetReceiptsFilter filter, string cursor)
         {
             var url = new StringBuilder();
             url.Append("receipts?");
 
-            if (filter?.CreatedAtGte != null)
+            void AppendParam(string value, string name)
             {
-                url.Append("created_at.gte=");
-                AppendTime(filter.CreatedAtGte.Value);
-                url.Append("&");
+                if (!string.IsNullOrEmpty(value)) 
+                    url.Append($"{name}={value}&");
             }
 
-            if (filter?.CreatedAtGt != null)
-            {
-                url.Append("created_at.gt=");
-                AppendTime(filter.CreatedAtGt.Value);
-                url.Append("&");
-            }
+            void AppendDate(DateTimeOffset? date, string name) => 
+                AppendParam(date?.UtcDateTime.ToString("s") + "Z", name);
 
-            if (filter?.CreatedAtLte != null)
-            {
-                url.Append("created_at.lte=");
-                AppendTime(filter.CreatedAtLte.Value);
-                url.Append("&");
-            }
-
-            if (filter?.CreatedAtLt != null)
-            {
-                url.Append("created_at.lt=");
-                AppendTime(filter.CreatedAtLt.Value);
-                url.Append("&");
-            }
-
-            if (filter?.Status != null)
-            {
-                url.Append("status=");
-                url.Append(filter.Status.Value.ToText());
-                url.Append("&");
-            }
-
-            if (!string.IsNullOrEmpty(filter?.PaymentId))
-            {
-                url.Append("payment_id=");
-                url.Append(filter.PaymentId);
-                url.Append("&");
-            }
-
-            if (!string.IsNullOrEmpty(filter?.RefundId))
-            {
-                url.Append("refund_id=");
-                url.Append(filter.RefundId);
-                url.Append("&");
-            }
-
-            if (filter?.Limit != null)
-            {
-                url.Append("limit=");
-                url.Append(filter.Limit.Value);
-                url.Append("&");
-            }
-
-            if (!string.IsNullOrEmpty(cursor))
-            {
-                url.Append("cursor=");
-                url.Append(cursor);
-                url.Append("&");
-            }
+            AppendDate(filter?.CreatedAtGte, "created_at.gte");
+            AppendDate(filter?.CreatedAtGt,  "created_at.gt");
+            AppendDate(filter?.CreatedAtLte, "created_at.lte");
+            AppendDate(filter?.CreatedAtLt,  "created_at.lt");
+            AppendParam(filter?.Status?.ToText(), "status");
+            AppendParam(filter?.PaymentId, "payment_id");
+            AppendParam(filter?.RefundId, "refund_id");
+            AppendParam(filter?.Limit?.ToString(), "limit");
+            AppendParam(cursor, "cursor");
 
             url.Length--; // remove last ? or &
+            
             return url.ToString();
-
-            void AppendTime(DateTimeOffset dt)
-            {
-                url.Append(dt.UtcDateTime.ToString("s"));
-                url.Append("Z");
-            }
         }
     }
 }
