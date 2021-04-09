@@ -20,7 +20,7 @@ namespace Yandex.Checkout.V3
         /// <summary>
         /// Пoзиции чека, <see cref="ReceiptItem"/>
         /// </summary>
-        public List<ReceiptItem> Items { get; set; } = new List<ReceiptItem>();
+        public List<ReceiptItem> Items { get; set; } = new();
 
         /// <summary>
         /// Система налогообложения, <see cref="TaxSystem"/>

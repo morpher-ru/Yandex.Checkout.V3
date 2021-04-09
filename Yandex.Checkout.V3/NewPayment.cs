@@ -27,7 +27,7 @@ namespace Yandex.Checkout.V3
         /// <summary>
         /// Данные, необходимые для инициации выбранного сценария подтверждения платежа пользователем.
         /// </summary>
-        public Confirmation Confirmation { get; set; } = new Confirmation();
+        public Confirmation Confirmation { get; set; } = new();
 
         /// <summary>
         /// Дополнительные данные, которые можно передать вместе с запросом

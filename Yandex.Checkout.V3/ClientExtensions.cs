@@ -6,7 +6,7 @@ namespace Yandex.Checkout.V3
     public static class ClientExtensions
     {
         public static AsyncClient MakeAsync(this Client client) => 
-            new AsyncClient(NewHttpClient(client), true);
+            new(NewHttpClient(client), true);
 
         public static AsyncClient MakeAsync(this Client client, TimeSpan timeout)
         {

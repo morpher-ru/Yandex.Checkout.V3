@@ -14,7 +14,7 @@ namespace Yandex.Checkout.V3
             NamingStrategy = new SnakeCaseNamingStrategy()
         };
 
-        private static readonly JsonSerializerSettings SerializerSettings = new JsonSerializerSettings()
+        private static readonly JsonSerializerSettings SerializerSettings = new()
         {
             ContractResolver = ContractResolver,
             Formatting = Formatting.None,

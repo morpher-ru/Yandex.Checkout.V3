@@ -182,7 +182,7 @@ namespace Yandex.Checkout.V3
 
         #region Helpers
 
-        private static readonly HashSet<HttpStatusCode> KnownErrors = new HashSet<HttpStatusCode>
+        private static readonly HashSet<HttpStatusCode> KnownErrors = new()
         {
             HttpStatusCode.BadRequest,
             HttpStatusCode.Unauthorized,
