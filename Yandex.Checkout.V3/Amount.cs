@@ -1,6 +1,4 @@
-﻿using Newtonsoft.Json;
-
-namespace Yandex.Checkout.V3
+﻿namespace Yandex.Checkout.V3
 {
     /// <summary>
     /// Payment amount
@@ -10,7 +8,6 @@ namespace Yandex.Checkout.V3
         /// <summary>
         /// Value
         /// </summary>
-        [JsonProperty()]
         public decimal Value { get; set; }
 
         /// <summary>
