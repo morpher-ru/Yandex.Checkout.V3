@@ -45,5 +45,10 @@ namespace Yandex.Checkout.V3
         /// Тип посредника, реализующего товар или услугу
         /// </summary>
         public AgentType? AgentType { get; set; }
+
+        /// <summary>
+        /// Информация о поставщике товара или услуги
+        /// </summary>
+        public Supplier Supplier { get; set; }
     }
 }

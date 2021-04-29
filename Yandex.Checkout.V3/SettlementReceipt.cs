@@ -3,7 +3,7 @@
 namespace Yandex.Checkout.V3
 {
     /// <summary>
-    /// Данные для формирования чека зачета предоплаты
+    /// Данные для формирования чека
     /// </summary>
     public class SettlementReceipt
     {
