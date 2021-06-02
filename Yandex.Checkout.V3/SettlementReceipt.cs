@@ -5,6 +5,11 @@ namespace Yandex.Checkout.V3
     /// <summary>
     /// Данные для формирования чека
     /// </summary>
+    /// <remarks>
+    /// Используется для создания чека отдельно от платежа или возврата,
+    /// см. 
+    /// See https://yookassa.ru/developers/api#create_receipt
+    /// </remarks>
     public class SettlementReceipt
     {
         public string Id { get; set; }

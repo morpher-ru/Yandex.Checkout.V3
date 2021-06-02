@@ -123,6 +123,9 @@ namespace Yandex.Checkout.V3
         /// </summary>
         /// <param name="id">Receipt id</param>
         /// <returns><see cref="ReceiptInformation"/></returns>
+        /// <remarks>
+        /// See https://yookassa.ru/developers/api#get_receipt
+        /// </remarks>
         public ReceiptInformation GetReceipt(string id)
             => Query<ReceiptInformation>("GET", null, $"receipts/{id}", null);
 
@@ -132,6 +135,9 @@ namespace Yandex.Checkout.V3
         /// <param name="filter">Request filter parameters</param>
         /// <param name="cancellationToken"><see cref="CancellationToken"/></param>
         /// <returns><see cref="ReceiptInformation"/></returns>
+        /// <remarks>
+        /// See https://yookassa.ru/developers/api#get_receipts_list
+        /// </remarks>
         public IEnumerable<ReceiptInformation> GetReceipts(GetReceiptsFilter filter = null,
             CancellationToken cancellationToken = default)
         {

@@ -13,6 +13,9 @@ namespace Yandex.Checkout.V3
         /// <param name="filter">Request filter parameters</param>
         /// <param name="cancellationToken"><see cref="CancellationToken"/></param>
         /// <returns><see cref="ReceiptInformation"/></returns>
+        /// <remarks>
+        /// See https://yookassa.ru/developers/api#get_receipts_list
+        /// </remarks>
         public async IAsyncEnumerable<ReceiptInformation> GetReceiptsAsync(GetReceiptsFilter filter = null,
             [EnumeratorCancellation] CancellationToken cancellationToken = default)
         {
