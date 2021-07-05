@@ -3,7 +3,7 @@
 
 # Yandex.Checkout .NET client
 
-This client library implements the [Yandex.Checkout API](https://kassa.yandex.ru/developers).
+This client library implements the [Yandex.Checkout API](https://yookassa.ru/en/developers).
 
 The library supports async / await (via the AsyncClient class) as well as the classical synchronous model (via the Client class).
 
