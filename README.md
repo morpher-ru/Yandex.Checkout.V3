@@ -5,7 +5,7 @@
 
 [Swith to English](https://github.com/morpher-ru/Yandex.Checkout.V3/blob/master/README.en.md) 
 
-Клиент разработан на основе [документации по API](https://kassa.yandex.ru/developers).
+Клиент разработан на основе [документации по API](https://yookassa.ru/developers).
 
 Клиент поддерживает классическую синхронную модель вызовов (класс Client) и async / await (класс AsyncClient).
 
