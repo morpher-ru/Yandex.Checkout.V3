@@ -53,5 +53,10 @@ namespace Yandex.Checkout.V3
         public string ClientIp { get; set; }
 
         public Airline Airline { get; set; }
+
+        /// <summary>
+        /// Информация о сделке
+        /// </summary>
+        public PaymentDeal Deal { get; set; }
     }
 }
