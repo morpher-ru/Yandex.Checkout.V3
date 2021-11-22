@@ -24,6 +24,7 @@ namespace Yandex.Checkout.V3
         QR,
 
         /// <summary>Для подтверждения платежа необходимо перенаправить пользователя на confirmation_url, полученный в платеже.</summary>
+        /// <remarks>Подробнее см. https://yookassa.ru/developers/payment-methods/other/sberpay#create-payment-mobile_application</remarks>
         [EnumMember(Value = "mobile_application")]
         MobileApplication
     }
