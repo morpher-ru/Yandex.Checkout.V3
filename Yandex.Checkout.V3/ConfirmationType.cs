@@ -21,6 +21,11 @@ namespace Yandex.Checkout.V3
         
         /// <summary>Для подтверждения платежа пользователю необходимо просканировать QR-код. От вас требуется сгенерировать QR-код, используя любой доступный инструмент, и отобразить его на странице оплаты.</summary>
         [EnumMember(Value = "qr")]
-        QR
+        QR,
+
+        /// <summary>Для подтверждения платежа необходимо перенаправить пользователя на confirmation_url, полученный в платеже.</summary>
+        /// <remarks>Подробнее см. https://yookassa.ru/developers/payment-methods/other/sberpay#create-payment-mobile_application</remarks>
+        [EnumMember(Value = "mobile_application")]
+        MobileApplication
     }
 }
