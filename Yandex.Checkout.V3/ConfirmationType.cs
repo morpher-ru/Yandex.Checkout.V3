@@ -23,7 +23,7 @@ namespace Yandex.Checkout.V3
         [EnumMember(Value = "qr")]
         QR,
 
-        /// <summary>Для подтверждения платежа пользователю необходимо открыть URL из confirmation_url в приложении (именно открыть, а не перейти во встроенном в приложении браузере), после чего он будет перенаправлен в приложение СберБанк Онлайн для подтверждения платежа.</summary>
+        /// <summary>Для подтверждения платежа необходимо перенаправить пользователя на confirmation_url, полученный в платеже.</summary>
         [EnumMember(Value = "mobile_application")]
         MobileApplication
     }
