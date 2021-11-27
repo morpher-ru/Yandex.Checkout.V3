@@ -36,7 +36,7 @@ namespace Yandex.Checkout.V3
             => QueryAsync<Deal>(HttpMethod.Post, createSafeDealRequest, "deals", idempotenceKey, cancellationToken);
 
         /// <summary>
-        /// Query payment state
+        /// Get deal by id
         /// </summary>
         /// <param name="id">Deal id, <see cref="Deal.Id"/></param>
         /// <param name="cancellationToken"><see cref="CancellationToken"/></param>
