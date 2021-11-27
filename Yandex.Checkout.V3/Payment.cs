@@ -31,5 +31,7 @@ namespace Yandex.Checkout.V3
         public CancellationDetails CancellationDetails { get; set; }
         
         public AuthorizationDetails AuthorizationDetails { get; set; }
+        
+        public PayoutDestination PayoutDestination { get; set; }
     }
 }

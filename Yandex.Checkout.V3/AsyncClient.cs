@@ -28,13 +28,13 @@ namespace Yandex.Checkout.V3
         /// <summary>
         /// Deal creation
         /// </summary>
-        /// <param name="newDeal">Deal information, <see cref="NewDeal"/></param>
+        /// <param name="createSafeDealRequest">Deal information, <see cref="CreateSafeDealRequest"/></param>
         /// <param name="cancellationToken"><see cref="CancellationToken"/></param>
         /// <param name="idempotenceKey">Idempotence key, use <value>null</value> to generate a new one</param>
         /// <returns><see cref="Deal"/></returns>
-        public Task<Deal> CreateDealAsync(NewDeal newDeal, string idempotenceKey = null, CancellationToken cancellationToken = default(CancellationToken))
-            => QueryAsync<Deal>(HttpMethod.Post, newDeal, "deals", idempotenceKey, cancellationToken);
-        
+        public Task<Deal> CreateDealAsync(CreateSafeDealRequest createSafeDealRequest, string idempotenceKey = null, CancellationToken cancellationToken = default(CancellationToken))
+            => QueryAsync<Deal>(HttpMethod.Post, createSafeDealRequest, "deals", idempotenceKey, cancellationToken);
+
         /// <summary>
         /// Query payment state
         /// </summary>
@@ -43,7 +43,7 @@ namespace Yandex.Checkout.V3
         /// <returns><see cref="Deal"/></returns>
         public Task<Deal> GetDealAsync(string id, CancellationToken cancellationToken = default(CancellationToken))
             => QueryAsync<Deal>(HttpMethod.Get, null, $"deals/{id}", null, cancellationToken);
-        
+
         /// <summary>
         /// Payment creation
         /// </summary>
@@ -53,6 +53,16 @@ namespace Yandex.Checkout.V3
         /// <returns><see cref="Payment"/></returns>
         public Task<Payment> CreatePaymentAsync(NewPayment payment, string idempotenceKey = null, CancellationToken cancellationToken = default(CancellationToken))
             => QueryAsync<Payment>(HttpMethod.Post, payment, "payments", idempotenceKey, cancellationToken);
+
+        /// <summary>
+        /// Payout creation
+        /// </summary>
+        /// <param name="payoutRequest">Payout information, <see cref="CreatePayoutRequest"/></param>
+        /// <param name="cancellationToken"><see cref="CancellationToken"/></param>
+        /// <param name="idempotenceKey">Idempotence key, use <value>null</value> to generate a new one</param>
+        /// <returns><see cref="Payment"/></returns>
+        public Task<Payout> CreatePayoutAsync(CreatePayoutRequest payoutRequest, string idempotenceKey = null, CancellationToken cancellationToken = default(CancellationToken))
+            => QueryAsync<Payout>(HttpMethod.Post, payoutRequest, "payouts", idempotenceKey, cancellationToken);
 
         /// <summary>
         /// Payment capture
@@ -157,14 +167,14 @@ namespace Yandex.Checkout.V3
         {
             var request = new HttpRequestMessage(method, url)
             {
-                Content = method == HttpMethod.Post 
+                Content = method == HttpMethod.Post
                     ? new StringContent(Serializer.SerializeObject(body), Encoding.UTF8, Client.ApplicationJson)
                     : null
             };
 
             if (!string.IsNullOrEmpty(idempotenceKey))
                 request.Headers.Add("Idempotence-Key", idempotenceKey);
-            
+
             return request;
         }
 
@@ -188,7 +198,7 @@ namespace Yandex.Checkout.V3
             if (stream == null) return null;
 
             using var reader = new StreamReader(stream);
-            
+
             return await reader.ReadToEndAsync();
         }
     }

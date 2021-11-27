@@ -19,7 +19,7 @@ namespace Yandex.Checkout.V3
         /// Статус
         /// </summary>
         [JsonConverter(typeof(StringEnumConverter))]
-        public PaymentStatus Status { get; set; }
+        public RefundStatus Status { get; set; }
 
         /// <summary>
         /// Дата создания
@@ -27,5 +27,7 @@ namespace Yandex.Checkout.V3
         public DateTime CreatedAt { get; set; }
 
         public ReceiptRegistrationStatus? ReceiptRegistration { get; set; }
+
+        public RefundDeal Deal { get; set; }
     }
 }

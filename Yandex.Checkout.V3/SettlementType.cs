@@ -25,6 +25,11 @@ namespace Yandex.Checkout.V3
         /// <summary>
         /// Встречное предоставление
         /// </summary>
-        [EnumMember(Value = "consideration")] Consideration
+        [EnumMember(Value = "consideration")] Consideration,
+
+        /// <summary>
+        /// Выплата
+        /// </summary>
+        [EnumMember(Value = "payout")] Payout
     }
 }

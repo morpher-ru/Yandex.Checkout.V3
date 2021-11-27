@@ -2,8 +2,8 @@
 
 namespace Yandex.Checkout.V3
 {
-    public class NewDeal
-    {
+	public class CreateSafeDealRequest
+	{
         public DealType Type { get; set; } = DealType.SafeDeal;
 
         public FeeMomentType FeeMoment { get; set; }
@@ -11,5 +11,5 @@ namespace Yandex.Checkout.V3
         public string Description { get; set; }
 
         public Dictionary<string, string> Metadata { get; set; }
-    }
+	}
 }
