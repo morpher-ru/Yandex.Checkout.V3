@@ -50,7 +50,7 @@ namespace Yandex.Checkout.V3
         /// <summary>
         /// Deal creation
         /// </summary>
-        /// <param name="newDeal">Deal information, <see cref="newDeal"/></param>
+        /// <param name="newDeal">Deal information, <see cref="NewDeal"/></param>
         /// <param name="idempotenceKey">Idempotence key, use <value>null</value> to generate a new one</param>
         /// <returns><see cref="Deal"/></returns>
         public Deal CreateDeal(NewDeal newDeal, string idempotenceKey = null)
