@@ -28,12 +28,12 @@ namespace Yandex.Checkout.V3
         /// <summary>
         /// Deal creation
         /// </summary>
-        /// <param name="createSafeDealRequest">Deal information, <see cref="CreateSafeDealRequest"/></param>
+        /// <param name="newDeal">Deal information, <see cref="NewDeal"/></param>
         /// <param name="cancellationToken"><see cref="CancellationToken"/></param>
         /// <param name="idempotenceKey">Idempotence key, use <value>null</value> to generate a new one</param>
         /// <returns><see cref="Deal"/></returns>
-        public Task<Deal> CreateDealAsync(CreateSafeDealRequest createSafeDealRequest, string idempotenceKey = null, CancellationToken cancellationToken = default(CancellationToken))
-            => QueryAsync<Deal>(HttpMethod.Post, createSafeDealRequest, "deals", idempotenceKey, cancellationToken);
+        public Task<Deal> CreateDealAsync(NewDeal newDeal, string idempotenceKey = null, CancellationToken cancellationToken = default(CancellationToken))
+            => QueryAsync<Deal>(HttpMethod.Post, newDeal, "deals", idempotenceKey, cancellationToken);
 
         /// <summary>
         /// Get deal by id

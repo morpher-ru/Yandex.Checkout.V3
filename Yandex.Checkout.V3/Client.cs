@@ -50,11 +50,11 @@ namespace Yandex.Checkout.V3
         /// <summary>
         /// Deal creation
         /// </summary>
-        /// <param name="createSafeDealRequest">Deal information, <see cref="CreateSafeDealRequest"/></param>
+        /// <param name="newDeal">Deal information, <see cref="newDeal"/></param>
         /// <param name="idempotenceKey">Idempotence key, use <value>null</value> to generate a new one</param>
         /// <returns><see cref="Deal"/></returns>
-        public Deal CreateDeal(CreateSafeDealRequest createSafeDealRequest, string idempotenceKey = null)
-            => Query<Deal>("POST", createSafeDealRequest, "deals", idempotenceKey);
+        public Deal CreateDeal(NewDeal newDeal, string idempotenceKey = null)
+            => Query<Deal>("POST", newDeal, "deals", idempotenceKey);
 
         /// <summary>
         /// Get deal by id
