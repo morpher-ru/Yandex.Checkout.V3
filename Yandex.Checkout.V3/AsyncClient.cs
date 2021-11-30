@@ -57,12 +57,12 @@ namespace Yandex.Checkout.V3
         /// <summary>
         /// Payout creation
         /// </summary>
-        /// <param name="payoutRequest">Payout information, <see cref="CreatePayoutRequest"/></param>
+        /// <param name="payout">Payout information, <see cref="NewPayout"/></param>
         /// <param name="cancellationToken"><see cref="CancellationToken"/></param>
         /// <param name="idempotenceKey">Idempotence key, use <value>null</value> to generate a new one</param>
         /// <returns><see cref="Payment"/></returns>
-        public Task<Payout> CreatePayoutAsync(CreatePayoutRequest payoutRequest, string idempotenceKey = null, CancellationToken cancellationToken = default)
-            => QueryAsync<Payout>(HttpMethod.Post, payoutRequest, "payouts", idempotenceKey, cancellationToken);
+        public Task<Payout> CreatePayoutAsync(NewPayout payout, string idempotenceKey = null, CancellationToken cancellationToken = default)
+            => QueryAsync<Payout>(HttpMethod.Post, payout, "payouts", idempotenceKey, cancellationToken);
 
         /// <summary>
         /// Payment capture

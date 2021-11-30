@@ -2,7 +2,7 @@
 
 namespace Yandex.Checkout.V3
 {
-	public class CreatePayoutRequest
+	public class NewPayout
 	{
 		public Amount Amount { get; set; }
 

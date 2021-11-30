@@ -36,7 +36,7 @@ namespace Yandex.Checkout.V3.Tests
         [TestMethod]
         public void CreatePayoutRequestSerializedCorrectly()
         {
-            var s = Serializer.SerializeObject(new CreatePayoutRequest {PayoutToken = "token"});
+            var s = Serializer.SerializeObject(new NewPayout {PayoutToken = "token"});
             Assert.AreEqual("{\"payout_token\":\"token\"}", s);
         }
 
