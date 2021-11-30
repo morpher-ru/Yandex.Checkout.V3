@@ -48,6 +48,24 @@ namespace Yandex.Checkout.V3
         #region Sync
 
         /// <summary>
+        /// Deal creation
+        /// </summary>
+        /// <param name="newDeal">Deal information, <see cref="NewDeal"/></param>
+        /// <param name="idempotenceKey">Idempotence key, use <value>null</value> to generate a new one</param>
+        /// <returns><see cref="Deal"/></returns>
+        public Deal CreateDeal(NewDeal newDeal, string idempotenceKey = null)
+            => Query<Deal>("POST", newDeal, "deals", idempotenceKey);
+
+        /// <summary>
+        /// Get deal by id
+        /// </summary>
+        /// <param name="id">Deal id, <see cref="Deal.Id"/></param>
+        /// <returns><see cref="Deal"/></returns>
+        public Deal GetDeal(string id)
+            => Query<Deal>("GET", null, $"deals/{id}", null);
+
+
+        /// <summary>
         /// Payment creation
         /// </summary>
         /// <param name="payment">Payment information, <see cref="NewPayment"/></param>
@@ -55,6 +73,16 @@ namespace Yandex.Checkout.V3
         /// <returns><see cref="Payment"/></returns>
         public Payment CreatePayment(NewPayment payment, string idempotenceKey = null)
             => Query<Payment>("POST", payment, "payments/", idempotenceKey);
+
+        /// <summary>
+        /// Payout creation
+        /// </summary>
+        /// <param name="payout">Payout information, <see cref="NewPayout"/></param>
+        /// <param name="idempotenceKey">Idempotence key, use <value>null</value> to generate a new one</param>
+        /// <returns><see cref="Payment"/></returns>
+        public Payout CreatePayout(NewPayout payout, string idempotenceKey = null)
+            => Query<Payout>("POST", payout, "payouts", idempotenceKey);
+
 
         /// <summary>
         /// Payment capture

@@ -23,14 +23,21 @@ namespace Yandex.Checkout.V3.Tests
         public void RefundReceiptRegistrationSucceededSerializedCorrectly()
         {
             var s = Serializer.SerializeObject(new Refund {ReceiptRegistration = ReceiptRegistrationStatus.Succeeded });
-            Assert.AreEqual("{\"status\":\"pending\",\"created_at\":\"0001-01-01T00:00:00\",\"receipt_registration\":\"succeeded\"}", s);
+            Assert.AreEqual("{\"status\":\"succeeded\",\"created_at\":\"0001-01-01T00:00:00\",\"receipt_registration\":\"succeeded\"}", s);
         }
 
         [TestMethod]
         public void RefundReceiptRegistrationNullSerializedCorrectly()
         {
-            var s = Serializer.SerializeObject(new Refund {});
-            Assert.AreEqual("{\"status\":\"pending\",\"created_at\":\"0001-01-01T00:00:00\"}", s);
+            var s = Serializer.SerializeObject(new Refund());
+            Assert.AreEqual("{\"status\":\"succeeded\",\"created_at\":\"0001-01-01T00:00:00\"}", s);
+        }
+
+        [TestMethod]
+        public void CreatePayoutRequestSerializedCorrectly()
+        {
+            var s = Serializer.SerializeObject(new NewPayout {PayoutToken = "token"});
+            Assert.AreEqual("{\"payout_token\":\"token\"}", s);
         }
 
         [TestMethod]
