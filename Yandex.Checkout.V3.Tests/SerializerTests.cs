@@ -29,7 +29,7 @@ namespace Yandex.Checkout.V3.Tests
         [TestMethod]
         public void RefundReceiptRegistrationNullSerializedCorrectly()
         {
-            var s = Serializer.SerializeObject(new Refund {});
+            var s = Serializer.SerializeObject(new Refund());
             Assert.AreEqual("{\"status\":\"succeeded\",\"created_at\":\"0001-01-01T00:00:00\"}", s);
         }
 
