@@ -31,7 +31,7 @@ namespace Yandex.Checkout.V3.Demo.Pages
                     break;
                 case "Return":
                     Payment = Serializer.SerializeObject(
-                        await data.AsyncClient.CreateRefundAsync(new NewRefund() { Amount = data.Payment.Amount, PaymentId = data.Payment.Id}));
+                        await data.AsyncClient.CreateRefundAsync(new NewRefund { Amount = data.Payment.Amount, PaymentId = data.Payment.Id}));
                     break;
                 default:
                     throw new InvalidOperationException(Action);
