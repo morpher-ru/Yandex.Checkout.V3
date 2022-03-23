@@ -15,13 +15,13 @@ namespace Yandex.Checkout.V3.Demo.Pages
             var redirect = $"{url.Scheme}://{url.Authority}/ConfirmSync?id={id}";
 
             var data = client.CreatePayment(
-                new NewPayment()
+                new NewPayment
                 {
-                    Amount = new Amount()
+                    Amount = new Amount
                     {
                         Value = Amount,
                     },
-                    Confirmation = new Confirmation()
+                    Confirmation = new Confirmation
                     {
                         Type = ConfirmationType.Redirect,
                         ReturnUrl = redirect
@@ -29,7 +29,7 @@ namespace Yandex.Checkout.V3.Demo.Pages
                     Description = "Order"
                 });
 
-            PaymentStorage.Payments[id] = new QueryData() {Client = client, AsyncClient = client.MakeAsync(), Payment = data};
+            PaymentStorage.Payments[id] = new QueryData {Client = client, AsyncClient = client.MakeAsync(), Payment = data};
 
             return Redirect(data.Confirmation.ConfirmationUrl);
         }
