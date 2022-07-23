@@ -3,7 +3,7 @@
 
 # Yandex.Checkout .NET client
 
-This client library implements the [Yandex.Checkout API](https://yookassa.ru/en/developers).
+This client library implements the [Yandex.Checkout API](https://yookassa.ru/developers?lang=en).
 
 The library supports async / await (via the AsyncClient class) as well as the classical synchronous model (via the Client class).
 
@@ -11,7 +11,7 @@ The API methods covered include create payment, capture payment, cancel payment,
 
 ## Getting Started
 
-In order to take payments your website has to be able to accept notifications from Yandex.Checkout. The URL for notifications must be set on your [shop settings page](https://kassa.yandex.ru/my/tunes).
+In order to take payments your website has to be able to accept notifications from Yandex.Checkout. The URL for notifications must be set on your [shop settings page](https://yookassa.ru/my/shop-settings?lang=en).
 
 Most API calls are done using the Client class. It takes your shopId and secretKey in the constructor:
 
