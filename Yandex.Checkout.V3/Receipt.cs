@@ -28,7 +28,7 @@ namespace Yandex.Checkout.V3
         public string Email { get; set; }
 
         /// <summary>
-        /// Пoзиции чека, <see cref="ReceiptItem"/>
+        /// Позиции чека, <see cref="ReceiptItem"/>
         /// </summary>
         public List<ReceiptItem> Items { get; set; } = new();
 

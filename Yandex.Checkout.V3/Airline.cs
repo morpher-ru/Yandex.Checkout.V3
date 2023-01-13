@@ -2,6 +2,9 @@
 
 namespace Yandex.Checkout.V3
 {
+    /// <summary>
+    /// Авиалинии
+    /// </summary>
     public class Airline
     {
         public string BookingReference { get; init; }

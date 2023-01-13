@@ -9,11 +9,13 @@ namespace Yandex.Checkout.V3.Tests
     [TestClass]
     public class AsyncClientTests
     {
-        static readonly Client _clientInvalidPasswordFormat = new Client("fake shop id", "fake key");
-        static readonly Client _clientInvalidLoginFormat = new Client("fake shop id", "test_As0OONRn1SsvFr0IVlxULxst5DBIoWi_tyVaezSRTEI");
-        static readonly Client _clientIncorrectLoginOrPassword = new Client("501156", "test_As0OONRn1SsvFr0IVlxULxst5DBIoWi_tyVaezSRAAA");
+        // ReSharper disable StringLiteralTypo
+        private readonly Client _clientInvalidPasswordFormat = new Client("fake shop id", "fake key");
+        private readonly Client _clientInvalidLoginFormat = new Client("fake shop id", "test_As0OONRn1SsvFr0IVlxULxst5DBIoWi_tyVaezSRTEI");
+        private readonly Client _clientIncorrectLoginOrPassword = new Client("501156", "test_As0OONRn1SsvFr0IVlxULxst5DBIoWi_tyVaezSRAAA");
+        // ReSharper restore StringLiteralTypo
 
-        static readonly NewPayment _newPayment = new NewPayment
+        private readonly NewPayment _newPayment = new NewPayment
         {
             Amount = new Amount { Value = 10, Currency = "RUB" },
             Confirmation = new Confirmation { Type = ConfirmationType.Redirect }
@@ -59,7 +61,7 @@ namespace Yandex.Checkout.V3.Tests
             await Assert.ThrowsExceptionAsync<YandexCheckoutException>(Action);
         }
 
-        static async Task<HttpResponseMessage> SendAsync(Func<AsyncClient, Task> action, HttpResponseMessage httpResponseMessage)
+        private static async Task<HttpResponseMessage> SendAsync(Func<AsyncClient, Task> action, HttpResponseMessage httpResponseMessage)
         {
             var messageHandler = new TestMessageHandler();
             messageHandler.ResponseQueue.Enqueue(httpResponseMessage);

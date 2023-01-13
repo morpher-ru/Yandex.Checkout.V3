@@ -15,7 +15,7 @@ namespace Yandex.Checkout.V3
             return new AsyncClient(httpClient, true);
         }
 
-        static HttpClient NewHttpClient(Client client)
+        private static HttpClient NewHttpClient(Client client)
         {
             var httpClient = new HttpClient {BaseAddress = new Uri(client.ApiUrl)};
             httpClient.DefaultRequestHeaders.Add("Authorization", client.Authorization);

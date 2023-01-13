@@ -6,11 +6,13 @@ namespace Yandex.Checkout.V3.Tests
     [TestClass]
     public class SyncClientTests
     {
-        static readonly Client _clientInvalidPasswordFormat = new Client("fake shop id", "fake key");
-        static readonly Client _clientInvalidLoginFormat = new Client("fake shop id", "test_As0OONRn1SsvFr0IVlxULxst5DBIoWi_tyVaezSRTEI");
-        static readonly Client _clientIncorrectLoginOrPassword = new Client("501156", "test_As0OONRn1SsvFr0IVlxULxst5DBIoWi_tyVaezSRAAA");
+        // ReSharper disable StringLiteralTypo
+        private readonly Client _clientInvalidPasswordFormat = new Client("fake shop id", "fake key");
+        private readonly Client _clientInvalidLoginFormat = new Client("fake shop id", "test_As0OONRn1SsvFr0IVlxULxst5DBIoWi_tyVaezSRTEI");
+        private readonly Client _clientIncorrectLoginOrPassword = new Client("501156", "test_As0OONRn1SsvFr0IVlxULxst5DBIoWi_tyVaezSRAAA");
+        // ReSharper restore StringLiteralTypo
 
-        static readonly NewPayment _newPayment = new NewPayment
+        private readonly NewPayment _newPayment = new NewPayment
         {
             Amount = new Amount { Value = 10, Currency = "RUB" },
             Confirmation = new Confirmation { Type = ConfirmationType.Redirect }

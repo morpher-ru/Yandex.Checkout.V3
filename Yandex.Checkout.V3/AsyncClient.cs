@@ -9,8 +9,8 @@ namespace Yandex.Checkout.V3
 {
     public partial class AsyncClient : IDisposable
     {
-        readonly HttpClient _httpClient;
-        readonly bool _disposeOfHttpClient;
+        private readonly HttpClient _httpClient;
+        private readonly bool _disposeOfHttpClient;
 
         /// <summary>
         /// Expects the <paramref name="httpClient"/>'s BaseAddress and Authorization header to be set.
@@ -148,21 +148,18 @@ namespace Yandex.Checkout.V3
 
         private async Task<T> QueryAsync<T>(HttpMethod method, object body, string url, string idempotenceKey, CancellationToken cancellationToken)
         {
-            using (var request = CreateRequest(method, body, url, idempotenceKey ?? Guid.NewGuid().ToString()))
-            {
-                var response = await _httpClient.SendAsync(request, cancellationToken);
-                using (response)
-                {
-                    var responseData = response.Content == null
-                        ? null
-                        : await response.Content.ReadAsStringAsync();
+            using var request = CreateRequest(method, body, url, idempotenceKey ?? Guid.NewGuid().ToString());
 
-                    return Client.ProcessResponse<T>(response.StatusCode, responseData, response.Content?.Headers?.ContentType?.MediaType ?? string.Empty);
-                }
-            }
+            using var response = await _httpClient.SendAsync(request, cancellationToken);
+            
+            var responseData = response.Content == null
+                ? null
+                : await response.Content.ReadAsStringAsync();
+
+            return Client.ProcessResponse<T>(response.StatusCode, responseData, response.Content?.Headers?.ContentType?.MediaType ?? string.Empty);
         }
 
-        private HttpRequestMessage CreateRequest(HttpMethod method, object body, string url,
+        private static HttpRequestMessage CreateRequest(HttpMethod method, object body, string url,
             string idempotenceKey)
         {
             var request = new HttpRequestMessage(method, url)

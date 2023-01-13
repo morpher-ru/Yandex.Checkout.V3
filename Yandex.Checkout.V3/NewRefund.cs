@@ -3,7 +3,7 @@
 namespace Yandex.Checkout.V3
 {
     /// <summary>
-    /// Данные для оформления возвората
+    /// Данные для оформления возврата
     /// </summary>
     public class NewRefund
     {

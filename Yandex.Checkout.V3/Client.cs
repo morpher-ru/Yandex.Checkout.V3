@@ -8,7 +8,7 @@ using System.Threading;
 namespace Yandex.Checkout.V3
 {
     /// <summary>
-    /// Yamdex.Checkout HTTP API client
+    /// Yandex.Checkout HTTP API client
     /// </summary>
     public class Client
     {
@@ -112,7 +112,7 @@ namespace Yandex.Checkout.V3
             => Query<Payment>("GET", null, $"payments/{id}", null);
 
         /// <summary>
-        /// Payment cancelation
+        /// Payment cancellation
         /// </summary>
         /// <param name="id">Payment id, <see cref="Payment.Id"/></param>
         /// <param name="idempotenceKey">Idempotence key, use <value>null</value> to generate a new one</param>
@@ -226,7 +226,7 @@ namespace Yandex.Checkout.V3
             HttpStatusCode.InternalServerError
         };
 
-        internal static readonly string ApplicationJson = "application/json";
+        internal const string ApplicationJson = "application/json";
 
         internal static T ProcessResponse<T>(HttpStatusCode statusCode, string responseData, string contentType)
         {
@@ -256,7 +256,7 @@ namespace Yandex.Checkout.V3
             }
         }
 
-        private T GetResponse<T>(HttpWebResponse response)
+        private static T GetResponse<T>(HttpWebResponse response)
         {
             using var responseStream = response.GetResponseStream();
             using var reader = new StreamReader(responseStream ?? throw new InvalidOperationException("Response stream is null."));
@@ -295,10 +295,9 @@ namespace Yandex.Checkout.V3
         {
             if (stream == null) return null;
 
-            using (var reader = new StreamReader(stream))
-            {
-                return reader.ReadToEnd();
-            }
+            using var reader = new StreamReader(stream);
+            
+            return reader.ReadToEnd();
         }
 
         #endregion Helpers
