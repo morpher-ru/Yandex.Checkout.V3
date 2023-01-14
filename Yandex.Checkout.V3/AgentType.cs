@@ -2,6 +2,10 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
+// ReSharper disable InconsistentNaming
+// В этом файле названия элементов enum отступают от общего стиля
+// (должно быть PaymentAgent, а не payment_agent и т.п.) 
+
 namespace Yandex.Checkout.V3
 {
     /// <summary>
