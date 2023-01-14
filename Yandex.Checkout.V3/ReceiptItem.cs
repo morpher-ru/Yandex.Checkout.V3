@@ -7,6 +7,7 @@ namespace Yandex.Checkout.V3
     /// Позиция чека
     /// <seealso cref="Receipt"/>
     /// </summary>
+    // ReSharper disable once ClassNeverInstantiated.Global
     public class ReceiptItem
     {
         /// <summary>

@@ -1,5 +1,8 @@
 ﻿using System;
 
+// ReSharper disable UnusedAutoPropertyAccessor.Global
+// ReSharper disable once ClassNeverInstantiated.Global
+
 namespace Yandex.Checkout.V3
 {
     /// <inheritdoc />

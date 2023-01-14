@@ -175,7 +175,7 @@ namespace Yandex.Checkout.V3
                 cancellationToken.ThrowIfCancellationRequested();
                 var batch = Query<ReceiptInformationResponse>("GET", null, filter.CreateRequestUrl(cursor), null);
 
-                foreach (var item in batch.Items)
+                foreach (ReceiptInformation item in batch.Items)
                 {
                     cancellationToken.ThrowIfCancellationRequested();
                     yield return item;
@@ -258,7 +258,7 @@ namespace Yandex.Checkout.V3
 
         private static T GetResponse<T>(HttpWebResponse response)
         {
-            using var responseStream = response.GetResponseStream();
+            using Stream responseStream = response.GetResponseStream();
             using var reader = new StreamReader(responseStream ?? throw new InvalidOperationException("Response stream is null."));
             string responseData = reader.ReadToEnd();
             return ProcessResponse<T>(response.StatusCode, responseData, response.ContentType);

@@ -26,17 +26,13 @@ namespace Yandex.Checkout.V3
 
         public static string ToText(this ReceiptStatus status)
         {
-            switch (status)
+            return status switch
             {
-                case ReceiptStatus.Pending:
-                    return PendingStatus;
-                case ReceiptStatus.Succeeded:
-                    return SucceededStatus;
-                case ReceiptStatus.Canceled:
-                    return CanceledStatus;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(status), status, null);
-            }
+                ReceiptStatus.Pending => PendingStatus,
+                ReceiptStatus.Succeeded => SucceededStatus,
+                ReceiptStatus.Canceled => CanceledStatus,
+                _ => throw new ArgumentOutOfRangeException(nameof(status), status, null)
+            };
         }
     }
 }

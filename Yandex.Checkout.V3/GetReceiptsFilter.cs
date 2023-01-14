@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Text;
 
+// ReSharper disable UnusedAutoPropertyAccessor.Global
+
 namespace Yandex.Checkout.V3
 {
     /// <summary>
     /// Фильтр для запроса списка чеков 
     /// </summary>
+    // ReSharper disable once ClassNeverInstantiated.Global
     public class GetReceiptsFilter
     {
         /// <summary>

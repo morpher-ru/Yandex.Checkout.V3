@@ -1,5 +1,6 @@
 ﻿namespace Yandex.Checkout.V3
 {
+    // ReSharper disable once ClassNeverInstantiated.Global
     public class PayerBankDetails
     {
         public string FullName { get; set; }

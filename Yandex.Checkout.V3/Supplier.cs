@@ -3,6 +3,7 @@
     /// <summary>
     /// Информация о поставщике товара или услуги
     /// </summary>
+    // ReSharper disable once ClassNeverInstantiated.Global
     public class Supplier
     {
         /// <summary>

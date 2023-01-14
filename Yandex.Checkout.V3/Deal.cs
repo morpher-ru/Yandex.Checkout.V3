@@ -1,5 +1,7 @@
 ﻿using System;
 
+// ReSharper disable ClassNeverInstantiated.Global
+
 namespace Yandex.Checkout.V3
 {
     public class Deal : NewDeal

@@ -1,4 +1,6 @@
-﻿namespace Yandex.Checkout.V3
+﻿// ReSharper disable UnusedAutoPropertyAccessor.Global
+
+namespace Yandex.Checkout.V3
 {
     /// <summary>
     /// Payment amount

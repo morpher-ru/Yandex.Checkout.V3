@@ -1,5 +1,7 @@
 ﻿using Newtonsoft.Json;
 
+// ReSharper disable UnusedAutoPropertyAccessor.Global
+
 namespace Yandex.Checkout.V3
 {
     /// <summary>

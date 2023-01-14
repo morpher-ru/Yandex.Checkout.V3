@@ -10,6 +10,7 @@ namespace Yandex.Checkout.V3
     /// см. 
     /// See https://yookassa.ru/developers/api#create_receipt
     /// </remarks>
+    // ReSharper disable once ClassNeverInstantiated.Global
     public class SettlementReceipt
     {
         public string Id { get; set; }

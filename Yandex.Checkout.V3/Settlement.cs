@@ -3,6 +3,7 @@
     /// <summary>
     /// Совершенный расчёт
     /// </summary>
+    // ReSharper disable once ClassNeverInstantiated.Global
     public class Settlement
     {
         /// <summary>

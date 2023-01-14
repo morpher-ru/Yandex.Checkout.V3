@@ -1,6 +1,7 @@
 ﻿namespace Yandex.Checkout.V3
 {
-	public class PayoutDeal
+    // ReSharper disable once ClassNeverInstantiated.Global
+    public class PayoutDeal
 	{
 		/// <summary>
 		/// Id сделки, в рамках которой совершается выплата

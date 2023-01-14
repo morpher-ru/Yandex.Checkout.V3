@@ -152,7 +152,7 @@ namespace Yandex.Checkout.V3
 
             using var response = await _httpClient.SendAsync(request, cancellationToken);
             
-            var responseData = response.Content == null
+            string responseData = response.Content == null
                 ? null
                 : await response.Content.ReadAsStringAsync();
 

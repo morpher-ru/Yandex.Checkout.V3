@@ -2,6 +2,8 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
+// ReSharper disable UnusedMember.Global
+
 namespace Yandex.Checkout.V3
 {
     [JsonConverter(typeof(StringEnumConverter))]

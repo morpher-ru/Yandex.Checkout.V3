@@ -1,4 +1,6 @@
-﻿namespace Yandex.Checkout.V3
+﻿// ReSharper disable UnusedType.Global
+
+namespace Yandex.Checkout.V3
 {
     /// <summary>
     /// Причина отмены платежа

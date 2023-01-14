@@ -1,4 +1,6 @@
-﻿namespace Yandex.Checkout.V3
+﻿// ReSharper disable UnusedMember.Global
+
+namespace Yandex.Checkout.V3
 {
     /// <summary>
     /// Коды НДС

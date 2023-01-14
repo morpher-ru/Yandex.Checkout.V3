@@ -1,4 +1,6 @@
-﻿namespace Yandex.Checkout.V3
+﻿// ReSharper disable ClassNeverInstantiated.Global
+
+namespace Yandex.Checkout.V3
 {
     /// <summary>
     /// Информация о пользователе

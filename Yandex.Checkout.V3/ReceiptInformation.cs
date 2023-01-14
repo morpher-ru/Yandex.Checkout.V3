@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 
+// ReSharper disable once ClassNeverInstantiated.Global
+
 namespace Yandex.Checkout.V3
 {
     /// <summary>
