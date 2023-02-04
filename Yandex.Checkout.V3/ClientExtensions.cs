@@ -21,6 +21,10 @@ namespace Yandex.Checkout.V3
             }
             httpClient.BaseAddress = new Uri(client.ApiUrl);
             httpClient.DefaultRequestHeaders.Add("Authorization", client.Authorization);
+            if (!string.IsNullOrEmpty(client.UserAgent))
+            {
+                httpClient.DefaultRequestHeaders.UserAgent.ParseAdd(client.UserAgent);
+            }
             if (timeout.HasValue)
             {
                 httpClient.Timeout = timeout.Value;
