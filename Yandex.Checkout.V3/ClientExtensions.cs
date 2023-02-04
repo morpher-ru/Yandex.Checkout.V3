@@ -16,9 +16,9 @@ namespace Yandex.Checkout.V3
         {
             if (httpClient == null)
             {
+                httpClient = new HttpClient();
                 disposeOfHttpClient = true;
             }
-            httpClient ??= new HttpClient();
             httpClient.BaseAddress = new Uri(client.ApiUrl);
             httpClient.DefaultRequestHeaders.Add("Authorization", client.Authorization);
             if (timeout.HasValue)
