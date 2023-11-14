@@ -1,4 +1,6 @@
 ﻿using System;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
 namespace Yandex.Checkout.V3
 {
@@ -16,7 +18,8 @@ namespace Yandex.Checkout.V3
         /// <summary>
         /// Статус
         /// </summary>
-        public PaymentStatus Status { get; set; }
+        [JsonConverter(typeof(StringEnumConverter))]
+        public RefundStatus Status { get; set; }
 
         /// <summary>
         /// Дата создания
@@ -24,5 +27,7 @@ namespace Yandex.Checkout.V3
         public DateTime CreatedAt { get; set; }
 
         public ReceiptRegistrationStatus? ReceiptRegistration { get; set; }
+
+        public RefundDeal Deal { get; set; }
     }
 }

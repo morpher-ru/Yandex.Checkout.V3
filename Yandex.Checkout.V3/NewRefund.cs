@@ -1,11 +1,11 @@
-﻿using System.Collections.Generic;
-using System.Text;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
+
+// ReSharper disable UnusedAutoPropertyAccessor.Global
 
 namespace Yandex.Checkout.V3
 {
     /// <summary>
-    /// Данные для оформления возвората
+    /// Данные для оформления возврата
     /// </summary>
     public class NewRefund
     {
@@ -22,9 +22,8 @@ namespace Yandex.Checkout.V3
         public string PaymentId { get; set; }
 
         /// <summary>
-        /// Чек, для проведения возврата по 54-ФЗ <see cref="V3.Receipt"/>
+        /// Чек для проведения возврата по 54-ФЗ <see cref="V3.Receipt"/>
         /// </summary>
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public Receipt Receipt { get; set; }
 
         public string Description { get; set; }

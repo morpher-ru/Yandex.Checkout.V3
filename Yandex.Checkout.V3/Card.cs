@@ -1,4 +1,7 @@
-﻿namespace Yandex.Checkout.V3
+﻿// ReSharper disable UnusedAutoPropertyAccessor.Global
+// ReSharper disable ClassNeverInstantiated.Global
+
+namespace Yandex.Checkout.V3
 {
     public class Card
     {
@@ -10,5 +13,7 @@
         public string Csc { get; set; }
         public string CardHolder { get; set; }
         public string Number { get; set; }
+        public string IssuerCountry { get; set; }
+        public string IssuerName { get; set; }
     }
 }

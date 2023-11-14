@@ -1,4 +1,7 @@
-﻿namespace Yandex.Checkout.V3
+﻿// ReSharper disable UnusedAutoPropertyAccessor.Global
+// ReSharper disable ClassNeverInstantiated.Global
+
+namespace Yandex.Checkout.V3
 {
     public class CancellationDetails
     {

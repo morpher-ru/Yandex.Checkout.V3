@@ -19,13 +19,12 @@ namespace AspNetSample
 
             // 1. Создайте платеж и получите ссылку для оплаты
             decimal amount = decimal.Parse(sum.Text, CultureInfo.InvariantCulture.NumberFormat);
-            var idempotenceKey = Guid.NewGuid().ToString();
             var newPayment = new NewPayment
             {
                 Amount = new Amount { Value = amount, Currency = "RUB" },
                 Confirmation = new Confirmation { Type = ConfirmationType.Redirect, ReturnUrl = Request.Url.AbsoluteUri }
             };
-            Payment payment = _client.CreatePayment(newPayment, idempotenceKey);
+            Payment payment = _client.CreatePayment(newPayment);
             
             // 2. Перенаправьте пользователя на страницу оплаты
             string url = payment.Confirmation.ConfirmationUrl;
@@ -35,6 +34,8 @@ namespace AspNetSample
         // 3. Дождитесь уведомления о платеже
         protected void Page_Load(object sender, EventArgs e)
         {
+            // Чтобы получить это уведомление, нужно указать адрес этой страницы
+            // в настройках магазина (https://kassa.yandex.ru/my/tunes).
             try
             {
                 Log($"Page_Load: Request.HttpMethod={Request.HttpMethod}, Request.ContentType={Request.ContentType}, Request.InputStream has {Request.InputStream.Length} bytes");

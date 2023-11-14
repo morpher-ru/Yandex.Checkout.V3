@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+﻿// ReSharper disable UnusedAutoPropertyAccessor.Global
 
 namespace Yandex.Checkout.V3
 {
@@ -10,7 +10,6 @@ namespace Yandex.Checkout.V3
         /// <summary>
         /// Value
         /// </summary>
-        [JsonProperty()]
         public decimal Value { get; set; }
 
         /// <summary>

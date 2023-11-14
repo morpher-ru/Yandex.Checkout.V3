@@ -1,53 +1,52 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;net40;net45</TargetFrameworks>
-    <PackageId>Yandex.Checkout.V3</PackageId>
-    <RootNamespace>Yandex.Checkout.V3</RootNamespace>
-    <PackageVersion>0.0.14</PackageVersion>
-    <AssemblyVersion>0.0.14.0</AssemblyVersion>
-    <FileVersion>0.0.14.0</FileVersion>
-    <InformationalVersion>0.0.14.0</InformationalVersion>
-    <Authors>morpher, ili</Authors>
-    <Description>Yandex Checkout .NET Client</Description>
-    <Copyright>Copyright 2018 morpher.ru</Copyright>
-    <PackageTags>Yandex;Checkout;API</PackageTags>
+    <TargetFrameworks>netstandard2.0;net45</TargetFrameworks>
+    <Version>1.7.0</Version>
+    <Authors>morpher;ili</Authors>
+    <Title>YooMoney/YooKassa API wrapper</Title>
+    <Description>This library simplifies integration with YooMoney/YooKassa (formerly Yandex.Money / Yandex.Checkout).
+        YooMoney is a payment gateway owned by Sberbank, Russia.
+        The libary offers both sync and async APIs and supports a wide range of .NET versions from .NET Framework 4.0 to .NET Core and .NET 5.
+    </Description>
+    <Copyright>Copyright 2018-2021 morpher.ru</Copyright>
+    <PackageTags>YooMoney;YooKassa;Yandex;money;checkout;payments;REST;RESTful;API;SDK;integration</PackageTags>
     <VersionSuffix>$(VersionSuffix)</VersionSuffix>
     <RepositoryUrl>https://github.com/morpher-ru/Yandex.Checkout.V3</RepositoryUrl>
     <PackageProjectUrl>https://github.com/morpher-ru/Yandex.Checkout.V3</PackageProjectUrl>
-    <PackageLicenseUrl>https://github.com/morpher-ru/Yandex.Checkout.V3/blob/master/LICENSE</PackageLicenseUrl>
-    <PackageReleaseNotes>
-      Make ParseMessage static, add an overload that takes a string body (the other takes a Stream).
-      Add XML comments to the package.
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageReleaseNotes>feat: Добавлено поле merchant_customer_id в класс NewPayment.
     </PackageReleaseNotes>
     <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\Yandex.Checkout.V3.xml</DocumentationFile>
     <NoWarn>1591</NoWarn>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <WarningsAsErrors />
-    
-    <Net40AsyncSupport>NO</Net40AsyncSupport>
+    <LangVersion>9</LangVersion>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
   </PropertyGroup>
     
   <ItemGroup Condition=" '$(TargetFramework)' == 'net45' ">
     <Reference Include="System.Net.Http" />
+    <Compile Remove="AsyncClient.Enumerable.cs" />
   </ItemGroup>
 
   <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard2.0'">
-      <PackageReference Include="System.Net.Http" Version="4.3.3" />
+    <PackageReference Include="System.Net.Http" Version="4.3.4" />
+    <PackageReference Include="Microsoft.Bcl.AsyncInterfaces" Version="1.1.1" />
   </ItemGroup>
-
-  <ItemGroup Condition="'$(Net40AsyncSupport)' == 'YES' AND '$(TargetFramework)' == 'net40'">
-      <PackageReference Include="Microsoft.Net.Http" Version="2.2.29" />
-      <PackageReference Include="Microsoft.Bcl.Async" Version="1.0.168" />
-      <PackageReference Include="Microsoft.Bcl" Version="1.1.10" />
-      <PackageReference Include="Microsoft.Bcl.Build" Version="1.0.14" />
-  </ItemGroup>
-  <PropertyGroup Condition="'$(Net40AsyncSupport)' != 'YES' AND '$(TargetFramework)' == 'net40'">
-      <DefineConstants>SYNCONLY</DefineConstants>
-  </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
+  </ItemGroup>
+
+  <ItemGroup Condition=" '$(TargetFramework)' == 'net40' ">
+    <Compile Remove="AsyncClient.cs" />
+    <Compile Remove="AsyncClient.Enumerable.cs" />
+    <Compile Remove="ClientExtensions.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All" />
   </ItemGroup>
 
 </Project>

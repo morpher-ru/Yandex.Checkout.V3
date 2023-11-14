@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Yandex.Checkout.V3
+﻿namespace Yandex.Checkout.V3
 {
+    // ReSharper disable once ClassNeverInstantiated.Global
     public class AuthorizationDetails
     {
         public string Rnn { get; set; }

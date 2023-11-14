@@ -12,7 +12,7 @@ namespace Yandex.Checkout.V3.Demo.Pages
             var data = PaymentStorage.Payments[id];
             Id = id;
 
-            var payment = await data.Client.QueryPaymentAsync(data.Payment.Id);
+            var payment = await data.AsyncClient.GetPaymentAsync(data.Payment.Id);
             ProcessPayment(payment);
         }
 
@@ -23,15 +23,15 @@ namespace Yandex.Checkout.V3.Demo.Pages
             switch (Action)
             {
                 case "Confirm":
-                    var capture = await data.Client.CapturePaymentAsync(data.Payment.Id);
-                    Payment = Client.SerializeObject(capture);
+                    var capture = await data.AsyncClient.CapturePaymentAsync(data.Payment.Id);
+                    Payment = Serializer.SerializeObject(capture);
                     break;
                 case "Cancel":
-                    Payment = Client.SerializeObject(await data.Client.CancelPaymentAsync(data.Payment.Id));
+                    Payment = Serializer.SerializeObject(await data.AsyncClient.CancelPaymentAsync(data.Payment.Id));
                     break;
                 case "Return":
-                    Payment = Client.SerializeObject(
-                        await data.Client.CreateRefundAsync(new NewRefund() { Amount = data.Payment.Amount, PaymentId = data.Payment.Id}));
+                    Payment = Serializer.SerializeObject(
+                        await data.AsyncClient.CreateRefundAsync(new NewRefund { Amount = data.Payment.Amount, PaymentId = data.Payment.Id}));
                     break;
                 default:
                     throw new InvalidOperationException(Action);

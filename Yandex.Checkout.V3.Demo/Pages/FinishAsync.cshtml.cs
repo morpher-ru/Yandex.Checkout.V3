@@ -11,7 +11,7 @@ namespace Yandex.Checkout.V3.Demo.Pages
             var data = PaymentStorage.Payments[id];
             Id = id;
 
-            Payment = Client.SerializeObject(await data.Client.QueryPaymentAsync(data.Payment.Id));
+            Payment = Serializer.SerializeObject(await data.AsyncClient.GetPaymentAsync(data.Payment.Id));
         }
 
         public async Task OnPostAsync()
@@ -21,14 +21,14 @@ namespace Yandex.Checkout.V3.Demo.Pages
             switch (Action)
             {
                 case "Cancel":
-                    Payment = Client.SerializeObject(await data.Client.CancelPaymentAsync(data.Payment.Id));
+                    Payment = Serializer.SerializeObject(await data.AsyncClient.CancelPaymentAsync(data.Payment.Id));
                     break;
                 case "Return":
 
-                    var returnInfo = await data.Client.CreateRefundAsync(new NewRefund() { Amount = data.Payment.Amount, PaymentId = data.Payment.Id});
-                    var paymentInfo = await data.Client.QueryPaymentAsync(data.Payment.Id);
+                    var returnInfo = await data.AsyncClient.CreateRefundAsync(new NewRefund { Amount = data.Payment.Amount, PaymentId = data.Payment.Id});
+                    var paymentInfo = await data.AsyncClient.GetPaymentAsync(data.Payment.Id);
 
-                    Payment = Client.SerializeObject(new
+                    Payment = Serializer.SerializeObject(new
                     {
                         ReturnInfo = returnInfo,
                         PaymentInfo = paymentInfo

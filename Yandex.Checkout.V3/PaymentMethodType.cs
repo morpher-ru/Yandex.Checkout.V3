@@ -1,37 +1,24 @@
-﻿using System.Runtime.Serialization;
-
-namespace Yandex.Checkout.V3
+﻿namespace Yandex.Checkout.V3
 {
     /// <summary>
     /// Типы платежей
     /// </summary>
-    public enum PaymentMethodType
+    public static class PaymentMethodType
     {
-        [EnumMember(Value = "sberbank")]
-        Sberbank,
-        [EnumMember(Value = "bank_card")]
-        BankCard,
-        [EnumMember(Value = "cash")]
-        Cash,
-        [EnumMember(Value = "yandex_money")]
-        YandexMoney,
-        [EnumMember(Value = "qiwi")]
-        Qiwi,
-        [EnumMember(Value = "alfabank")]
-        Alfabank,
-        [EnumMember(Value = "webmoney")]
-        Webmoney,
-        [EnumMember(Value = "apple_pay")]
-        ApplePay,
-        [EnumMember(Value = "mobile_balance")]
-        MobileBalance,
-        [EnumMember(Value = "installments")]
-        Installments,
-        [EnumMember(Value = "psb")]
-        Psb,
-        [EnumMember(Value = "google_pay")]
-        GooglePay,
-        [EnumMember(Value = "b2b_sberbank")]
-        B2BSberbank,
+        public const string Sberbank = "sberbank";
+        public const string BankCard = "bank_card";
+        public const string Cash = "cash";
+        public const string YooMoney = "yoo_money";
+        public const string Qiwi = "qiwi";
+        public const string Alfabank = "alfabank";
+        public const string Webmoney = "webmoney";
+        public const string ApplePay = "apple_pay";
+        public const string MobileBalance = "mobile_balance";
+        public const string Installments = "installments";
+        public const string Psb = "psb";
+        public const string GooglePay = "google_pay";
+        public const string B2BSberbank = "b2b_sberbank";
+        public const string WeChat = "wechat";
+        public const string Tinkoff = "tinkoff_bank";
     }
 }

@@ -7,7 +7,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Yandex.Checkout.V3", "Yande
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AspNetSample", "AspNetSample\AspNetSample.csproj", "{CDB910C3-CAC0-4706-8B55-4D224D19EF41}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yandex.Checkout.V3.Demo", "Yandex.Checkout.V3.Demo\Yandex.Checkout.V3.Demo.csproj", "{3F55C73B-697C-419D-B0EA-1CCCFF64C818}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Yandex.Checkout.V3.Demo", "Yandex.Checkout.V3.Demo\Yandex.Checkout.V3.Demo.csproj", "{3F55C73B-697C-419D-B0EA-1CCCFF64C818}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yandex.Checkout.V3.Tests", "Yandex.Checkout.V3.Tests\Yandex.Checkout.V3.Tests.csproj", "{208431B4-5E21-4484-B120-5284FD757B81}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{3F55C73B-697C-419D-B0EA-1CCCFF64C818}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3F55C73B-697C-419D-B0EA-1CCCFF64C818}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3F55C73B-697C-419D-B0EA-1CCCFF64C818}.Release|Any CPU.Build.0 = Release|Any CPU
+		{208431B4-5E21-4484-B120-5284FD757B81}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{208431B4-5E21-4484-B120-5284FD757B81}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{208431B4-5E21-4484-B120-5284FD757B81}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{208431B4-5E21-4484-B120-5284FD757B81}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

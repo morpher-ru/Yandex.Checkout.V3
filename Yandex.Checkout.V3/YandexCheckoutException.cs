@@ -4,7 +4,7 @@ using System.Net;
 namespace Yandex.Checkout.V3
 {
     /// <summary>
-    /// Represents Yandex.Checkout API error responce
+    /// Represents a Yandex.Checkout API error response
     /// </summary>
     [Serializable]
     public class YandexCheckoutException : Exception
