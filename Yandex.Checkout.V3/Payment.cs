@@ -12,10 +12,12 @@ namespace Yandex.Checkout.V3
     public class Payment : NewPayment
     {
         public string Id { get; set; }
-        
+
         public PaymentStatus Status { get; set; }
         
         public bool Paid { get; set; }
+
+        public bool Refundable { get; set; }
         
         public DateTime CreatedAt { get; set; }
         
@@ -29,6 +31,8 @@ namespace Yandex.Checkout.V3
         
         public bool? Test { get; set; }
         
+        public Amount IncomeAmount { get; set; }
+
         public Amount RefundedAmount { get; set; }
         
         public CancellationDetails CancellationDetails { get; set; }

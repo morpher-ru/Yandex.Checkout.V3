@@ -7,7 +7,7 @@ namespace Yandex.Checkout.V3
     /// <summary>
     /// Исходные данные для создания платежа.
     /// </summary>
-    public class NewPayment
+    public class NewPayment : RawJsonBase
     {
         /// <summary>
         /// Сумма платежа. 

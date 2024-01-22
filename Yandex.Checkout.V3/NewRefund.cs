@@ -7,7 +7,7 @@ namespace Yandex.Checkout.V3
     /// <summary>
     /// Данные для оформления возврата
     /// </summary>
-    public class NewRefund
+    public class NewRefund : RawJsonBase
     {
         /// <summary>
         /// Сумма к возврату

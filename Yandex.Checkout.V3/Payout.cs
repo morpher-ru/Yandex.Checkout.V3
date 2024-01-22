@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 
 namespace Yandex.Checkout.V3
 {
-	public class Payout
+	public class Payout : RawJsonBase
 	{
 		public string Id { get; set; }
 

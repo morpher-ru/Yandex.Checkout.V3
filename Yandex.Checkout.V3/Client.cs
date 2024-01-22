@@ -207,7 +207,26 @@ namespace Yandex.Checkout.V3
             Message message = null;
             if (requestHttpMethod == "POST" && requestContentType.StartsWith(ApplicationJson))
             {
-                message = Serializer.DeserializeObject<Message>(jsonBody);
+                var tmp = Serializer.DeserializeObject<Message>(jsonBody);
+
+                switch (tmp.Event)
+                {
+                    case Event.PaymentWaitingForCapture:
+                    case Event.PaymentSucceeded:
+                    case Event.PaymentCanceled:
+                        var tmpPay = Serializer.DeserializeObject<MessageInternal<Payment>>(jsonBody);
+                        tmp.Payment = tmpPay?.Object;
+                        break;
+                    case Event.RefundSucceeded:
+                        var tmpRefund = Serializer.DeserializeObject<MessageInternal<Refund>>(jsonBody);
+                        tmp.Refund = tmpRefund?.Object;
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
+
+                message = tmp;
+                message.RawJson = jsonBody;
             }
             return message;
         }
@@ -228,7 +247,7 @@ namespace Yandex.Checkout.V3
 
         internal const string ApplicationJson = "application/json";
 
-        internal static T ProcessResponse<T>(HttpStatusCode statusCode, string responseData, string contentType)
+        internal static T ProcessResponse<T>(HttpStatusCode statusCode, string responseData, string contentType) where T : RawJsonBase
         {
             if (statusCode != HttpStatusCode.OK)
             {
@@ -238,10 +257,12 @@ namespace Yandex.Checkout.V3
                         : Serializer.DeserializeObject<Error>(responseData));
             }
 
-            return Serializer.DeserializeObject<T>(responseData);
+            var temp = Serializer.DeserializeObject<T>(responseData);
+            temp.RawJson = responseData;
+            return temp;
         }
 
-        private T Query<T>(string method, object body, string url, string idempotenceKey)
+        private T Query<T>(string method, object body, string url, string idempotenceKey) where T : RawJsonBase
         {
             HttpWebRequest request = CreateRequest(method, body, url, idempotenceKey ?? Guid.NewGuid().ToString());
             try
@@ -256,7 +277,7 @@ namespace Yandex.Checkout.V3
             }
         }
 
-        private static T GetResponse<T>(HttpWebResponse response)
+        private static T GetResponse<T>(HttpWebResponse response) where T : RawJsonBase
         {
             using Stream responseStream = response.GetResponseStream();
             using var reader = new StreamReader(responseStream ?? throw new InvalidOperationException("Response stream is null."));

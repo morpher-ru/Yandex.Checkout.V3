@@ -146,7 +146,7 @@ namespace Yandex.Checkout.V3
         public Task<ReceiptInformation> GetReceiptAsync(string id, CancellationToken cancellationToken = default)
             => QueryAsync<ReceiptInformation>(HttpMethod.Get, null, $"receipts/{id}", null, cancellationToken);
 
-        private async Task<T> QueryAsync<T>(HttpMethod method, object body, string url, string idempotenceKey, CancellationToken cancellationToken)
+        private async Task<T> QueryAsync<T>(HttpMethod method, object body, string url, string idempotenceKey, CancellationToken cancellationToken) where T : RawJsonBase
         {
             using var request = CreateRequest(method, body, url, idempotenceKey ?? Guid.NewGuid().ToString());
 

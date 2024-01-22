@@ -5,7 +5,7 @@
 namespace Yandex.Checkout.V3
 {
     // ReSharper disable once ClassNeverInstantiated.Global
-    internal class ReceiptInformationResponse
+    internal class ReceiptInformationResponse : RawJsonBase
     {
         // ReSharper disable once AutoPropertyCanBeMadeGetOnly.Global
         public List<ReceiptInformation> Items { get; set; } = new();

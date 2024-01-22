@@ -2,7 +2,7 @@
 
 namespace Yandex.Checkout.V3
 {
-    public class NewDeal
+    public class NewDeal : RawJsonBase
     {
         public DealType Type { get; set; } = DealType.SafeDeal;
 

@@ -10,6 +10,8 @@ namespace Yandex.Checkout.V3
 
         public string ConfirmationUrl { get; set; }
 
+        public string ConfirmationData { get; set; }
+
         public bool? Enforce { get; set; }
 
         public string Locale { get; set; }

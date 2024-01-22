@@ -11,7 +11,7 @@ namespace Yandex.Checkout.V3
     /// <remarks>
     /// See https://yookassa.ru/developers/api#receipt_object
     /// </remarks>
-    public class ReceiptInformation
+    public class ReceiptInformation : RawJsonBase
     {
         public string Id { get; set; }
 
