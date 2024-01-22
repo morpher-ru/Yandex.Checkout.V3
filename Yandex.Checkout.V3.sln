@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27130.2020
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34511.84
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Yandex.Checkout.V3", "Yandex.Checkout.V3\Yandex.Checkout.V3.csproj", "{36A67780-4FEF-447B-8F8D-C9FC58C19C2E}"
 EndProject
@@ -9,7 +9,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AspNetSample", "AspNetSampl
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Yandex.Checkout.V3.Demo", "Yandex.Checkout.V3.Demo\Yandex.Checkout.V3.Demo.csproj", "{3F55C73B-697C-419D-B0EA-1CCCFF64C818}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yandex.Checkout.V3.Tests", "Yandex.Checkout.V3.Tests\Yandex.Checkout.V3.Tests.csproj", "{208431B4-5E21-4484-B120-5284FD757B81}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Yandex.Checkout.V3.Tests", "Yandex.Checkout.V3.Tests\Yandex.Checkout.V3.Tests.csproj", "{208431B4-5E21-4484-B120-5284FD757B81}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yandex.Checkout.V3.nuspec", "Yandex.Checkout.V3.nuspec\Yandex.Checkout.V3.nuspec.csproj", "{F64024E4-6F3D-4FF8-A413-18B30574D526}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{208431B4-5E21-4484-B120-5284FD757B81}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{208431B4-5E21-4484-B120-5284FD757B81}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{208431B4-5E21-4484-B120-5284FD757B81}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F64024E4-6F3D-4FF8-A413-18B30574D526}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F64024E4-6F3D-4FF8-A413-18B30574D526}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F64024E4-6F3D-4FF8-A413-18B30574D526}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F64024E4-6F3D-4FF8-A413-18B30574D526}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

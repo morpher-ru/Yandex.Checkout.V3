@@ -49,4 +49,8 @@
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All" />
   </ItemGroup>
 
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="cd $(TargetDir)..\&#xD;&#xA;xcopy /S /Y $(TargetName).* ..\..\..\$(TargetName).nuspec\lib\" />
+  </Target>
+
 </Project>
