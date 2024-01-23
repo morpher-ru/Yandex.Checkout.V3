@@ -13,5 +13,10 @@
         /// The authorization code provided by the bank card issuer to confirm authorization.
         /// </summary>
         public string AuthCode { get; set; }
+        
+        /// <summary>
+        /// 3‑D Secure authentication details provided by the user to confirm the payment.
+        /// </summary>
+        public ThreeDSecure ThreeDSecure { get; set; }
     }
 }
