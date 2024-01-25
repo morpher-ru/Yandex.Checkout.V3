@@ -22,6 +22,7 @@
         - Change ParseMessage() to handle Refunds.
         - Fix typo in 'Rrn' ('Retrieval Reference Number', was: 'Rnn').
     </PackageReleaseNotes>
+    <PackageReadmeFile>README.md</PackageReadmeFile>  
     <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\Yandex.Checkout.V3.xml</DocumentationFile>
     <NoWarn>1591</NoWarn>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
@@ -29,6 +30,10 @@
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
   </PropertyGroup>
+  
+  <ItemGroup>
+    <None Include="..\README.md" Pack="true" PackagePath="\"/>
+  </ItemGroup>  
     
   <ItemGroup Condition=" '$(TargetFramework)' == 'net45' ">
     <Reference Include="System.Net.Http" />
