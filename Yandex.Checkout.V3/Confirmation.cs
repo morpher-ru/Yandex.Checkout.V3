@@ -9,6 +9,8 @@ namespace Yandex.Checkout.V3
         public string ReturnUrl { get; set; }
 
         public string ConfirmationUrl { get; set; }
+        
+        public string ConfirmationData { get; set; }
 
         public bool? Enforce { get; set; }
 
