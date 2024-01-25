@@ -86,7 +86,7 @@ MSBuild version 17.6.1+8ffc3fe3d for .NET
   Yandex.Checkout.V3 -> C:\Code\Yandex.Checkout.V3\Yandex.Checkout.V3\bin\Debug\netstandard2.0\Yandex.Checkout.V3.dll
 ```
 
-Пакет будет создан в папке bin.
+Пакет будет создан в папке bin/Debug.
 
 
 ## Политика версионирования

@@ -70,6 +70,23 @@ The [Nuget package](https://www.nuget.org/packages/Yandex.Checkout.V3) contains 
 
 The required version is chosen automatically for you when you install the Nuget package. Installation instructions can be found on the [nuget.org page](https://www.nuget.org/packages/Yandex.Checkout.V3).
 
+
+## Building the Nuget package
+
+To build the Nuget package, simply run ```dotnet pack```:
+
+```cmd
+C:\Code\Yandex.Checkout.V3\Yandex.Checkout.V3> dotnet pack             
+MSBuild version 17.6.1+8ffc3fe3d for .NET
+  Determining projects to restore...
+  All projects are up-to-date for restore.
+  Yandex.Checkout.V3 -> C:\Code\Yandex.Checkout.V3\Yandex.Checkout.V3\bin\Debug\net45\Yandex.Checkout.V3.dll
+  Yandex.Checkout.V3 -> C:\Code\Yandex.Checkout.V3\Yandex.Checkout.V3\bin\Debug\netstandard2.0\Yandex.Checkout.V3.dll
+```
+
+The package will be created in the ```bin/Debug``` folder.
+
+
 ## Versioning Policy
 
 The package version is set by the &lt;Version&gt; tag in [Yandex.Checkout.V3.csproj](https://github.com/morpher-ru/Yandex.Checkout.V3/blob/master/Yandex.Checkout.V3/Yandex.Checkout.V3.csproj#L5) and follows [SemVer](https://semver.org/).
