@@ -48,13 +48,17 @@ The sample code below implements taking a payment as detailed in the [Quick Star
     Response.Redirect(url);
 
     // 3. Wait until the payment is processed
-    Message message = Client.ParseMessage(Request.HttpMethod, Request.ContentType, Request.InputStream);
-    Payment payment = message?.Object;
-    
-    if (message?.Event == Event.PaymentWaitingForCapture && payment.Paid)
+    var notification = Client.ParseMessage(Request.HttpMethod, Request.ContentType, Request.InputStream);
+
+    if (notification is PaymentWaitingForCaptureNotification paymentWaitingForCaptureNotification)
     {
-        // 4. Confirm taking the payment
-        _client.CapturePayment(payment.Id);
+        Payment payment = paymentWaitingForCaptureNotification.Object;
+        
+        if (payment.Paid)
+        {
+            // 4. Confirm taking the payment
+            _client.CapturePayment(payment.Id);
+        }
     }
 ```
 

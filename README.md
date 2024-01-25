@@ -50,14 +50,18 @@ AsyncClient содержит те же методы, что и Client, толь�
     Response.Redirect(url);
 
     // 3. Дождитесь получения уведомления
-    Message message = Client.ParseMessage(Request.HttpMethod, Request.ContentType, Request.InputStream);
-    Payment payment = message?.Object;
-    
-    if (message?.Event == Event.PaymentWaitingForCapture && payment.Paid)
+    var notification = Client.ParseMessage(Request.HttpMethod, Request.ContentType, Request.InputStream);
+
+    if (notification is PaymentWaitingForCaptureNotification paymentWaitingForCaptureNotification)
     {
-        // 4. Подтвердите готовность принять платеж
-        _client.CapturePayment(payment.Id);
-    }
+        Payment payment = paymentWaitingForCaptureNotification.Object;
+        
+        if (payment.Paid)
+        {
+            // 4. Подтвердите готовность принять платеж
+            _client.CapturePayment(payment.Id);
+        }
+    }    
 ```
 
 Полный код в [примере на ASP.NET](https://github.com/morpher-ru/Yandex.Checkout.V3/blob/master/AspNetSample/Default.aspx.cs).
