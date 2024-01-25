@@ -72,6 +72,23 @@ AsyncClient содержит те же методы, что и Client, толь�
 
 Нужный вариант библиотеки выбирается автоматически при установке пакета. Инструкции по установке на [странице nuget.org](https://www.nuget.org/packages/Yandex.Checkout.V3).
 
+
+## Сборка Nuget-пакета
+
+Для сборки пакета достаточно выполнить команду ```dotnet pack```:
+
+```cmd
+C:\Code\Yandex.Checkout.V3\Yandex.Checkout.V3> dotnet pack             
+MSBuild version 17.6.1+8ffc3fe3d for .NET
+  Determining projects to restore...
+  All projects are up-to-date for restore.
+  Yandex.Checkout.V3 -> C:\Code\Yandex.Checkout.V3\Yandex.Checkout.V3\bin\Debug\net45\Yandex.Checkout.V3.dll
+  Yandex.Checkout.V3 -> C:\Code\Yandex.Checkout.V3\Yandex.Checkout.V3\bin\Debug\netstandard2.0\Yandex.Checkout.V3.dll
+```
+
+Пакет будет создан в папке bin.
+
+
 ## Политика версионирования
 
 Версия пакета задается тегом &lt;Version&gt; в [Yandex.Checkout.V3.csproj](https://github.com/morpher-ru/Yandex.Checkout.V3/blob/master/Yandex.Checkout.V3/Yandex.Checkout.V3.csproj#L5) и следует правилам [семантического версионирования](https://semver.org/lang/ru/).
@@ -98,3 +115,5 @@ AsyncClient содержит те же методы, что и Client, толь�
 
 Если вы решили взять в работу одну из [открытых задач](https://github.com/morpher-ru/Yandex.Checkout.V3/issues),
 сообщите об этом в комментарии к задаче, чтобы предотвратить дублирование усилий.
+
+На каждое изменение лучше заводить отдельный пул-реквест. Так больше шансов, что ваш пул-реквест будет принят.
