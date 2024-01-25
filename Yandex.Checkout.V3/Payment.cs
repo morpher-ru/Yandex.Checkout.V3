@@ -36,5 +36,9 @@ namespace Yandex.Checkout.V3
         public AuthorizationDetails AuthorizationDetails { get; set; }
         
         public PayoutDestination PayoutDestination { get; set; }
+        
+        public bool Refundable { get; set; }
+        
+        public Amount IncomeAmount { get; set; }
     }
 }
