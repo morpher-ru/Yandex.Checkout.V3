@@ -192,24 +192,43 @@ namespace Yandex.Checkout.V3
         /// <summary>
         /// Parses an HTTP request into a <see cref="Message"/> object.
         /// </summary>
-        /// <returns>A <see cref="Message"/> object or null.</returns>
-        public static Message ParseMessage(string requestHttpMethod, string requestContentType, Stream requestInputStream)
+        /// <returns>A <see cref="Notification"/> object subclass or null.</returns>
+        public static Notification ParseMessage(string requestHttpMethod, string requestContentType, Stream requestInputStream)
         {
             return ParseMessage(requestHttpMethod, requestContentType, ReadToEnd(requestInputStream));
         }
 
         /// <summary>
-        /// Parses an HTTP request into a <see cref="Message"/> object.
+        /// Parses an HTTP request into a <see cref="Notification"/> object.
         /// </summary>
-        /// <returns>A <see cref="Message"/> object or null.</returns>
-        public static Message ParseMessage(string requestHttpMethod, string requestContentType, string jsonBody)
+        /// <returns>A <see cref="Notification"/> object subclass or null.</returns>
+        public static Notification ParseMessage(string requestHttpMethod, string requestContentType, string jsonBody)
         {
-            Message message = null;
-            if (requestHttpMethod == "POST" && requestContentType.StartsWith(ApplicationJson))
+            if (requestHttpMethod != "POST")
             {
-                message = Serializer.DeserializeObject<Message>(jsonBody);
+                return null;
             }
-            return message;
+
+            if (!requestContentType.StartsWith(ApplicationJson))
+            {
+                return null;
+            }
+            
+            Message message = Serializer.DeserializeObject<Message>(jsonBody);
+
+            return message.Event switch
+            {
+                "payment.waiting_for_capture" =>
+                    Serializer.DeserializeObject<PaymentWaitingForCaptureNotification>(jsonBody),
+                "payment.succeeded" =>
+                    Serializer.DeserializeObject<PaymentSucceededNotification>(jsonBody),
+                "payment.canceled" =>
+                    Serializer.DeserializeObject<PaymentCanceledNotification>(jsonBody),
+                "refund.succeeded" =>
+                    Serializer.DeserializeObject<RefundSucceededNotification>(jsonBody),
+
+                _ => null // Keep our options open in case new event types are added in the future
+            };
         }
 
         #endregion Parse

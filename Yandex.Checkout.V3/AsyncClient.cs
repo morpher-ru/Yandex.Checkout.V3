@@ -182,10 +182,10 @@ namespace Yandex.Checkout.V3
         }
 
         /// <summary>
-        /// Parses an HTTP request into a <see cref="Yandex.Checkout.V3.Message"/> object.
+        /// Parses an HTTP request into a <see cref="Yandex.Checkout.V3.Notification"/> object.
         /// </summary>
-        /// <returns>A <see cref="Yandex.Checkout.V3.Message"/> object or null.</returns>
-        public static async Task<Message> ParseMessageAsync(string requestHttpMethod, string requestContentType, Stream requestInputStream)
+        /// <returns>A <see cref="Notification"/> object subclass or null.</returns>
+        public static async Task<Notification> ParseMessageAsync(string requestHttpMethod, string requestContentType, Stream requestInputStream)
         {
             return Client.ParseMessage(requestHttpMethod, requestContentType, await ReadToEndAsync(requestInputStream));
         }
