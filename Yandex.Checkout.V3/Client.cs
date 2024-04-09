@@ -125,7 +125,7 @@ namespace Yandex.Checkout.V3
         /// </summary>
         /// <param name="refund">Refund data</param>
         /// <param name="idempotenceKey">Idempotence key, use <value>null</value> to generate a new one</param>
-        /// <returns><see cref="NewRefund"/></returns>
+        /// <returns><see cref="Refund"/></returns>
         public Refund CreateRefund(NewRefund refund, string idempotenceKey = null)
             => Query<Refund>("POST", refund, "refunds", idempotenceKey);
 
