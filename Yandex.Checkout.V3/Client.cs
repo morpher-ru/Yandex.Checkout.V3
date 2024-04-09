@@ -101,7 +101,7 @@ namespace Yandex.Checkout.V3
         /// <param name="idempotenceKey">Idempotence key, use <value>null</value> to generate a new one</param>
         /// <returns><see cref="Payment"/></returns>
         public Payment CapturePayment(Payment payment, string idempotenceKey = null)
-            => Query<Payment>("POST", payment, $"payments/{payment.Id}/capture", idempotenceKey);
+            => CapturePayment(payment.Id, idempotenceKey);
 
         /// <summary>
         /// Query payment state
