@@ -83,7 +83,7 @@ namespace Yandex.Checkout.V3
         /// <param name="idempotenceKey">Idempotence key, use <value>null</value> to generate a new one</param>
         /// <returns><see cref="Payment"/></returns>
         public Task<Payment> CapturePaymentAsync(Payment payment, string idempotenceKey = null, CancellationToken cancellationToken = default)
-            => QueryAsync<Payment>(HttpMethod.Post, payment, $"payments/{payment.Id}/capture", idempotenceKey, cancellationToken);
+            => CapturePaymentAsync(payment.Id, idempotenceKey, cancellationToken);
 
         /// <summary>
         /// Query payment state
