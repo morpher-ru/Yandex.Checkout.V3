@@ -79,7 +79,7 @@ namespace Yandex.Checkout.V3
         /// </summary>
         /// <param name="payout">Payout information, <see cref="NewPayout"/></param>
         /// <param name="idempotenceKey">Idempotence key, use <value>null</value> to generate a new one</param>
-        /// <returns><see cref="Payment"/></returns>
+        /// <returns><see cref="Payout"/></returns>
         public Payout CreatePayout(NewPayout payout, string idempotenceKey = null)
             => Query<Payout>("POST", payout, "payouts", idempotenceKey);
 
