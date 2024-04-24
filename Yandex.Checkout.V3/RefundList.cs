@@ -1,4 +1,5 @@
-using Newtonsoft.Json;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Yandex.Checkout.V3
 {
