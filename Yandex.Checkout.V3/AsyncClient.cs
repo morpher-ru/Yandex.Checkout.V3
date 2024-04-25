@@ -115,7 +115,7 @@ namespace Yandex.Checkout.V3
             => QueryAsync<Refund>(HttpMethod.Post, refund, "refunds", idempotenceKey, cancellationToken);
 
         /// <summary>
-        /// Query refund
+        /// Query refund by id
         /// </summary>
         /// <param name="id">Refund id</param>
         /// <param name="cancellationToken"><see cref="CancellationToken"/></param>

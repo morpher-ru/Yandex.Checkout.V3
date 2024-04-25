@@ -130,7 +130,7 @@ namespace Yandex.Checkout.V3
             => Query<Refund>("POST", refund, "refunds", idempotenceKey);
 
         /// <summary>
-        /// Query refund
+        /// Query refund by id
         /// </summary>
         /// <param name="id">Refund id</param>
         /// <returns><see cref="NewRefund"/></returns>
