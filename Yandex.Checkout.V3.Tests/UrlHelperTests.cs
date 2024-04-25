@@ -42,7 +42,7 @@ namespace Yandex.Checkout.V3.Tests
 
             string queryString = UrlHelper.ToQueryString(filter, null);
 
-            string expected = "created_at.lte=2024-04-24T15:30:00Z";
+            string expected = "created_at.lte=2024-04-24T15%3A30%3A00Z";
             
             Assert.AreEqual(expected, queryString);
         }
