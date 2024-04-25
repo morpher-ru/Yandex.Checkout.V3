@@ -7,6 +7,22 @@ namespace Yandex.Checkout.V3.Tests
     public class UrlHelperTests
     {
         [TestMethod]
+        public void CreateRequestUrl_NullFilter_EmptyQuery()
+        {
+            string queryString = UrlHelper.ToQueryString(filter: null, cursor: null);
+
+            Assert.AreEqual("", queryString);
+        }
+        
+        [TestMethod]
+        public void CreateRequestUrl_NullFilterCursor_Cursor()
+        {
+            string queryString = UrlHelper.ToQueryString(filter: null, cursor: "123");
+
+            Assert.AreEqual("cursor=123", queryString);
+        }
+        
+        [TestMethod]
         public void CreateRequestUrl_EmptyFilter_EmptyQuery()
         {
             var filter = new GetReceiptsFilter();
