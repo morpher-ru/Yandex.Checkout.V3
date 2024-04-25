@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Text;
 
 // ReSharper disable UnusedAutoPropertyAccessor.Global
@@ -70,8 +70,13 @@ namespace Yandex.Checkout.V3
                     url.Append($"{name}={value}&");
             }
 
-            void AppendDate(DateTimeOffset? date, string name) => 
-                AppendParam(date?.UtcDateTime.ToString("s") + "Z", name);
+
+            void AppendDate(DateTimeOffset? date, string name)
+            {
+                var datePostfix = date.HasValue ? "Z" : string.Empty;
+                AppendParam(date?.UtcDateTime.ToString("s") + datePostfix, name);
+            } 
+               
 
             AppendDate(filter?.CreatedAtGte, "created_at.gte");
             AppendDate(filter?.CreatedAtGt,  "created_at.gt");
