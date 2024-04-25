@@ -13,21 +13,52 @@ namespace Yandex.Checkout.V3
         /// <remarks>
         /// See https://yookassa.ru/developers/api#get_receipts_list
         /// </remarks>
-        public async IAsyncEnumerable<ReceiptInformation> GetReceiptsAsync(GetReceiptsFilter filter = null,
-            [EnumeratorCancellation] CancellationToken cancellationToken = default)
+        public IAsyncEnumerable<ReceiptInformation> GetReceiptsAsync(
+            GetReceiptsFilter filter = null,
+            CancellationToken ct = default,
+            string idempotenceKey = default)
+        {
+            return GetListAsync<ReceiptInformation>("receipts", filter, ct, idempotenceKey);
+        }
+
+        /// <summary>
+        /// Query refunds by search criteria
+        /// </summary>
+        /// <remarks>
+        /// See https://yookassa.ru/developers/api#get_refunds_list
+        /// </remarks>
+        public IAsyncEnumerable<Refund> GetRefundsAsync(
+            RefundFilter filter,
+            CancellationToken ct = default,
+            string idempotenceKey = default)
+        {
+            return GetListAsync<Refund>("refunds", filter, ct, idempotenceKey);
+        }
+
+        private async IAsyncEnumerable<T> GetListAsync<T>(
+            string path,
+            object filter,
+            [EnumeratorCancellation] CancellationToken cancellationToken,
+            string idempotenceKey)
         {
             string cursor = null;
+
             do
             {
-                var batch = await QueryAsync<ReceiptInformationResponse>(HttpMethod.Get, null, filter.CreateRequestUrl(cursor), null, cancellationToken);
+                var batch = await QueryAsync<ListBatch<T>>(
+                    HttpMethod.Get, 
+                    body: null,
+                    UrlHelper.MakeUrl(path, filter, cursor),
+                    idempotenceKey,
+                    cancellationToken);
 
-                foreach (var item in batch.Items)
+                foreach (T item in batch.Items)
                 {
-                    cancellationToken.ThrowIfCancellationRequested();
                     yield return item;
                 }
 
                 cursor = batch.NextCursor;
+                
             } while (!string.IsNullOrEmpty(cursor));
         }
     }

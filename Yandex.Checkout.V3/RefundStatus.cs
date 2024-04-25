@@ -1,15 +1,13 @@
-﻿using System.Runtime.Serialization;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using Newtonsoft.Json.Serialization;
 
 namespace Yandex.Checkout.V3
 {
-    [JsonConverter(typeof(StringEnumConverter))]
+    [JsonConverter(typeof(StringEnumConverter), typeof(SnakeCaseNamingStrategy))]
     public enum RefundStatus
     {
-        [EnumMember(Value = "succeeded")]
         Succeeded,
-        [EnumMember(Value = "canceled")]
         Canceled
     }
 }

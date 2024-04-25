@@ -18,7 +18,6 @@ namespace Yandex.Checkout.V3
         /// <summary>
         /// Статус
         /// </summary>
-        [JsonConverter(typeof(StringEnumConverter))]
         public RefundStatus Status { get; set; }
 
         /// <summary>

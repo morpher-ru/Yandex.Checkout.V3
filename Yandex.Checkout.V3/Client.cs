@@ -158,27 +158,64 @@ namespace Yandex.Checkout.V3
             => Query<ReceiptInformation>("GET", null, $"receipts/{id}", null);
 
         /// <summary>
-        /// Query receipts
+        /// Query receipts by filter criteria
         /// </summary>
         /// <remarks>
         /// See https://yookassa.ru/developers/api#get_receipts_list
         /// </remarks>
-        public IEnumerable<ReceiptInformation> GetReceipts(GetReceiptsFilter filter = null,
-            CancellationToken cancellationToken = default)
+        public IEnumerable<ReceiptInformation> GetReceipts(
+            GetReceiptsFilter filter = null,
+            CancellationToken cancellationToken = default,
+            string idempotenceKey = default)
+        {
+            return GetList<ReceiptInformation>(
+                "receipts",
+                filter,
+                cancellationToken,
+                idempotenceKey);
+        }
+
+        /// <summary>
+        /// Query refunds by filter criteria
+        /// </summary>
+        /// <remarks>
+        /// See https://yookassa.ru/developers/api#get_refunds_list
+        /// </remarks>
+        public IEnumerable<ReceiptInformation> GetRefunds(
+            RefundFilter filter = null,
+            CancellationToken cancellationToken = default,
+            string idempotenceKey = default)
+        {
+            return GetList<ReceiptInformation>(
+                "refunds",
+                filter,
+                cancellationToken,
+                idempotenceKey);
+        }
+
+        private IEnumerable<T> GetList<T>(
+            string path, 
+            object filter,
+            CancellationToken cancellationToken,
+            string idempotenceKey)
         {
             string cursor = null;
             do
             {
                 cancellationToken.ThrowIfCancellationRequested();
-                var batch = Query<ReceiptInformationResponse>("GET", null, filter.CreateRequestUrl(cursor), null);
+                var batch = Query<ListBatch<T>>("GET", 
+                    body: null, 
+                    UrlHelper.MakeUrl(path, filter, cursor), 
+                    idempotenceKey);
 
-                foreach (ReceiptInformation item in batch.Items)
+                foreach (T item in batch.Items)
                 {
                     cancellationToken.ThrowIfCancellationRequested();
                     yield return item;
                 }
 
                 cursor = batch.NextCursor;
+                
             } while (!string.IsNullOrEmpty(cursor));
         }
 
