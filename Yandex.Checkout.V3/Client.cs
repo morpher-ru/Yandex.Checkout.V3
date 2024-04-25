@@ -181,12 +181,12 @@ namespace Yandex.Checkout.V3
         /// <remarks>
         /// See https://yookassa.ru/developers/api#get_refunds_list
         /// </remarks>
-        public IEnumerable<ReceiptInformation> GetRefunds(
+        public IEnumerable<Refund> GetRefunds(
             RefundFilter filter = null,
             CancellationToken cancellationToken = default,
             string idempotenceKey = default)
         {
-            return GetList<ReceiptInformation>(
+            return GetList<Refund>(
                 "refunds",
                 filter,
                 cancellationToken,
