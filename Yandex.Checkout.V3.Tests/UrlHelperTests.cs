@@ -4,16 +4,16 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace Yandex.Checkout.V3.Tests
 {
     [TestClass]
-    public class GetReceiptsFilterExtensionsTests
+    public class UrlHelperTests
     {
         [TestMethod]
         public void CreateRequestUrl_EmptyFilter_EmptyQuery()
         {
             var filter = new GetReceiptsFilter();
 
-            string url = filter.CreateRequestUrl(null);
+            string queryString = UrlHelper.ToQueryString(filter, null);
 
-            Assert.AreEqual("receipts", url);
+            Assert.AreEqual("", queryString);
         }
         
         [TestMethod]
@@ -24,11 +24,11 @@ namespace Yandex.Checkout.V3.Tests
                 CreatedAtLte = new DateTimeOffset(2024, 04, 24, 15, 30, 00, TimeSpan.Zero)
             };
 
-            string url = filter.CreateRequestUrl(null);
+            string queryString = UrlHelper.ToQueryString(filter, null);
 
-            string expected = "receipts?created_at.lte=2024-04-24T15:30:00Z";
+            string expected = "created_at.lte=2024-04-24T15:30:00Z";
             
-            Assert.AreEqual(expected, url);
+            Assert.AreEqual(expected, queryString);
         }
         
         [TestMethod]
@@ -39,11 +39,11 @@ namespace Yandex.Checkout.V3.Tests
                 Status = ReceiptStatus.Pending
             };
 
-            string url = filter.CreateRequestUrl(null);
+            string queryString = UrlHelper.ToQueryString(filter, null);
 
-            string expected = "receipts?status=pending";
+            string expected = "status=pending";
             
-            Assert.AreEqual(expected, url);
+            Assert.AreEqual(expected, queryString);
         }
         
         [TestMethod]
@@ -54,11 +54,11 @@ namespace Yandex.Checkout.V3.Tests
                 Limit = 42
             };
 
-            string url = filter.CreateRequestUrl(null);
+            string queryString = UrlHelper.ToQueryString(filter, null);
 
-            string expected = "receipts?limit=42";
+            string expected = "limit=42";
             
-            Assert.AreEqual(expected, url);
+            Assert.AreEqual(expected, queryString);
         }
     }
 }
