@@ -59,4 +59,8 @@
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All" />
   </ItemGroup>
 
+  <ItemGroup>
+    <InternalsVisibleTo Include="Yandex.Checkout.V3.Tests" />
+  </ItemGroup>
+
 </Project>
