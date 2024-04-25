@@ -124,6 +124,18 @@ namespace Yandex.Checkout.V3
             => QueryAsync<Refund>(HttpMethod.Get, null, $"refunds/{id}", null, cancellationToken);
 
         /// <summary>
+        /// Query refund
+        /// </summary>
+        /// <param name="queryParams">query params</param>
+        /// <param name="cancellationToken"><see cref="CancellationToken"/></param>
+        /// <returns><see cref="Refund"/></returns>
+        public Task<RefundList> GetRefundsAsync(Dictionary<string, string> queryParams, CancellationToken cancellationToken = default)
+        {
+            var url = QueryParamsHelper.AddQueryString("refunds/", queryParams);
+            return QueryAsync<RefundList>(HttpMethod.Get, null, url, null, cancellationToken);
+        }
+
+        /// <summary>
         /// Receipt creation
         /// </summary>
         /// <param name="receipt">Receipt information, <see cref="SettlementReceipt"/></param>
