@@ -37,7 +37,10 @@ namespace Yandex.Checkout.V3.Tests
         {
             var filter = new GetReceiptsFilter
             {
-                CreatedAtLte = new DateTimeOffset(2024, 04, 24, 15, 30, 00, TimeSpan.Zero)
+                CreatedAt = new DateFilter
+                {
+                    Lte = new DateTimeOffset(2024, 04, 24, 15, 30, 00, TimeSpan.Zero)
+                }
             };
 
             string queryString = UrlHelper.ToQueryString(filter, null);
