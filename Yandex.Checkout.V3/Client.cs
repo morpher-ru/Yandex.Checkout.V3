@@ -195,6 +195,19 @@ namespace Yandex.Checkout.V3
             return GetList<Payment>("payments", filter, options);
         }
 
+        /// <summary>
+        /// Query deals by given search criteria
+        /// </summary>
+        /// <remarks>
+        /// See https://yookassa.ru/developers/api#get_deals_list
+        /// </remarks>
+        public IEnumerable<Deal> GetDeals(
+            DealFilter filter = null,
+            ListOptions options = null)
+        {
+            return GetList<Deal>("deals", filter, options);
+        }
+
         private IEnumerable<T> GetList<T>(
             string path, 
             object filter,

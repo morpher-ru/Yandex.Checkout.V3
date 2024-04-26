@@ -46,6 +46,19 @@ namespace Yandex.Checkout.V3
             return GetListAsync<Payment>("payments", filter, options, GetCancellationToken(options));
         }
 
+        /// <summary>
+        /// Query deals by given search criteria
+        /// </summary>
+        /// <remarks>
+        /// See https://yookassa.ru/developers/api#get_deals_list
+        /// </remarks>
+        public IAsyncEnumerable<Deal> GetDealsAsync(
+            DealFilter filter = null,
+            ListOptions options = null)
+        {
+            return GetListAsync<Deal>("deals", filter, options, GetCancellationToken(options));
+        }
+
         private static CancellationToken GetCancellationToken(ListOptions options)
         {
             return options?.CancellationToken ?? CancellationToken.None;
