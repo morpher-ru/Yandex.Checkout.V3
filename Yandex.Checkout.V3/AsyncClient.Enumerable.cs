@@ -27,7 +27,7 @@ namespace Yandex.Checkout.V3
         /// See https://yookassa.ru/developers/api#get_refunds_list
         /// </remarks>
         public IAsyncEnumerable<Refund> GetRefundsAsync(
-            RefundFilter filter,
+            RefundFilter filter = null,
             ListOptions options = null)
         {
             return GetListAsync<Refund>("refunds", filter, options, GetCancellationToken(options));
