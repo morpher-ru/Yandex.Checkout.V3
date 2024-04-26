@@ -15,10 +15,9 @@ namespace Yandex.Checkout.V3
         /// </remarks>
         public IAsyncEnumerable<Receipt> GetReceiptsAsync(
             GetReceiptsFilter filter = null,
-            CancellationToken ct = default,
-            string idempotenceKey = default)
+            ListOptions options = null)
         {
-            return GetListAsync<Receipt>("receipts", filter, ct, idempotenceKey);
+            return GetListAsync<Receipt>("receipts", filter, options, GetCancellationToken(options));
         }
 
         /// <summary>
@@ -29,17 +28,20 @@ namespace Yandex.Checkout.V3
         /// </remarks>
         public IAsyncEnumerable<Refund> GetRefundsAsync(
             RefundFilter filter,
-            CancellationToken ct = default,
-            string idempotenceKey = default)
+            ListOptions options = null)
         {
-            return GetListAsync<Refund>("refunds", filter, ct, idempotenceKey);
+            return GetListAsync<Refund>("refunds", filter, options, GetCancellationToken(options));
         }
 
-        private async IAsyncEnumerable<T> GetListAsync<T>(
-            string path,
+        private static CancellationToken GetCancellationToken(ListOptions options)
+        {
+            return options?.CancellationToken ?? CancellationToken.None;
+        }
+
+        private async IAsyncEnumerable<T> GetListAsync<T>(string path,
             object filter,
-            [EnumeratorCancellation] CancellationToken cancellationToken,
-            string idempotenceKey)
+            ListOptions options,
+            [EnumeratorCancellation] CancellationToken cancellationToken)
         {
             string cursor = null;
 
@@ -48,12 +50,13 @@ namespace Yandex.Checkout.V3
                 var batch = await QueryAsync<ListBatch<T>>(
                     HttpMethod.Get, 
                     body: null,
-                    UrlHelper.MakeUrl(path, filter, cursor),
-                    idempotenceKey,
+                    UrlHelper.MakeUrl(path, filter, cursor, options?.PageSize),
+                    options?.IdempotenceKey,
                     cancellationToken);
 
                 foreach (T item in batch.Items)
                 {
+                    cancellationToken.ThrowIfCancellationRequested();
                     yield return item;
                 }
 

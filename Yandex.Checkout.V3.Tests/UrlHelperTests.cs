@@ -68,12 +68,7 @@ namespace Yandex.Checkout.V3.Tests
         [TestMethod]
         public void CreateRequestUrl_Limit42()
         {
-            var filter = new GetReceiptsFilter
-            {
-                Limit = 42
-            };
-
-            string queryString = UrlHelper.ToQueryString(filter, null);
+            string queryString = UrlHelper.ToQueryString(null, null, 42);
 
             string expected = "limit=42";
             

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Text;
-using System.Threading;
 
 namespace Yandex.Checkout.V3
 {
@@ -165,14 +164,9 @@ namespace Yandex.Checkout.V3
         /// </remarks>
         public IEnumerable<Receipt> GetReceipts(
             GetReceiptsFilter filter = null,
-            CancellationToken cancellationToken = default,
-            string idempotenceKey = default)
+            ListOptions options = null)
         {
-            return GetList<Receipt>(
-                "receipts",
-                filter,
-                cancellationToken,
-                idempotenceKey);
+            return GetList<Receipt>("receipts", filter, options);
         }
 
         /// <summary>
@@ -183,34 +177,28 @@ namespace Yandex.Checkout.V3
         /// </remarks>
         public IEnumerable<Refund> GetRefunds(
             RefundFilter filter = null,
-            CancellationToken cancellationToken = default,
-            string idempotenceKey = default)
+            ListOptions options = null)
         {
-            return GetList<Refund>(
-                "refunds",
-                filter,
-                cancellationToken,
-                idempotenceKey);
+            return GetList<Refund>("refunds", filter, options);
         }
 
         private IEnumerable<T> GetList<T>(
             string path, 
             object filter,
-            CancellationToken cancellationToken,
-            string idempotenceKey)
+            ListOptions options)
         {
             string cursor = null;
             do
             {
-                cancellationToken.ThrowIfCancellationRequested();
+                options?.CancellationToken.ThrowIfCancellationRequested();
                 var batch = Query<ListBatch<T>>("GET", 
                     body: null, 
-                    UrlHelper.MakeUrl(path, filter, cursor), 
-                    idempotenceKey);
+                    UrlHelper.MakeUrl(path, filter, cursor, options?.PageSize), 
+                    options?.IdempotenceKey);
 
                 foreach (T item in batch.Items)
                 {
-                    cancellationToken.ThrowIfCancellationRequested();
+                    options?.CancellationToken.ThrowIfCancellationRequested();
                     yield return item;
                 }
 

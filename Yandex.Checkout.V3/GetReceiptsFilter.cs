@@ -6,8 +6,13 @@ namespace Yandex.Checkout.V3
     /// Фильтр для запроса списка чеков 
     /// </summary>
     // ReSharper disable once ClassNeverInstantiated.Global
-    public class GetReceiptsFilter : BaseFilter
+    public class GetReceiptsFilter
     {
+        /// <summary>
+        /// Фильтр по времени создания 
+        /// </summary>
+        public DateFilter CreatedAt { get; set; }
+
         /// <summary>
         /// Фильтр по статусу чека
         /// </summary>

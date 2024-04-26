@@ -5,8 +5,13 @@ namespace Yandex.Checkout.V3
     /// <summary>
     /// Фильтр возвратов
     /// </summary>
-    public class RefundFilter : BaseFilter
+    public class RefundFilter
     {
+        /// <summary>
+        /// Фильтр по времени создания 
+        /// </summary>
+        public DateFilter CreatedAt { get; set; }
+
         public string PaymentId { get; set; }
 
         public RefundStatus Status { get; set; }

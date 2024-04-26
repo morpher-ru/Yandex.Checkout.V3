@@ -7,17 +7,18 @@ namespace Yandex.Checkout.V3
 {
     static class UrlHelper
     {
-        public static string MakeUrl(string path, object filter, string cursor)
+        public static string MakeUrl(string path, object filter, string cursor, int? pageSize)
         {
-            string query = ToQueryString(filter, cursor);
+            string query = ToQueryString(filter, cursor, pageSize);
             var parts = new[] { path, query }.Select(s => !string.IsNullOrEmpty(s));
             return string.Join("?", parts);
         }
 
-        public static string ToQueryString(object filter, string cursor)
+        public static string ToQueryString(object filter, string cursor, int? pageSize = null)
         {
             var dict = ToStringDictionary(filter);
             if (cursor != null) dict.Add("cursor", cursor);
+            if (pageSize != null) dict.Add("limit", pageSize.ToString());
             return ToQueryString(dict);
         }
 
