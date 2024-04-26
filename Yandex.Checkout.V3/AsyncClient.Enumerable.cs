@@ -13,12 +13,12 @@ namespace Yandex.Checkout.V3
         /// <remarks>
         /// See https://yookassa.ru/developers/api#get_receipts_list
         /// </remarks>
-        public IAsyncEnumerable<ReceiptInformation> GetReceiptsAsync(
+        public IAsyncEnumerable<Receipt> GetReceiptsAsync(
             GetReceiptsFilter filter = null,
             CancellationToken ct = default,
             string idempotenceKey = default)
         {
-            return GetListAsync<ReceiptInformation>("receipts", filter, ct, idempotenceKey);
+            return GetListAsync<Receipt>("receipts", filter, ct, idempotenceKey);
         }
 
         /// <summary>

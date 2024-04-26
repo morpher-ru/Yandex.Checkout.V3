@@ -6,8 +6,11 @@ using System.Collections.Generic;
 namespace Yandex.Checkout.V3
 {
     /// <summary>
-    /// Чек
+    /// Объект чека (Receipt) содержит актуальную информацию о чеке, созданном для платежа или возврата
     /// </summary>
+    /// <remarks>
+    /// See https://yookassa.ru/developers/api#receipt_object
+    /// </remarks>
     public class Receipt
     {
         /// <summary>

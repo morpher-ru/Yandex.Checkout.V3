@@ -150,12 +150,12 @@ namespace Yandex.Checkout.V3
         /// Query receipt
         /// </summary>
         /// <param name="id">Receipt id</param>
-        /// <returns><see cref="ReceiptInformation"/></returns>
+        /// <returns><see cref="Receipt"/></returns>
         /// <remarks>
         /// See https://yookassa.ru/developers/api#get_receipt
         /// </remarks>
-        public ReceiptInformation GetReceipt(string id)
-            => Query<ReceiptInformation>("GET", null, $"receipts/{id}", null);
+        public Receipt GetReceipt(string id)
+            => Query<Receipt>("GET", null, $"receipts/{id}", null);
 
         /// <summary>
         /// Query receipts by filter criteria
@@ -163,12 +163,12 @@ namespace Yandex.Checkout.V3
         /// <remarks>
         /// See https://yookassa.ru/developers/api#get_receipts_list
         /// </remarks>
-        public IEnumerable<ReceiptInformation> GetReceipts(
+        public IEnumerable<Receipt> GetReceipts(
             GetReceiptsFilter filter = null,
             CancellationToken cancellationToken = default,
             string idempotenceKey = default)
         {
-            return GetList<ReceiptInformation>(
+            return GetList<Receipt>(
                 "receipts",
                 filter,
                 cancellationToken,

@@ -140,12 +140,12 @@ namespace Yandex.Checkout.V3
         /// </summary>
         /// <param name="id">Receipt id</param>
         /// <param name="cancellationToken"><see cref="CancellationToken"/></param>
-        /// <returns><see cref="ReceiptInformation"/></returns>
+        /// <returns><see cref="Receipt"/></returns>
         /// <remarks>
         /// See https://yookassa.ru/developers/api#get_receipt
         /// </remarks>
-        public Task<ReceiptInformation> GetReceiptAsync(string id, CancellationToken cancellationToken = default)
-            => QueryAsync<ReceiptInformation>(HttpMethod.Get, null, $"receipts/{id}", null, cancellationToken);
+        public Task<Receipt> GetReceiptAsync(string id, CancellationToken cancellationToken = default)
+            => QueryAsync<Receipt>(HttpMethod.Get, null, $"receipts/{id}", null, cancellationToken);
 
         private async Task<T> QueryAsync<T>(HttpMethod method, object body, string url, string idempotenceKey, CancellationToken cancellationToken)
         {
