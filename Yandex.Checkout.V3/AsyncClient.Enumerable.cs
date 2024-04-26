@@ -32,6 +32,19 @@ namespace Yandex.Checkout.V3
         {
             return GetListAsync<Refund>("refunds", filter, options, GetCancellationToken(options));
         }
+        
+        /// <summary>
+        /// Query payments by search criteria
+        /// </summary>
+        /// <remarks>
+        /// See https://yookassa.ru/developers/api#get_payments_list
+        /// </remarks>
+        public IAsyncEnumerable<Payment> GetPaymentsAsync(
+            PaymentFilter filter = null,
+            ListOptions options = null)
+        {
+            return GetListAsync<Payment>("payments", filter, options, GetCancellationToken(options));
+        }
 
         private static CancellationToken GetCancellationToken(ListOptions options)
         {

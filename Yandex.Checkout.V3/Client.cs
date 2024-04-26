@@ -182,6 +182,19 @@ namespace Yandex.Checkout.V3
             return GetList<Refund>("refunds", filter, options);
         }
 
+        /// <summary>
+        /// Gets payments matching given filter criteria.
+        /// </summary>
+        /// <remarks>
+        /// See https://yookassa.ru/developers/api#get_payments_list
+        /// </remarks>
+        public IEnumerable<Payment> GetPayments(
+            PaymentFilter filter = null,
+            ListOptions options = null)
+        {
+            return GetList<Payment>("payments", filter, options);
+        }
+
         private IEnumerable<T> GetList<T>(
             string path, 
             object filter,
