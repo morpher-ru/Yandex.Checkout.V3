@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;net45;net40</TargetFrameworks>
-    <Version>2.0.0</Version>
+    <Version>3.0.0</Version>
     <Authors>morpher;ili</Authors>
     <Title>YooMoney/YooKassa API wrapper</Title>
     <Description>This library simplifies integration with YooMoney/YooKassa (formerly Yandex.Money / Yandex.Checkout).
@@ -15,12 +15,12 @@
     <RepositoryUrl>https://github.com/morpher-ru/Yandex.Checkout.V3</RepositoryUrl>
     <PackageProjectUrl>https://github.com/morpher-ru/Yandex.Checkout.V3</PackageProjectUrl>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <PackageReleaseNotes>This release has breaking changes.
-        - Add "ConfirmationData" for SBP QR.
-        - Add "Refundable" and "IncomeAmount" to Payment.
-        - Add "ThreeDSecure" to AuthorizationDetails.
-        - Change ParseMessage() to handle Refunds.
-        - Fix typo in 'Rrn' ('Retrieval Reference Number', was: 'Rnn').
+    <PackageReleaseNotes>Changes in this release:
+        - Add GetRefunds(), GetPayments(), GetDeals()
+        - Fix GetReceipts()
+        Breaking changes:
+        - Rename GetReceiptsFilter to ReceiptFilter in line with RefundFilter, PaymentFilter and DealFilter
+        - Remove class ReceiptInformation which duplicated Receipt; this affected the signature of GetReceipts()
     </PackageReleaseNotes>
     <PackageReadmeFile>README.md</PackageReadmeFile>  
     <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\Yandex.Checkout.V3.xml</DocumentationFile>
