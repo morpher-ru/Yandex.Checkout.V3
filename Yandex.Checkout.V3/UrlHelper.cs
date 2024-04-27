@@ -10,7 +10,7 @@ namespace Yandex.Checkout.V3
         public static string MakeUrl(string path, object filter, string cursor, int? pageSize)
         {
             string query = ToQueryString(filter, cursor, pageSize);
-            var parts = new[] { path, query }.Select(s => !string.IsNullOrEmpty(s));
+            var parts = new[] { path, query }.Where(s => !string.IsNullOrEmpty(s));
             return string.Join("?", parts);
         }
 
