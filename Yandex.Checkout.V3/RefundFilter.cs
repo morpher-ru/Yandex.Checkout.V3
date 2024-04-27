@@ -14,6 +14,6 @@ namespace Yandex.Checkout.V3
 
         public string PaymentId { get; set; }
 
-        public RefundStatus Status { get; set; }
+        public RefundStatus? Status { get; set; }
     }
 }
