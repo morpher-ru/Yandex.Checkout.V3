@@ -74,5 +74,17 @@ namespace Yandex.Checkout.V3.Tests
             
             Assert.AreEqual(expected, queryString);
         }
+
+        [TestMethod]
+        public void JoinPathAndQuery_EmptyQuery()
+        {
+            Assert.AreEqual("path", UrlHelper.JoinPathAndQuery("path", ""));
+        }
+
+        [TestMethod]
+        public void JoinPathAndQuery_NonEmptyQuery()
+        {
+            Assert.AreEqual("path?query", UrlHelper.JoinPathAndQuery("path", "query"));
+        }
     }
 }
