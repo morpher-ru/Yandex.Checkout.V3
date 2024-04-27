@@ -14,7 +14,7 @@ namespace Yandex.Checkout.V3
         /// See https://yookassa.ru/developers/api#get_receipts_list
         /// </remarks>
         public IAsyncEnumerable<Receipt> GetReceiptsAsync(
-            GetReceiptsFilter filter = null,
+            ReceiptFilter filter = null,
             ListOptions options = null)
         {
             return GetListAsync<Receipt>("receipts", filter, options, GetCancellationToken(options));

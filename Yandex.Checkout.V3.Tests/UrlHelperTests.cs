@@ -25,7 +25,7 @@ namespace Yandex.Checkout.V3.Tests
         [TestMethod]
         public void CreateRequestUrl_EmptyFilter_EmptyQuery()
         {
-            var filter = new GetReceiptsFilter();
+            var filter = new ReceiptFilter();
 
             string queryString = UrlHelper.ToQueryString(filter, null);
 
@@ -35,7 +35,7 @@ namespace Yandex.Checkout.V3.Tests
         [TestMethod]
         public void CreateRequestUrlDateTest()
         {
-            var filter = new GetReceiptsFilter
+            var filter = new ReceiptFilter
             {
                 CreatedAt = new DateFilter
                 {
@@ -53,7 +53,7 @@ namespace Yandex.Checkout.V3.Tests
         [TestMethod]
         public void CreateRequestUrl_StatusPending()
         {
-            var filter = new GetReceiptsFilter
+            var filter = new ReceiptFilter
             {
                 Status = ReceiptStatus.Pending
             };

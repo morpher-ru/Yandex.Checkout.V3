@@ -163,7 +163,7 @@ namespace Yandex.Checkout.V3
         /// See https://yookassa.ru/developers/api#get_receipts_list
         /// </remarks>
         public IEnumerable<Receipt> GetReceipts(
-            GetReceiptsFilter filter = null,
+            ReceiptFilter filter = null,
             ListOptions options = null)
         {
             return GetList<Receipt>("receipts", filter, options);
