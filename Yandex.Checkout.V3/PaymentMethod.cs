@@ -41,6 +41,11 @@ namespace Yandex.Checkout.V3
             VatData = vatData
         };
 
+        public static PaymentMethod Sbp() => new()
+        {
+            Type = PaymentMethodType.Sbp,
+        };
+        
         public static PaymentMethod BankCard(Card card) => new()
         {
             Type = PaymentMethodType.BankCard,
