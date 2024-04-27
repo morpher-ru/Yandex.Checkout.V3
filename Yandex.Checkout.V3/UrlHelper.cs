@@ -10,6 +10,11 @@ namespace Yandex.Checkout.V3
         public static string MakeUrl(string path, object filter, string cursor, int? pageSize)
         {
             string query = ToQueryString(filter, cursor, pageSize);
+            return JoinPathAndQuery(path, query);
+        }
+
+        internal static string JoinPathAndQuery(string path, string query)
+        {
             var parts = new[] { path, query }.Where(s => !string.IsNullOrEmpty(s));
             return string.Join("?", parts);
         }
