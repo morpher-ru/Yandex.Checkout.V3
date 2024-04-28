@@ -18,6 +18,7 @@
     <PackageReleaseNotes>Changes in this release:
         - Add GetRefunds(), GetPayments(), GetDeals()
         - Fix GetReceipts()
+        - Fix typo in "sbp" (система быстрых платежей)
         Breaking changes:
         - Rename GetReceiptsFilter to ReceiptFilter in line with RefundFilter, PaymentFilter and DealFilter
         - Remove class ReceiptInformation which duplicated Receipt; this affected the signature of GetReceipts()
