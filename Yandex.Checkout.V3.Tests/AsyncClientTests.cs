@@ -64,7 +64,7 @@ namespace Yandex.Checkout.V3.Tests
             await Assert.ThrowsExceptionAsync<YandexCheckoutException>(Action);
         }
 
-        private static async Task<HttpResponseMessage> SendAsync(Func<AsyncClient, Task> action, HttpResponseMessage httpResponseMessage)
+        private static async Task SendAsync(Func<AsyncClient, Task> action, HttpResponseMessage httpResponseMessage)
         {
             var messageHandler = new TestMessageHandler();
             messageHandler.ResponseQueue.Enqueue(httpResponseMessage);
@@ -73,7 +73,6 @@ namespace Yandex.Checkout.V3.Tests
 
             var asyncClient = new AsyncClient(httpClient);
             await action(asyncClient);
-            return messageHandler.ResponseQueue.Dequeue();
         }
     }
 }
