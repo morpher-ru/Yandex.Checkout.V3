@@ -15,7 +15,7 @@
         public const string ApplePay = "apple_pay";
         public const string MobileBalance = "mobile_balance";
         public const string Installments = "installments";
-        public const string Psb = "psb";
+        public const string Sbp = "sbp";
         public const string GooglePay = "google_pay";
         public const string B2BSberbank = "b2b_sberbank";
         public const string WeChat = "wechat";
