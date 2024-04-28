@@ -41,6 +41,9 @@ namespace Yandex.Checkout.V3
             VatData = vatData
         };
 
+        /// <summary>
+        /// СБП, система быстрых платежей
+        /// </summary>
         public static PaymentMethod Sbp() => new()
         {
             Type = PaymentMethodType.Sbp,

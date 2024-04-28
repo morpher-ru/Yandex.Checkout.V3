@@ -15,7 +15,12 @@
         public const string ApplePay = "apple_pay";
         public const string MobileBalance = "mobile_balance";
         public const string Installments = "installments";
+
+        /// <summary>
+        /// СБП, система быстрых платежей
+        /// </summary>
         public const string Sbp = "sbp";
+
         public const string GooglePay = "google_pay";
         public const string B2BSberbank = "b2b_sberbank";
         public const string WeChat = "wechat";
