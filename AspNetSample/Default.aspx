@@ -20,6 +20,7 @@
         </p>
             
         <p>
+            <%-- ReSharper disable once Html.PathError --%>
             <a href="log.txt">log.txt</a>
         </p>
     </form>
