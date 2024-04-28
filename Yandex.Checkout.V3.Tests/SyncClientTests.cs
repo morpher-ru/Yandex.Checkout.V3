@@ -25,7 +25,7 @@ namespace Yandex.Checkout.V3.Tests
         public void UnauthorizedInvalidPasswordFormatThrowsException()
         {
             object Action() => _clientInvalidPasswordFormat.CreatePayment(_newPayment);
-            YandexCheckoutException ex = Assert.ThrowsException<YandexCheckoutException>(Action);
+            var ex = Assert.ThrowsException<YandexCheckoutException>(Action);
             Assert.AreEqual(HttpStatusCode.Unauthorized, ex.StatusCode);
             Assert.AreEqual("Incorrect password format in the Authorization header. Use Secret key issued in Merchant Profile as the password", ex.Message);
         }
@@ -34,7 +34,7 @@ namespace Yandex.Checkout.V3.Tests
         public void UnauthorizedInvalidKeyFormatThrowsException()
         {
             object Action() => _clientInvalidLoginFormat.CreatePayment(_newPayment);
-            YandexCheckoutException ex = Assert.ThrowsException<YandexCheckoutException>(Action);
+            var ex = Assert.ThrowsException<YandexCheckoutException>(Action);
             Assert.AreEqual(HttpStatusCode.Unauthorized, ex.StatusCode);
             Assert.AreEqual("Login has illegal format", ex.Message);
         }
@@ -43,7 +43,7 @@ namespace Yandex.Checkout.V3.Tests
         public void UnauthorizedIncorrectLoginOrPasswordThrowsException()
         {
             object Action() => _clientIncorrectLoginOrPassword.CreatePayment(_newPayment);
-            YandexCheckoutException ex = Assert.ThrowsException<YandexCheckoutException>(Action);
+            var ex = Assert.ThrowsException<YandexCheckoutException>(Action);
             Assert.AreEqual(HttpStatusCode.Unauthorized, ex.StatusCode);
             Assert.AreEqual("Error in shopId or secret key. Check their validity. You can reissue the key in the Merchant Profile", ex.Message);
         }
