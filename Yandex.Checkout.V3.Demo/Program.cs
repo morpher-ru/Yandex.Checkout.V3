@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 
 namespace Yandex.Checkout.V3.Demo
 {
-    public class Program
+    public static class Program
     {
         public static void Main(string[] args)
         {
