@@ -35,7 +35,7 @@ namespace AspNetSample
         protected void Page_Load(object sender, EventArgs e)
         {
             // Чтобы получить это уведомление, нужно указать адрес этой страницы
-            // в настройках магазина (https://kassa.yandex.ru/my/tunes).
+            // в настройках магазина (https://yookassa.ru/my/merchant/integration/http-notifications).
             try
             {
                 Log($"Page_Load: Request.HttpMethod={Request.HttpMethod}, Request.ContentType={Request.ContentType}, Request.InputStream has {Request.InputStream.Length} bytes");
