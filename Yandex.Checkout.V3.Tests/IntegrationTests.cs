@@ -25,7 +25,7 @@ namespace Yandex.Checkout.V3.Tests
             Assert.IsNotNull(await refunds.ToListAsync());
         }
 
-        private readonly RefundFilter _refundFilter = new RefundFilter
+        private readonly RefundFilter _refundFilter = new()
         {
             CreatedAt = new DateFilter
             {
@@ -33,7 +33,7 @@ namespace Yandex.Checkout.V3.Tests
             }
         };
         
-        readonly Client _client = new Client(
+        readonly Client _client = new(
             shopId: "501156",
             secretKey: "test_As0OONRn1SsvFr0IVlxULxst5DBIoWi_tyVaezSRTEI");
     }
