@@ -122,13 +122,12 @@ public partial class AsyncClient : IDisposable
     /// <summary>
     /// Receipt creation
     /// </summary>
-    /// <param name="receipt">Receipt information, <see cref="SettlementReceipt"/></param>
+    /// <param name="receipt">Receipt information, <see cref="NewReceipt"/></param>
     /// <param name="idempotenceKey">Idempotence key, use <value>null</value> to generate a new one</param>
     /// <param name="cancellationToken"><see cref="CancellationToken"/></param>
-    /// <returns><see cref="SettlementReceipt"/></returns>
-    public Task<SettlementReceipt> CreateSettlementReceiptAsync(SettlementReceipt receipt, string idempotenceKey = null,
+    public Task<Receipt> CreateReceiptAsync(NewReceipt receipt, string idempotenceKey = null,
         CancellationToken cancellationToken = default)
-        => QueryAsync<SettlementReceipt>(HttpMethod.Post, receipt, "receipts", idempotenceKey, cancellationToken);
+        => QueryAsync<Receipt>(HttpMethod.Post, receipt, "receipts", idempotenceKey, cancellationToken);
 
     /// <summary>
     /// Query receipt

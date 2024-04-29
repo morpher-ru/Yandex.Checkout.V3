@@ -9,14 +9,12 @@
 /// See https://yookassa.ru/developers/api#create_receipt
 /// </remarks>
 // ReSharper disable once ClassNeverInstantiated.Global
-public class SettlementReceipt
+public class NewReceipt
 {
-    public string Id { get; set; }
-
     /// <summary>
     /// Тип чека в онлайн-кассе
     /// </summary>
-    public SettlementReceiptType Type { get; set; }
+    public ReceiptType Type { get; set; }
 
     /// <summary>
     /// Идентификатор платежа в ЮKassa для отображения информации о чеке в личном кабинете, на платеж не влияет.
@@ -29,7 +27,9 @@ public class SettlementReceipt
     public string RefundId { get; set; }
 
     /// <summary>
-    /// Информация о пользователе.
+    /// Информация о пользователе. Необходимо указать как минимум контактные данные:
+    /// электронную почту (customer.email <see cref="V3.Customer.Email"/>) или 
+    /// номер телефона (customer.phone <see cref="V3.Customer.Phone"/>).
     /// </summary>
     public Customer Customer { get; set; }
 
@@ -39,15 +39,34 @@ public class SettlementReceipt
     public List<ReceiptItem> Items { get; set; } = new();
 
     /// <summary>
+    /// Формирование чека в онлайн-кассе сразу после создания объекта чека
+    /// </summary>
+    public bool Send { get; set; }
+
+    /// <summary>
     /// Система налогообложения, <see cref="TaxSystem"/>
     /// </summary>
     public TaxSystem? TaxSystemCode { get; set; }
 
     /// <summary>
-    /// Формирование чека в онлайн-кассе сразу после создания объекта чека
+    /// Дополнительный реквизит пользователя (тег в 54 ФЗ — 1084).
     /// </summary>
-    public bool Send { get; set; }
+    /// <remarks>
+    /// Можно передавать, если вы отправляете данные для формирования чека
+    /// по сценарию «Сначала платеж, потом чек».
+    /// </remarks>
+    public AdditionalUserProps AdditionalUserProps { get; set; }
 
+    /// <summary>
+    /// Отраслевой реквизит чека (тег в 54 ФЗ — 1261). Нужно передавать, если используете ФФД 1.2.
+    /// </summary>
+    public ReceiptIndustryDetails ReceiptIndustryDetails { get; set; }
+
+    /// <summary>
+    /// Операционный реквизит чека (тег в 54 ФЗ — 1270). Нужно передавать, если используете ФФД 1.2.
+    /// </summary>
+    public ReceiptOperationalDetails ReceiptOperationalDetails { get; set; }
+    
     /// <summary>
     /// Перечень совершенных расчетов.
     /// </summary>

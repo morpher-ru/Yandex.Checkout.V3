@@ -129,24 +129,19 @@ public class Client
     /// Query refund by id
     /// </summary>
     /// <param name="id">Refund id</param>
-    /// <returns><see cref="NewRefund"/></returns>
+    /// <returns><see cref="Refund"/></returns>
     public Refund GetRefund(string id)
         => Query<Refund>("GET", null, $"refunds/{id}", null);
 
     /// <summary>
     /// Receipt creation
     /// </summary>
-    /// <param name="receipt">Receipt information, <see cref="SettlementReceipt"/></param>
-    /// <param name="idempotenceKey">Idempotence key, use <value>null</value> to generate a new one</param>
-    /// <returns><see cref="SettlementReceipt"/></returns>
-    public SettlementReceipt CreateSettlementReceipt(SettlementReceipt receipt, string idempotenceKey = null)
-        => Query<SettlementReceipt>("POST", receipt, "receipts", idempotenceKey);
+    public Receipt CreateReceipt(NewReceipt receipt, string idempotenceKey = null)
+        => Query<Receipt>("POST", receipt, "receipts", idempotenceKey);
 
     /// <summary>
-    /// Query receipt
+    /// Query receipt by id
     /// </summary>
-    /// <param name="id">Receipt id</param>
-    /// <returns><see cref="Receipt"/></returns>
     /// <remarks>
     /// See https://yookassa.ru/developers/api#get_receipt
     /// </remarks>
