@@ -30,6 +30,7 @@
     <LangVersion>10</LangVersion>
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
   
   <ItemGroup>
@@ -63,5 +64,10 @@
   <ItemGroup>
     <InternalsVisibleTo Include="Yandex.Checkout.V3.Tests" />
   </ItemGroup>
-
+    
+  <ItemGroup>
+    <Using Include="Newtonsoft.Json" />
+    <Using Include="Newtonsoft.Json.Converters" />
+    <Using Include="Newtonsoft.Json.Serialization" />
+  </ItemGroup>
 </Project>

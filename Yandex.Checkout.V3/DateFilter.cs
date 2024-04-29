@@ -1,5 +1,3 @@
-using System;
-
 namespace Yandex.Checkout.V3;
 
 /// <summary>

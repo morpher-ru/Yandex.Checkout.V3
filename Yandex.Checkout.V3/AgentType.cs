@@ -1,58 +1,43 @@
-﻿using System.Runtime.Serialization;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
-
-// ReSharper disable InconsistentNaming
-// В этом файле названия элементов enum отступают от общего стиля
-// (должно быть PaymentAgent, а не payment_agent и т.п.) 
-
-namespace Yandex.Checkout.V3;
+﻿namespace Yandex.Checkout.V3;
 
 /// <summary>
 /// Тип посредника
 /// </summary>
-[JsonConverter(typeof(StringEnumConverter))]
+[JsonConverter(typeof(StringEnumConverter), typeof(SnakeCaseNamingStrategy))]
 public enum AgentType
 {
     /// <summary>
     /// Банковский платежный агент
     /// </summary>
-    [EnumMember(Value = "banking_payment_agent")]
-    banking_payment_agent,
+    BankingPaymentAgent,
 
     /// <summary>
     /// Банковский платежный субагент
     /// </summary>
-    [EnumMember(Value = "banking_payment_subagent")]
-    banking_payment_subagent,
+    BankingPaymentSubagent,
 
     /// <summary>
     /// Платежный агент
     /// </summary>
-    [EnumMember(Value = "payment_agent")]
-    payment_agent,
+    PaymentAgent,
 
     /// <summary>
     /// Платежный субагент
     /// </summary>
-    [EnumMember(Value = "payment_subagent")]
-    payment_subagent,
+    PaymentSubagent,
 
     /// <summary>
     /// Поверенный
     /// </summary>
-    [EnumMember(Value = "attorney")]
-    attorney,
+    Attorney,
 
     /// <summary>
     /// Комиссионер
     /// </summary>
-    [EnumMember(Value = "commissioner")]
-    commissioner,
+    Commissioner,
 
     /// <summary>
     /// Агент
     /// </summary>
-    [EnumMember(Value = "agent")]
-    agent
+    Agent
 }

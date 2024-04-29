@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Yandex.Checkout.V3;
+﻿namespace Yandex.Checkout.V3;
 
 /// <inheritdoc />
 /// <summary>

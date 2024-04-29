@@ -1,7 +1,4 @@
-﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
-
-namespace Yandex.Checkout.V3;
+﻿namespace Yandex.Checkout.V3;
 
 /// <summary>
 /// Позиция чека
@@ -33,13 +30,11 @@ public class ReceiptItem
     /// <summary>
     /// Признак предмета расчета, <see cref="V3.PaymentSubject"/>
     /// </summary>
-    [JsonConverter(typeof(StringEnumConverter))]
     public PaymentSubject? PaymentSubject { get; set; }
 
     /// <summary>
     /// Признак способа расчета <see cref="V3.PaymentMode"/>
     /// </summary>
-    [JsonConverter(typeof(StringEnumConverter))]
     public PaymentMode? PaymentMode { get; set; }
         
     /// <summary>

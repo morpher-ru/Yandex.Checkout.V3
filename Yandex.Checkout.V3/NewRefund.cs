@@ -1,6 +1,4 @@
-﻿using Newtonsoft.Json;
-
-// ReSharper disable UnusedAutoPropertyAccessor.Global
+﻿// ReSharper disable UnusedAutoPropertyAccessor.Global
 
 namespace Yandex.Checkout.V3;
 

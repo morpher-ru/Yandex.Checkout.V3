@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace Yandex.Checkout.V3;
+﻿namespace Yandex.Checkout.V3;
 
 /// <summary>
 /// Авиалинии

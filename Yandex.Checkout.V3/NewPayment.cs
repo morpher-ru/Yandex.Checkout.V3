@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-// ReSharper disable UnusedAutoPropertyAccessor.Global
+﻿// ReSharper disable UnusedAutoPropertyAccessor.Global
 
 namespace Yandex.Checkout.V3;
 

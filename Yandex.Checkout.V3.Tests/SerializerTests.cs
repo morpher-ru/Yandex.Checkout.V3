@@ -361,6 +361,19 @@ namespace Yandex.Checkout.V3.Tests
         }
 
         [TestMethod]
+        public void ConfirmationTypeQRSerializedCorrectly()
+        {
+            var confirmation = new Confirmation
+            {
+                Type = ConfirmationType.QR
+            };
+
+            string json = Serializer.SerializeObject(confirmation);
+            
+            Assert.AreEqual("{\"type\":\"qr\"}", json);
+        }
+
+        [TestMethod]
         public void CancelPaymentManualNotificationDeserializedCorrectly()
         {
             var json = @"

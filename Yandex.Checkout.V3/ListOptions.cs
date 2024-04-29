@@ -1,5 +1,3 @@
-using System.Threading;
-
 namespace Yandex.Checkout.V3;
 
 public class ListOptions

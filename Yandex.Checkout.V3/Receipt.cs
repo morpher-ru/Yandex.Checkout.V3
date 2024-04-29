@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-// ReSharper disable once ClassNeverInstantiated.Global
-
-namespace Yandex.Checkout.V3;
+﻿namespace Yandex.Checkout.V3;
 
 /// <summary>
 /// Объект чека (Receipt) содержит актуальную информацию о чеке, созданном для платежа или возврата
@@ -11,6 +6,7 @@ namespace Yandex.Checkout.V3;
 /// <remarks>
 /// See https://yookassa.ru/developers/api#receipt_object
 /// </remarks>
+// ReSharper disable once ClassNeverInstantiated.Global
 public class Receipt
 {
     /// <summary>

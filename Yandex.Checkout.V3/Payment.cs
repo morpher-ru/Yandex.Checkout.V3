@@ -1,7 +1,4 @@
-﻿using System;
-
-// ReSharper disable UnusedAutoPropertyAccessor.Global
-// ReSharper disable once ClassNeverInstantiated.Global
+﻿// ReSharper disable UnusedAutoPropertyAccessor.Global
 
 namespace Yandex.Checkout.V3;
 
@@ -9,6 +6,7 @@ namespace Yandex.Checkout.V3;
 /// <summary>
 /// Информация о платеже.
 /// </summary>
+// ReSharper disable once ClassNeverInstantiated.Global
 public class Payment : NewPayment
 {
     public string Id { get; set; }
