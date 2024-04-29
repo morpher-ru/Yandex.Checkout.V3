@@ -4,12 +4,11 @@ using Newtonsoft.Json.Converters;
 
 // ReSharper disable UnusedMember.Global
 
-namespace Yandex.Checkout.V3
+namespace Yandex.Checkout.V3;
+
+[JsonConverter(typeof(StringEnumConverter))]
+public enum VatDataType
 {
-    [JsonConverter(typeof(StringEnumConverter))]
-    public enum VatDataType
-    {
-        [EnumMember(Value = "calculated")] Calculated,
-        [EnumMember(Value = "untaxed")] Untaxed
-    }
+    [EnumMember(Value = "calculated")] Calculated,
+    [EnumMember(Value = "untaxed")] Untaxed
 }

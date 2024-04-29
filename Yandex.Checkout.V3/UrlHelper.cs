@@ -3,39 +3,39 @@ using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json.Linq;
 
-namespace Yandex.Checkout.V3
+namespace Yandex.Checkout.V3;
+
+static class UrlHelper
 {
-    static class UrlHelper
+    public static string MakeUrl(string path, object filter, string cursor, int? pageSize)
     {
-        public static string MakeUrl(string path, object filter, string cursor, int? pageSize)
-        {
             string query = ToQueryString(filter, cursor, pageSize);
             return JoinPathAndQuery(path, query);
         }
 
-        internal static string JoinPathAndQuery(string path, string query)
-        {
+    internal static string JoinPathAndQuery(string path, string query)
+    {
             var parts = new[] { path, query }.Where(s => !string.IsNullOrEmpty(s));
             return string.Join("?", parts);
         }
 
-        public static string ToQueryString(object filter, string cursor, int? pageSize = null)
-        {
+    public static string ToQueryString(object filter, string cursor, int? pageSize = null)
+    {
             var dict = ToStringDictionary(filter);
             if (cursor != null) dict.Add("cursor", cursor);
             if (pageSize != null) dict.Add("limit", pageSize.ToString());
             return ToQueryString(dict);
         }
 
-        private static string ToQueryString(Dictionary<string, string> dict)
-        {
+    private static string ToQueryString(Dictionary<string, string> dict)
+    {
             var pairs = dict.Select(EncodePair);
             string query = string.Join("&", pairs);
             return query;
         }
 
-        private static Dictionary<string, string> ToStringDictionary(object filter)
-        {
+    private static Dictionary<string, string> ToStringDictionary(object filter)
+    {
             // Serialise to JSON
             string json = Serializer.SerializeObject(filter ?? new object());
             
@@ -51,8 +51,8 @@ namespace Yandex.Checkout.V3
             return jPairs.ToDictionary(jo => jo.Key, jo => ValueToString(jo.Value));
         }
 
-        private static string ValueToString(JToken jToken)
-        {
+    private static string ValueToString(JToken jToken)
+    {
             if (jToken.Type is JTokenType.Date)
             {
                 return jToken.Value<DateTime>().ToUniversalTime().ToString("s") + "Z";
@@ -60,16 +60,15 @@ namespace Yandex.Checkout.V3
             return jToken.ToString();
         }
 
-        private static string EncodePair(KeyValuePair<string, string> p)
-        {
+    private static string EncodePair(KeyValuePair<string, string> p)
+    {
             string key = UrlEncode(p.Key);
             string value = UrlEncode(p.Value);
             return $"{key}={value}";
         }
 
-        private static string UrlEncode(string s)
-        {
+    private static string UrlEncode(string s)
+    {
             return Uri.EscapeDataString(s);
         }
-    }
 }
