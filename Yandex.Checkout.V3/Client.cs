@@ -60,7 +60,6 @@ public class Client
     public Deal GetDeal(string id)
         => Query<Deal>("GET", null, $"deals/{id}", null);
 
-
     /// <summary>
     /// Payment creation
     /// </summary>
@@ -78,7 +77,6 @@ public class Client
     /// <returns><see cref="Payout"/></returns>
     public Payout CreatePayout(NewPayout payout, string idempotenceKey = null)
         => Query<Payout>("POST", payout, "payouts", idempotenceKey);
-
 
     /// <summary>
     /// Payment capture
