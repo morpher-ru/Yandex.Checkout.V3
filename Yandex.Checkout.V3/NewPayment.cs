@@ -38,7 +38,7 @@ public class NewPayment
     /// <summary>
     /// Чек для проведения платежа по ФЗ-54 <see cref="V3.Receipt"/>
     /// </summary>
-    public Receipt Receipt { get; set; }
+    public NewReceipt Receipt { get; set; }
 
     public Recipient Recipient { get; set; }
 

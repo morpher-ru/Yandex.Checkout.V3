@@ -132,9 +132,10 @@ public class Client
         => Query<Refund>("GET", null, $"refunds/{id}", null);
 
     /// <summary>
-    /// Receipt creation
+    /// Создание чека отдельно от платежа или возврата:
+    /// https://yookassa.ru/developers/api#create_receipt
     /// </summary>
-    public Receipt CreateReceipt(NewReceipt receipt, string idempotenceKey = null)
+    public Receipt CreateReceipt(NewStandaloneReceipt receipt, string idempotenceKey = null)
         => Query<Receipt>("POST", receipt, "receipts", idempotenceKey);
 
     /// <summary>

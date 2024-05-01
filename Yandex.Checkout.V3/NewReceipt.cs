@@ -1,31 +1,11 @@
 ﻿namespace Yandex.Checkout.V3;
 
 /// <summary>
-/// Данные для формирования чека
+/// Данные для создания чека вместе с платежом или возвратом
 /// </summary>
-/// <remarks>
-/// Используется для создания чека отдельно от платежа или возврата,
-/// см. 
-/// See https://yookassa.ru/developers/api#create_receipt
-/// </remarks>
 // ReSharper disable once ClassNeverInstantiated.Global
 public class NewReceipt
 {
-    /// <summary>
-    /// Тип чека в онлайн-кассе
-    /// </summary>
-    public ReceiptType Type { get; set; }
-
-    /// <summary>
-    /// Идентификатор платежа в ЮKassa для отображения информации о чеке в личном кабинете, на платеж не влияет.
-    /// </summary>
-    public string PaymentId { get; set; }
-
-    /// <summary>
-    /// Идентификатор возврата в ЮKassa для отображения информации о чеке в личном кабинете.
-    /// </summary>
-    public string RefundId { get; set; }
-
     /// <summary>
     /// Информация о пользователе. Необходимо указать как минимум контактные данные:
     /// электронную почту (customer.email <see cref="V3.Customer.Email"/>) или 
@@ -39,7 +19,8 @@ public class NewReceipt
     public List<ReceiptItem> Items { get; set; } = new();
 
     /// <summary>
-    /// Формирование чека в онлайн-кассе сразу после создания объекта чека
+    /// Формирование чека в онлайн-кассе сразу после создания объекта чека.
+    /// Сейчас допускается только значение True.
     /// </summary>
     public bool Send { get; set; }
 

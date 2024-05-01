@@ -22,7 +22,7 @@ public class NewRefund
     /// <summary>
     /// Чек для проведения возврата по 54-ФЗ <see cref="V3.Receipt"/>
     /// </summary>
-    public Receipt Receipt { get; set; }
+    public NewReceipt Receipt { get; set; }
 
     public string Description { get; set; }
 }

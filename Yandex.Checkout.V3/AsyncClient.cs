@@ -120,21 +120,16 @@ public partial class AsyncClient : IDisposable
         => QueryAsync<Refund>(HttpMethod.Get, null, $"refunds/{id}", null, cancellationToken);
 
     /// <summary>
-    /// Receipt creation
+    /// Создание чека отдельно от платежа или возврата:
+    /// https://yookassa.ru/developers/api#create_receipt
     /// </summary>
-    /// <param name="receipt">Receipt information, <see cref="NewReceipt"/></param>
-    /// <param name="idempotenceKey">Idempotence key, use <value>null</value> to generate a new one</param>
-    /// <param name="cancellationToken"><see cref="CancellationToken"/></param>
-    public Task<Receipt> CreateReceiptAsync(NewReceipt receipt, string idempotenceKey = null,
+    public Task<Receipt> CreateReceiptAsync(NewStandaloneReceipt receipt, string idempotenceKey = null,
         CancellationToken cancellationToken = default)
         => QueryAsync<Receipt>(HttpMethod.Post, receipt, "receipts", idempotenceKey, cancellationToken);
 
     /// <summary>
     /// Query receipt
     /// </summary>
-    /// <param name="id">Receipt id</param>
-    /// <param name="cancellationToken"><see cref="CancellationToken"/></param>
-    /// <returns><see cref="Receipt"/></returns>
     /// <remarks>
     /// See https://yookassa.ru/developers/api#get_receipt
     /// </remarks>
