@@ -12,9 +12,10 @@ public partial class AsyncClient
     /// </remarks>
     public IAsyncEnumerable<Receipt> GetReceiptsAsync(
         ReceiptFilter filter = null,
+        CancellationToken ct = default,
         ListOptions options = null)
     {
-        return GetListAsync<Receipt>("receipts", filter, options, GetCancellationToken(options));
+        return GetListAsync<Receipt>("receipts", filter, options, ct);
     }
 
     /// <summary>
@@ -25,9 +26,10 @@ public partial class AsyncClient
     /// </remarks>
     public IAsyncEnumerable<Refund> GetRefundsAsync(
         RefundFilter filter = null,
+        CancellationToken ct = default,
         ListOptions options = null)
     {
-        return GetListAsync<Refund>("refunds", filter, options, GetCancellationToken(options));
+        return GetListAsync<Refund>("refunds", filter, options, ct);
     }
         
     /// <summary>
@@ -38,9 +40,10 @@ public partial class AsyncClient
     /// </remarks>
     public IAsyncEnumerable<Payment> GetPaymentsAsync(
         PaymentFilter filter = null,
+        CancellationToken ct = default,
         ListOptions options = null)
     {
-        return GetListAsync<Payment>("payments", filter, options, GetCancellationToken(options));
+        return GetListAsync<Payment>("payments", filter, options, ct);
     }
 
     /// <summary>
@@ -51,14 +54,10 @@ public partial class AsyncClient
     /// </remarks>
     public IAsyncEnumerable<Deal> GetDealsAsync(
         DealFilter filter = null,
+        CancellationToken ct = default,
         ListOptions options = null)
     {
-        return GetListAsync<Deal>("deals", filter, options, GetCancellationToken(options));
-    }
-
-    private static CancellationToken GetCancellationToken(ListOptions options)
-    {
-        return options?.CancellationToken ?? CancellationToken.None;
+        return GetListAsync<Deal>("deals", filter, options, ct);
     }
 
     private async IAsyncEnumerable<T> GetListAsync<T>(string path,

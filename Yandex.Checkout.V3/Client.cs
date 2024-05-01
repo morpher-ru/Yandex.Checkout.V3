@@ -207,7 +207,6 @@ public class Client
         string cursor = null;
         do
         {
-            options?.CancellationToken.ThrowIfCancellationRequested();
             var batch = Query<ListBatch<T>>("GET", 
                 body: null, 
                 UrlHelper.MakeUrl(path, filter, cursor, options?.PageSize), 
@@ -215,7 +214,6 @@ public class Client
 
             foreach (T item in batch.Items)
             {
-                options?.CancellationToken.ThrowIfCancellationRequested();
                 yield return item;
             }
 
