@@ -211,7 +211,7 @@ public class Client
             var batch = Query<ListBatch<T>>("GET", 
                 body: null, 
                 UrlHelper.MakeUrl(path, filter, cursor, options?.PageSize), 
-                options?.IdempotenceKey);
+                null);
 
             foreach (T item in batch.Items)
             {

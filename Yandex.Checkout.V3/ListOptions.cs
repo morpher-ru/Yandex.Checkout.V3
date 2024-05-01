@@ -4,8 +4,6 @@ public class ListOptions
 {
     public CancellationToken CancellationToken { get; set; }
         
-    public string IdempotenceKey { get; set; }
-        
     /// <summary>
     /// Количество элементов списка, получаемых за один запрос.
     /// В оригинальной документации это называется limit.

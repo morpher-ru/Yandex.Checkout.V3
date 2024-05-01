@@ -74,7 +74,7 @@ public partial class AsyncClient
                 HttpMethod.Get, 
                 body: null,
                 UrlHelper.MakeUrl(path, filter, cursor, options?.PageSize),
-                options?.IdempotenceKey,
+                null,
                 cancellationToken);
 
             foreach (T item in batch.Items)
