@@ -20,7 +20,7 @@ public class YandexCheckoutException : Exception
 
     public YandexCheckoutException(HttpStatusCode statusCode, Error error) : base(error.ToString())
     {
-        	StatusCode = statusCode;
-        	Error = error;
-        }
+        StatusCode = statusCode;
+        Error = error;
+    }
 }
