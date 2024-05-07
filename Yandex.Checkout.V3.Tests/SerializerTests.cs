@@ -1,3 +1,4 @@
+using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Yandex.Checkout.V3.Tests
@@ -5,6 +6,15 @@ namespace Yandex.Checkout.V3.Tests
     [TestClass]
     public class SerializerTests
     {
+        [TestMethod]
+        public void ReceiptIndustryDetailsSerializedCorrectly()
+        {
+            var s = Serializer.SerializeObject(new ReceiptIndustryDetails {
+                DocumentDate = new DateTime(2024, 05, 07, 13, 00, 01, DateTimeKind.Utc),
+                DocumentNumber = "123"});
+            Assert.AreEqual("{\"document_date\":\"2024-05-07T13:00:01Z\",\"document_number\":\"123\"}", s);
+        }
+        
         [TestMethod]
         public void RefundReceiptRegistrationDeserializedCorrectly()
         {
