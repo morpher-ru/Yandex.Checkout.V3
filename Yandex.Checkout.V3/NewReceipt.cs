@@ -41,7 +41,7 @@ public class NewReceipt
     /// <summary>
     /// Отраслевой реквизит чека (тег в 54 ФЗ — 1261). Нужно передавать, если используете ФФД 1.2.
     /// </summary>
-    public ReceiptIndustryDetails ReceiptIndustryDetails { get; set; }
+    public ReceiptIndustryDetails [] ReceiptIndustryDetails { get; set; }
 
     /// <summary>
     /// Операционный реквизит чека (тег в 54 ФЗ — 1270). Нужно передавать, если используете ФФД 1.2.
