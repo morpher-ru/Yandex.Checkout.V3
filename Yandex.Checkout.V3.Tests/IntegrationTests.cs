@@ -33,6 +33,18 @@ namespace Yandex.Checkout.V3.Tests
             }
         };
         
+        [TestMethod]
+        public async Task GetReceiptsAsync()
+        {
+            var receipts = _client.MakeAsync().GetReceiptsAsync();
+
+            var list = await receipts.ToListAsync();
+            
+            Assert.IsNotNull(list);
+            
+            Console.WriteLine($"{list.Count} receipts");
+        }
+        
         readonly Client _client = new(
             shopId: "501156",
             secretKey: "test_As0OONRn1SsvFr0IVlxULxst5DBIoWi_tyVaezSRTEI");
