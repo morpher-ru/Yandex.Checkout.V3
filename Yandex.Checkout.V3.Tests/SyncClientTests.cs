@@ -27,7 +27,7 @@ namespace Yandex.Checkout.V3.Tests
             object Action() => _clientInvalidPasswordFormat.CreatePayment(_newPayment);
             var ex = Assert.ThrowsException<YandexCheckoutException>(Action);
             Assert.AreEqual(HttpStatusCode.Unauthorized, ex.StatusCode);
-            Assert.AreEqual("Incorrect password format in the Authorization header. Use Secret key issued in Merchant Profile as the password", ex.Message);
+            Assert.AreEqual("Incorrect password format in the Authorization header. Use Secret key issued in Merchant Profile as the password", ex.Error.Description);
         }
 
         [TestMethod]
@@ -36,7 +36,7 @@ namespace Yandex.Checkout.V3.Tests
             object Action() => _clientInvalidLoginFormat.CreatePayment(_newPayment);
             var ex = Assert.ThrowsException<YandexCheckoutException>(Action);
             Assert.AreEqual(HttpStatusCode.Unauthorized, ex.StatusCode);
-            Assert.AreEqual("Login has illegal format", ex.Message);
+            Assert.AreEqual("Login has illegal format", ex.Error.Description);
         }
 
         [TestMethod]

@@ -31,7 +31,7 @@ namespace Yandex.Checkout.V3.Tests
             async Task Action() => await asyncClient.CreatePaymentAsync(_newPayment);
             YandexCheckoutException ex = await Assert.ThrowsExceptionAsync<YandexCheckoutException>(Action);
             Assert.AreEqual(HttpStatusCode.Unauthorized, ex.StatusCode);
-            Assert.AreEqual("Incorrect password format in the Authorization header. Use Secret key issued in Merchant Profile as the password", ex.Message);
+            Assert.AreEqual("Incorrect password format in the Authorization header. Use Secret key issued in Merchant Profile as the password", ex.Error.Description);
         }
 
         [TestMethod]
@@ -41,7 +41,7 @@ namespace Yandex.Checkout.V3.Tests
             async Task Action() => await asyncClient.CreatePaymentAsync(_newPayment);
             YandexCheckoutException ex = await Assert.ThrowsExceptionAsync<YandexCheckoutException>(Action);
             Assert.AreEqual(HttpStatusCode.Unauthorized, ex.StatusCode);
-            Assert.AreEqual("Login has illegal format", ex.Message);
+            Assert.AreEqual("Login has illegal format", ex.Error.Description);
         }
 
         [TestMethod]
@@ -51,7 +51,7 @@ namespace Yandex.Checkout.V3.Tests
             async Task Action() => await asyncClient.CreatePaymentAsync(_newPayment);
             YandexCheckoutException ex = await Assert.ThrowsExceptionAsync<YandexCheckoutException>(Action);
             Assert.AreEqual(HttpStatusCode.Unauthorized, ex.StatusCode);
-            Assert.AreEqual("Error in shopId or secret key. Check their validity. You can reissue the key in the Merchant Profile", ex.Message);
+            Assert.AreEqual("Error in shopId or secret key. Check their validity. You can reissue the key in the Merchant Profile", ex.Error.Description);
         }
 
         [TestMethod]
