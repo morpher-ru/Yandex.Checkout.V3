@@ -1,6 +1,7 @@
 namespace Yandex.Checkout.V3;
 
-public abstract class ReceiptOperationalDetails
+// ReSharper disable once ClassNeverInstantiated.Global
+public class ReceiptOperationalDetails
 {
     /// <summary>
     /// Идентификатор операции (тег в 54 ФЗ — 1271). Число от 0 до 255.
