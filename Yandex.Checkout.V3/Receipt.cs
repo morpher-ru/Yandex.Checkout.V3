@@ -7,7 +7,7 @@
 /// See https://yookassa.ru/developers/api#receipt_object
 /// </remarks>
 // ReSharper disable once ClassNeverInstantiated.Global
-public class Receipt
+public class Receipt : ReceiptBase
 {
     /// <summary>
     /// Идентификатор чека.
@@ -58,35 +58,4 @@ public class Receipt
     /// Идентификатор чека в онлайн-кассе. Присутствует, если чек удалось зарегистрировать
     /// </summary>
     public string FiscalProviderId { get; set; }
-
-    /// <summary>
-    /// Позиции чека, <see cref="ReceiptItem"/>
-    /// Список товаров в чеке (не более 100 товаров).
-    /// </summary>
-    public List<ReceiptItem> Items { get; set; } = new();
-
-    /// <summary>
-    /// Перечень совершенных расчетов.
-    /// </summary>
-    public List<Settlement> Settlements { get; set; } = new();
-
-    /// <summary>
-    /// Идентификатор магазина, от имени которого нужно отправить чек
-    /// </summary>
-    public string OnBehalfOf { get; set; }
-
-    /// <summary>
-    /// Система налогообложения, <see cref="TaxSystem"/>
-    /// </summary>
-    public TaxSystem? TaxSystemCode { get; set; }
-
-    /// <summary>
-    /// Отраслевой реквизит чека (тег в 54 ФЗ — 1261).
-    /// </summary>
-    public ReceiptIndustryDetails[] ReceiptIndustryDetails { get; set; }
-
-    /// <summary>
-    /// Операционный реквизит чека (тег в 54 ФЗ — 1270).
-    /// </summary>
-    public ReceiptOperationalDetails ReceiptOperationalDetails { get; set; }
 }
