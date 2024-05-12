@@ -83,7 +83,7 @@ public class Receipt
     /// <summary>
     /// Отраслевой реквизит чека (тег в 54 ФЗ — 1261).
     /// </summary>
-    public ReceiptIndustryDetails ReceiptIndustryDetails { get; set; }
+    public ReceiptIndustryDetails[] ReceiptIndustryDetails { get; set; }
 
     /// <summary>
     /// Операционный реквизит чека (тег в 54 ФЗ — 1270).
