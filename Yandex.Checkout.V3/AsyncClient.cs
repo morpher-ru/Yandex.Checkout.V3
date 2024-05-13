@@ -8,10 +8,9 @@ public partial class AsyncClient : IDisposable
     private readonly HttpClient _httpClient;
     private readonly bool _disposeOfHttpClient;
 
-    /// <summary>
-    /// Expects the <paramref name="httpClient"/>'s BaseAddress and Authorization header to be set.
-    /// </summary>
-    /// <param name="httpClient"></param>
+    /// <param name="httpClient">
+    /// Expects the <paramref name="httpClient"/>'s BaseAddress and Authorization headers to be set.
+    /// </param>
     /// <param name="disposeOfHttpClient">
     /// Dispose of the <paramref name="httpClient"/> when this AsyncClient is disposed.
     /// </param>
