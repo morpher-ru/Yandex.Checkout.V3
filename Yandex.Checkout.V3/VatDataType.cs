@@ -1,4 +1,4 @@
-﻿using System.Runtime.Serialization;
+﻿
 
 // ReSharper disable UnusedMember.Global
 
