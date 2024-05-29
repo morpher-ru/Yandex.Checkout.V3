@@ -3,6 +3,7 @@
 [JsonConverter(typeof(StringEnumConverter), typeof(SnakeCaseNamingStrategy))]
 public enum RefundStatus
 {
+    Pending,
     Succeeded,
     Canceled
 }
