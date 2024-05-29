@@ -33,7 +33,7 @@ namespace Yandex.Checkout.V3.Tests
         public void RefundReceiptRegistrationPendingSerializedCorrectly()
         {
             var s = Serializer.SerializeObject(new Refund {Status = RefundStatus.Pending, ReceiptRegistration = ReceiptRegistrationStatus.Succeeded });
-            Assert.AreEqual("{\"status\":\"succeeded\",\"created_at\":\"0001-01-01T00:00:00\",\"receipt_registration\":\"succeeded\"}", s);
+            Assert.AreEqual("{\"status\":\"pending\",\"created_at\":\"0001-01-01T00:00:00\",\"receipt_registration\":\"succeeded\"}", s);
         }
         
 
