@@ -60,14 +60,17 @@ namespace Yandex.Checkout.V3.Tests
         [TestMethod]
         public void CardPaymentMethodDeserializedCorrectly()
         {
-            var card = Serializer.DeserializeObject<Card>("{" +
-                                                          "\"first6\": \"555555\"," +
-                                                          "\"last4\": \"4444\"," +
-                                                          "\"expiry_month\": \"07\"," +
-                                                          "\"expiry_year\": \"2022\"," +
-                                                          "\"card_type\": \"MasterCard\"," +
-                                                          "\"issuer_country\": \"RU\"," +
-                                                          "\"issuer_name\": \"Sberbank\"}");
+            var card = Serializer.DeserializeObject<Card>("""
+                                                          {
+                                                          "first6": "555555",
+                                                          "last4": "4444",
+                                                          "expiry_month": "07",
+                                                          "expiry_year": "2022",
+                                                          "card_type": "MasterCard",
+                                                          "issuer_country": "RU",
+                                                          "issuer_name": "Sberbank"
+                                                          }
+                                                          """);
             Assert.AreEqual("555555", card.First6);
             Assert.AreEqual("4444", card.Last4);
             Assert.AreEqual("07", card.ExpiryMonth);
