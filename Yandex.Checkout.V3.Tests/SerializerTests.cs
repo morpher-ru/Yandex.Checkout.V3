@@ -39,14 +39,14 @@ namespace Yandex.Checkout.V3.Tests
         [TestMethod]
         public void RefundSucceededReceiptRegistrationNullSerializedCorrectly()
         {
-            var s = Serializer.SerializeObject(new Refund(){Status = RefundStatus.Succeeded});
+            var s = Serializer.SerializeObject(new Refund {Status = RefundStatus.Succeeded});
             Assert.AreEqual("{\"status\":\"succeeded\"}", s);
         }
         
         [TestMethod]
         public void RefundPendingReceiptRegistrationNullSerializedCorrectly()
         {
-            var s = Serializer.SerializeObject(new Refund(){Status = RefundStatus.Pending});
+            var s = Serializer.SerializeObject(new Refund {Status = RefundStatus.Pending});
             Assert.AreEqual("{\"status\":\"pending\"}", s);
         }
 
