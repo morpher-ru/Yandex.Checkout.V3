@@ -26,29 +26,28 @@ namespace Yandex.Checkout.V3.Tests
         public void RefundSucceededReceiptRegistrationSucceededSerializedCorrectly()
         {
             var s = Serializer.SerializeObject(new Refund {Status = RefundStatus.Succeeded, ReceiptRegistration = ReceiptRegistrationStatus.Succeeded });
-            Assert.AreEqual("{\"status\":\"succeeded\",\"created_at\":\"0001-01-01T00:00:00\",\"receipt_registration\":\"succeeded\"}", s);
+            Assert.AreEqual("{\"status\":\"succeeded\",\"receipt_registration\":\"succeeded\"}", s);
         }
         
         [TestMethod]
         public void RefundPendingReceiptRegistrationSucceededSerializedCorrectly()
         {
             var s = Serializer.SerializeObject(new Refund {Status = RefundStatus.Pending, ReceiptRegistration = ReceiptRegistrationStatus.Succeeded });
-            Assert.AreEqual("{\"status\":\"pending\",\"created_at\":\"0001-01-01T00:00:00\",\"receipt_registration\":\"succeeded\"}", s);
+            Assert.AreEqual("{\"status\":\"pending\",\"receipt_registration\":\"succeeded\"}", s);
         }
-        
 
         [TestMethod]
         public void RefundSucceededReceiptRegistrationNullSerializedCorrectly()
         {
             var s = Serializer.SerializeObject(new Refund(){Status = RefundStatus.Succeeded});
-            Assert.AreEqual("{\"status\":\"succeeded\",\"created_at\":\"0001-01-01T00:00:00\"}", s);
+            Assert.AreEqual("{\"status\":\"succeeded\"}", s);
         }
         
         [TestMethod]
         public void RefundPendingReceiptRegistrationNullSerializedCorrectly()
         {
             var s = Serializer.SerializeObject(new Refund(){Status = RefundStatus.Pending});
-            Assert.AreEqual("{\"status\":\"pending\",\"created_at\":\"0001-01-01T00:00:00\"}", s);
+            Assert.AreEqual("{\"status\":\"pending\"}", s);
         }
 
         [TestMethod]

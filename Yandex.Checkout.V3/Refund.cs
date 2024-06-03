@@ -4,6 +4,9 @@
 /// <summary>
 /// Информация о возврате
 /// </summary>
+/// <remarks>
+/// See https://yookassa.ru/developers/api#refund_object
+/// </remarks>
 public class Refund : NewRefund
 {
     /// <summary>
@@ -19,7 +22,7 @@ public class Refund : NewRefund
     /// <summary>
     /// Дата создания
     /// </summary>
-    public DateTime CreatedAt { get; set; }
+    public DateTime? CreatedAt { get; set; }
 
     public ReceiptRegistrationStatus? ReceiptRegistration { get; set; }
 
