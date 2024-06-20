@@ -1,23 +1,45 @@
-﻿using System.Net.Http;
+﻿using System.Net;
+using System.Net.Http;
 using System.Text;
 
 namespace Yandex.Checkout.V3;
+using static Client;
 
 public partial class AsyncClient : IDisposable
 {
     private readonly HttpClient _httpClient;
     private readonly bool _disposeOfHttpClient;
+    public string UserAgent { get; }
+    public string ApiUrl { get; }
+    public string Authorization { get; }
 
     /// <param name="httpClient">
     /// Expects the <paramref name="httpClient"/>'s BaseAddress and Authorization headers to be set.
     /// </param>
     /// <param name="disposeOfHttpClient">
+    /// <param name="shopId">Shop ID. If not provided <paramref name="httpClient"/> should be configured with <see cref="ClientExtensions.Confugure(HttpClient, string, string, string, string)"/>
+    /// </param>
+    /// <param name="secretKey">Secret web api key. If not provided <paramref name="httpClient"/> should be configured with <see cref="ClientExtensions.Confugure(HttpClient, string, string, string, string)"/></param>
+    /// <param name="apiUrl">API URL</param>
+    /// <param name="userAgent">Agent name</param>
     /// Dispose of the <paramref name="httpClient"/> when this AsyncClient is disposed.
     /// </param>
-    public AsyncClient(HttpClient httpClient, bool disposeOfHttpClient = false)
+    public AsyncClient(HttpClient httpClient, 
+        bool disposeOfHttpClient = false, 
+        string shopId = null,
+        string secretKey = null,
+        string apiUrl = "https://api.yookassa.ru/v3/",
+        string userAgent = "Yandex.Checkout.V3 .NET Client")
     {
         _httpClient = httpClient;
         _disposeOfHttpClient = disposeOfHttpClient;
+
+        ApiUrl = apiUrl;
+        if (!ApiUrl.EndsWith("/"))
+            ApiUrl = apiUrl + "/";
+        UserAgent = userAgent;
+        Authorization = AuthorizationHeaderValue(shopId, secretKey);
+
     }
 
     /// <summary>
@@ -145,18 +167,26 @@ public partial class AsyncClient : IDisposable
             ? null
             : await response.Content.ReadAsStringAsync();
 
-        return Client.ProcessResponse<T>(response.StatusCode, responseData, response.Content?.Headers?.ContentType?.MediaType ?? string.Empty);
+        return ProcessResponse<T>(response.StatusCode, responseData, response.Content?.Headers?.ContentType?.MediaType ?? string.Empty);
     }
 
-    private static HttpRequestMessage CreateRequest(HttpMethod method, object body, string url,
-        string idempotenceKey)
+    private HttpRequestMessage CreateRequest(HttpMethod method, object body, string url, string idempotenceKey)
     {
+        if (_httpClient.BaseAddress == null)
+            url = ApiUrl + url;
+
         var request = new HttpRequestMessage(method, url)
         {
             Content = method == HttpMethod.Post
-                ? new StringContent(Serializer.SerializeObject(body), Encoding.UTF8, Client.ApplicationJson)
+                ? new StringContent(Serializer.SerializeObject(body), Encoding.UTF8, ApplicationJson)
                 : null
         };
+
+        if (!_httpClient.DefaultRequestHeaders.Contains("Authorization"))
+            request.Headers.Add("Authorization", Authorization);
+
+        if (_httpClient.DefaultRequestHeaders.UserAgent.Count == 0)
+            request.Headers.UserAgent.ParseAdd(UserAgent);
 
         if (!string.IsNullOrEmpty(idempotenceKey))
             request.Headers.Add("Idempotence-Key", idempotenceKey);
@@ -176,7 +206,7 @@ public partial class AsyncClient : IDisposable
     /// <returns>A <see cref="Notification"/> object subclass or null.</returns>
     public static async Task<Notification> ParseMessageAsync(string requestHttpMethod, string requestContentType, Stream requestInputStream)
     {
-        return Client.ParseMessage(requestHttpMethod, requestContentType, await ReadToEndAsync(requestInputStream));
+        return ParseMessage(requestHttpMethod, requestContentType, await ReadToEndAsync(requestInputStream));
     }
 
     private static async Task<string> ReadToEndAsync(Stream stream)

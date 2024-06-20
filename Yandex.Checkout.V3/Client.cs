@@ -38,7 +38,7 @@ public class Client
         if (!ApiUrl.EndsWith("/"))
             ApiUrl = apiUrl + "/";
         UserAgent = userAgent;
-        Authorization = "Basic " + Convert.ToBase64String(Encoding.UTF8.GetBytes(shopId + ":" + secretKey));
+        Authorization = AuthorizationHeaderValue(shopId, secretKey);
     }
 
     #region Sync
@@ -271,6 +271,10 @@ public class Client
     #endregion Parse
 
     #region Helpers
+
+    public static string AuthorizationHeaderValue(string shopId, string secretKey)
+        => "Basic " + Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes(shopId + ":" + secretKey));
+
 
     private static readonly HashSet<HttpStatusCode> KnownErrors = new()
     {
