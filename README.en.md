@@ -48,13 +48,17 @@ The sample code below implements taking a payment as detailed in the [Quick Star
     Response.Redirect(url);
 
     // 3. Wait until the payment is processed
-    Message message = Client.ParseMessage(Request.HttpMethod, Request.ContentType, Request.InputStream);
-    Payment payment = message?.Object;
-    
-    if (message?.Event == Event.PaymentWaitingForCapture && payment.Paid)
+    var notification = Client.ParseMessage(Request.HttpMethod, Request.ContentType, Request.InputStream);
+
+    if (notification is PaymentWaitingForCaptureNotification paymentWaitingForCaptureNotification)
     {
-        // 4. Confirm taking the payment
-        _client.CapturePayment(payment.Id);
+        Payment payment = paymentWaitingForCaptureNotification.Object;
+        
+        if (payment.Paid)
+        {
+            // 4. Confirm taking the payment
+            _client.CapturePayment(payment.Id);
+        }
     }
 ```
 
@@ -69,6 +73,23 @@ The [Nuget package](https://www.nuget.org/packages/Yandex.Checkout.V3) contains 
 * **.NET Standard 2.0:** This version will fit most modern project types.
 
 The required version is chosen automatically for you when you install the Nuget package. Installation instructions can be found on the [nuget.org page](https://www.nuget.org/packages/Yandex.Checkout.V3).
+
+
+## Building the Nuget package
+
+To build the Nuget package, simply run ```dotnet pack```:
+
+```cmd
+C:\Code\Yandex.Checkout.V3\Yandex.Checkout.V3> dotnet pack             
+MSBuild version 17.6.1+8ffc3fe3d for .NET
+  Determining projects to restore...
+  All projects are up-to-date for restore.
+  Yandex.Checkout.V3 -> C:\Code\Yandex.Checkout.V3\Yandex.Checkout.V3\bin\Debug\net45\Yandex.Checkout.V3.dll
+  Yandex.Checkout.V3 -> C:\Code\Yandex.Checkout.V3\Yandex.Checkout.V3\bin\Debug\netstandard2.0\Yandex.Checkout.V3.dll
+```
+
+The package will be created in the ```bin/Debug``` folder.
+
 
 ## Versioning Policy
 

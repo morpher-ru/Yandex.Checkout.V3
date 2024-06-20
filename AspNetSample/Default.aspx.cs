@@ -35,18 +35,22 @@ namespace AspNetSample
         protected void Page_Load(object sender, EventArgs e)
         {
             // Чтобы получить это уведомление, нужно указать адрес этой страницы
-            // в настройках магазина (https://kassa.yandex.ru/my/tunes).
+            // в настройках магазина (https://yookassa.ru/my/merchant/integration/http-notifications).
             try
             {
                 Log($"Page_Load: Request.HttpMethod={Request.HttpMethod}, Request.ContentType={Request.ContentType}, Request.InputStream has {Request.InputStream.Length} bytes");
-                Message message = Client.ParseMessage(Request.HttpMethod, Request.ContentType, Request.InputStream);
-                Payment payment = message?.Object;
-                if (message?.Event == Event.PaymentWaitingForCapture && payment.Paid)
+                Notification notification = Client.ParseMessage(Request.HttpMethod, Request.ContentType, Request.InputStream);
+                if (notification is PaymentWaitingForCaptureNotification paymentWaitingForCaptureNotification)
                 {
-                    Log($"Got message: payment.id={payment.Id}, payment.paid={payment.Paid}");
+                    Payment payment = paymentWaitingForCaptureNotification.Object;
+                    
+                    if (payment.Paid)
+                    {
+                        Log($"Got message: payment.id={payment.Id}, payment.paid={payment.Paid}");
 
-                    // 4. Подтвердите готовность принять платеж
-                    _client.CapturePayment(payment.Id);
+                        // 4. Подтвердите готовность принять платеж
+                        _client.CapturePayment(payment.Id);
+                    }
                 }
             }
             catch (Exception exception)

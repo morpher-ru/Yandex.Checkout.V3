@@ -1,59 +1,43 @@
-﻿using System.Runtime.Serialization;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
+﻿namespace Yandex.Checkout.V3;
 
-// ReSharper disable InconsistentNaming
-// В этом файле названия элементов enum отступают от общего стиля
-// (должно быть PaymentAgent, а не payment_agent и т.п.) 
-
-namespace Yandex.Checkout.V3
+/// <summary>
+/// Тип посредника
+/// </summary>
+[JsonConverter(typeof(StringEnumConverter), typeof(SnakeCaseNamingStrategy))]
+public enum AgentType
 {
     /// <summary>
-    /// Тип посредника
+    /// Банковский платежный агент
     /// </summary>
-    [JsonConverter(typeof(StringEnumConverter))]
-    public enum AgentType
-    {
-        /// <summary>
-        /// Банковский платежный агент
-        /// </summary>
-        [EnumMember(Value = "banking_payment_agent")]
-        banking_payment_agent,
+    BankingPaymentAgent,
 
-        /// <summary>
-        /// Банковский платежный субагент
-        /// </summary>
-        [EnumMember(Value = "banking_payment_subagent")]
-        banking_payment_subagent,
+    /// <summary>
+    /// Банковский платежный субагент
+    /// </summary>
+    BankingPaymentSubagent,
 
-        /// <summary>
-        /// Платежный агент
-        /// </summary>
-        [EnumMember(Value = "payment_agent")]
-        payment_agent,
+    /// <summary>
+    /// Платежный агент
+    /// </summary>
+    PaymentAgent,
 
-        /// <summary>
-        /// Платежный субагент
-        /// </summary>
-        [EnumMember(Value = "payment_subagent")]
-        payment_subagent,
+    /// <summary>
+    /// Платежный субагент
+    /// </summary>
+    PaymentSubagent,
 
-        /// <summary>
-        /// Поверенный
-        /// </summary>
-        [EnumMember(Value = "attorney")]
-        attorney,
+    /// <summary>
+    /// Поверенный
+    /// </summary>
+    Attorney,
 
-        /// <summary>
-        /// Комиссионер
-        /// </summary>
-        [EnumMember(Value = "commissioner")]
-        commissioner,
+    /// <summary>
+    /// Комиссионер
+    /// </summary>
+    Commissioner,
 
-        /// <summary>
-        /// Агент
-        /// </summary>
-        [EnumMember(Value = "agent")]
-        agent
-    }
+    /// <summary>
+    /// Агент
+    /// </summary>
+    Agent
 }

@@ -1,35 +1,30 @@
-﻿using System.Runtime.Serialization;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
+﻿namespace Yandex.Checkout.V3;
 
-namespace Yandex.Checkout.V3
+[JsonConverter(typeof(StringEnumConverter), typeof(SnakeCaseNamingStrategy))]
+public enum SettlementType
 {
-    [JsonConverter(typeof(StringEnumConverter))]
-    public enum SettlementType
-    {
-        /// <summary>
-        /// Безналичный расчет
-        /// </summary>
-        [EnumMember(Value = "cashless")] Cashless,
+    /// <summary>
+    /// Безналичный расчет
+    /// </summary>
+    Cashless,
 
-        /// <summary>
-        /// Предоплата (аванс)
-        /// </summary>
-        [EnumMember(Value = "prepayment")] Prepayment,
+    /// <summary>
+    /// Предоплата (аванс)
+    /// </summary>
+    Prepayment,
 
-        /// <summary>
-        /// Постоплата (кредит)
-        /// </summary>
-        [EnumMember(Value = "postpayment")] Postpayment,
+    /// <summary>
+    /// Постоплата (кредит)
+    /// </summary>
+    Postpayment,
 
-        /// <summary>
-        /// Встречное предоставление
-        /// </summary>
-        [EnumMember(Value = "consideration")] Consideration,
+    /// <summary>
+    /// Встречное предоставление
+    /// </summary>
+    Consideration,
 
-        /// <summary>
-        /// Выплата
-        /// </summary>
-        [EnumMember(Value = "payout")] Payout
-    }
+    /// <summary>
+    /// Выплата
+    /// </summary>
+    Payout
 }

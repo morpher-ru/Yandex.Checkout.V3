@@ -1,16 +1,10 @@
-﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
+﻿namespace Yandex.Checkout.V3;
+
+// ReSharper disable once ClassNeverInstantiated.Global
 // ReSharper disable UnusedAutoPropertyAccessor.Global
-
-namespace Yandex.Checkout.V3
+internal class Message
 {
-    public class Message
-    {
-        public string Type { get; set; }
+    public string Type { get; set; }
 
-        [JsonConverter(typeof(StringEnumConverter))]
-        public Event Event { get; set; }
-
-        public Payment Object { get; set; }
-    }
+    public string Event { get; set; }
 }

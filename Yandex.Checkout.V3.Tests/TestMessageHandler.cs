@@ -7,14 +7,12 @@ namespace Yandex.Checkout.V3.Tests
 {
     public class TestMessageHandler : HttpMessageHandler
     {
-        public Queue<HttpRequestMessage> RequestQueue { get; } = new Queue<HttpRequestMessage>();
-        public Queue<HttpResponseMessage> ResponseQueue { get; } = new Queue<HttpResponseMessage>();
+        public Queue<HttpResponseMessage> ResponseQueue { get; } = new();
 
         protected sealed override Task<HttpResponseMessage> SendAsync(
             HttpRequestMessage request,
             CancellationToken cancellationToken)
         {
-            RequestQueue.Enqueue(request);
             return Task.FromResult(ResponseQueue.Dequeue());
         }
     }

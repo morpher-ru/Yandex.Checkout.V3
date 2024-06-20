@@ -1,19 +1,15 @@
-﻿using System.Collections.Generic;
-using Newtonsoft.Json;
+﻿namespace Yandex.Checkout.V3;
 
-namespace Yandex.Checkout.V3
+// ReSharper disable once ClassNeverInstantiated.Global
+public class RefundDeal
 {
-    public class RefundDeal
-    {
-        /// <summary>
-        /// Id сделки.
-        /// </summary>
-        public string Id { get; set; }
+    /// <summary>
+    /// Id сделки.
+    /// </summary>
+    public string Id { get; set; }
 
-        /// <summary>
-        /// Перечень совершенных расчетов.
-        /// </summary>
-        [JsonProperty("refund_settlements")]
-        public List<Settlement> Settlements { get; set; } = new();
-    }
+    /// <summary>
+    /// Перечень совершенных расчетов.
+    /// </summary>
+    public List<Settlement> RefundSettlements { get; set; } = new();
 }

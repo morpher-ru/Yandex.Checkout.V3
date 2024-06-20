@@ -1,28 +1,28 @@
-﻿using System;
-using System.Net.Http;
+﻿using System.Net.Http;
 
-namespace Yandex.Checkout.V3
+namespace Yandex.Checkout.V3;
+
+public static class ClientExtensions
 {
-    public static class ClientExtensions
+    public static AsyncClient MakeAsync(this Client client) => 
+        new(NewHttpClient(client), true);
+
+    public static AsyncClient MakeAsync(this Client client, TimeSpan timeout)
     {
-        public static AsyncClient MakeAsync(this Client client) => 
-            new(NewHttpClient(client), true);
+        HttpClient httpClient = NewHttpClient(client);
+        httpClient.Timeout = timeout;
+        return new AsyncClient(httpClient, true);
+    }
 
-        public static AsyncClient MakeAsync(this Client client, TimeSpan timeout)
-        {
-            HttpClient httpClient = NewHttpClient(client);
-            httpClient.Timeout = timeout;
-            return new AsyncClient(httpClient, true);
-        }
+    private static HttpClient NewHttpClient(Client client)
+    {
+        var httpClient = new HttpClient {BaseAddress = new Uri(client.ApiUrl)};
+        
+        httpClient.DefaultRequestHeaders.Add("Authorization", client.Authorization);
 
-        private static HttpClient NewHttpClient(Client client)
-        {
-            var httpClient = new HttpClient {BaseAddress = new Uri(client.ApiUrl)};
-            httpClient.DefaultRequestHeaders.Add("Authorization", client.Authorization);
-
-            if (!string.IsNullOrEmpty(client.UserAgent))
-                httpClient.DefaultRequestHeaders.UserAgent.ParseAdd(client.UserAgent);
-            return httpClient;
-        }
+        if (!string.IsNullOrEmpty(client.UserAgent))
+            httpClient.DefaultRequestHeaders.UserAgent.ParseAdd(client.UserAgent);
+        
+        return httpClient;
     }
 }

@@ -1,19 +1,18 @@
-﻿namespace Yandex.Checkout.V3
+﻿namespace Yandex.Checkout.V3;
+
+/// <summary>
+/// Совершенный расчёт
+/// </summary>
+// ReSharper disable once ClassNeverInstantiated.Global
+public class Settlement
 {
     /// <summary>
-    /// Совершенный расчёт
+    /// Тип расчета
     /// </summary>
-    // ReSharper disable once ClassNeverInstantiated.Global
-    public class Settlement
-    {
-        /// <summary>
-        /// Тип расчета
-        /// </summary>
-        public SettlementType Type { get; set; }
+    public SettlementType Type { get; set; }
 
-        /// <summary>
-        /// Сумма расчета
-        /// </summary>
-        public Amount Amount { get; set; }
-    }
+    /// <summary>
+    /// Сумма расчета
+    /// </summary>
+    public Amount Amount { get; set; }
 }

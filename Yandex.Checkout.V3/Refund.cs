@@ -1,33 +1,30 @@
-﻿using System;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
+﻿namespace Yandex.Checkout.V3;
 
-namespace Yandex.Checkout.V3
+/// <inheritdoc />
+/// <summary>
+/// Информация о возврате
+/// </summary>
+/// <remarks>
+/// See https://yookassa.ru/developers/api#refund_object
+/// </remarks>
+public class Refund : NewRefund
 {
-    /// <inheritdoc />
     /// <summary>
-    /// Информация о возврате
+    /// Идентификатор возврата
     /// </summary>
-    public class Refund : NewRefund
-    {
-        /// <summary>
-        /// Идентификатор возврата
-        /// </summary>
-        public string Id { get; set; }
+    public string Id { get; set; }
 
-        /// <summary>
-        /// Статус
-        /// </summary>
-        [JsonConverter(typeof(StringEnumConverter))]
-        public RefundStatus Status { get; set; }
+    /// <summary>
+    /// Статус
+    /// </summary>
+    public RefundStatus Status { get; set; }
 
-        /// <summary>
-        /// Дата создания
-        /// </summary>
-        public DateTime CreatedAt { get; set; }
+    /// <summary>
+    /// Дата создания
+    /// </summary>
+    public DateTime? CreatedAt { get; set; }
 
-        public ReceiptRegistrationStatus? ReceiptRegistration { get; set; }
+    public ReceiptRegistrationStatus? ReceiptRegistration { get; set; }
 
-        public RefundDeal Deal { get; set; }
-    }
+    public RefundDeal Deal { get; set; }
 }

@@ -50,14 +50,18 @@ AsyncClient содержит те же методы, что и Client, толь�
     Response.Redirect(url);
 
     // 3. Дождитесь получения уведомления
-    Message message = Client.ParseMessage(Request.HttpMethod, Request.ContentType, Request.InputStream);
-    Payment payment = message?.Object;
-    
-    if (message?.Event == Event.PaymentWaitingForCapture && payment.Paid)
+    var notification = Client.ParseMessage(Request.HttpMethod, Request.ContentType, Request.InputStream);
+
+    if (notification is PaymentWaitingForCaptureNotification paymentWaitingForCaptureNotification)
     {
-        // 4. Подтвердите готовность принять платеж
-        _client.CapturePayment(payment.Id);
-    }
+        Payment payment = paymentWaitingForCaptureNotification.Object;
+        
+        if (payment.Paid)
+        {
+            // 4. Подтвердите готовность принять платеж
+            _client.CapturePayment(payment.Id);
+        }
+    }    
 ```
 
 Полный код в [примере на ASP.NET](https://github.com/morpher-ru/Yandex.Checkout.V3/blob/master/AspNetSample/Default.aspx.cs).
@@ -71,6 +75,23 @@ AsyncClient содержит те же методы, что и Client, толь�
 * **.NET Standard 2.0:** этот вариант подойдет для большинства современных проектов.
 
 Нужный вариант библиотеки выбирается автоматически при установке пакета. Инструкции по установке на [странице nuget.org](https://www.nuget.org/packages/Yandex.Checkout.V3).
+
+
+## Сборка Nuget-пакета
+
+Для сборки пакета достаточно выполнить команду ```dotnet pack```:
+
+```cmd
+C:\Code\Yandex.Checkout.V3\Yandex.Checkout.V3> dotnet pack             
+MSBuild version 17.6.1+8ffc3fe3d for .NET
+  Determining projects to restore...
+  All projects are up-to-date for restore.
+  Yandex.Checkout.V3 -> C:\Code\Yandex.Checkout.V3\Yandex.Checkout.V3\bin\Debug\net45\Yandex.Checkout.V3.dll
+  Yandex.Checkout.V3 -> C:\Code\Yandex.Checkout.V3\Yandex.Checkout.V3\bin\Debug\netstandard2.0\Yandex.Checkout.V3.dll
+```
+
+Пакет будет создан в папке bin/Debug.
+
 
 ## Политика версионирования
 
@@ -98,3 +119,5 @@ AsyncClient содержит те же методы, что и Client, толь�
 
 Если вы решили взять в работу одну из [открытых задач](https://github.com/morpher-ru/Yandex.Checkout.V3/issues),
 сообщите об этом в комментарии к задаче, чтобы предотвратить дублирование усилий.
+
+На каждое изменение лучше заводить отдельный пул-реквест. Так больше шансов, что ваш пул-реквест будет принят.

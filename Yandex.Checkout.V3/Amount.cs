@@ -1,20 +1,19 @@
 ﻿// ReSharper disable UnusedAutoPropertyAccessor.Global
 
-namespace Yandex.Checkout.V3
+namespace Yandex.Checkout.V3;
+
+/// <summary>
+/// Payment amount
+/// </summary>
+public class Amount
 {
     /// <summary>
-    /// Payment amount
+    /// Value
     /// </summary>
-    public class Amount
-    {
-        /// <summary>
-        /// Value
-        /// </summary>
-        public decimal Value { get; set; }
+    public decimal Value { get; set; }
 
-        /// <summary>
-        /// Three letter currency code (ex: RUB)
-        /// </summary>
-        public string Currency { get; set; } = "RUB";
-    }
+    /// <summary>
+    /// Three letter currency code (ex: RUB)
+    /// </summary>
+    public string Currency { get; set; } = "RUB";
 }

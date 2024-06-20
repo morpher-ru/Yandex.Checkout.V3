@@ -37,7 +37,7 @@ namespace Yandex.Checkout.V3.Demo.Pages
                     throw new InvalidOperationException(Action);
             }
 
-            return RedirectToPage("FinishAsync", new {Id = Id});
+            return RedirectToPage("FinishAsync", new {Id});
         }
     }
 }
