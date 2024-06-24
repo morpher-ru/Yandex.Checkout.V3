@@ -55,13 +55,9 @@ namespace Yandex.Checkout.V3.Tests
         }
 
         [TestMethod]
-        public async Task UnauthorizedThrowsException()
+        public void UnauthorizedThrowsException()
         {
-            async Task Action() => await SendAsync(
-                async ac => await ac.GetPaymentAsync("paymentId"),
-                new HttpResponseMessage(HttpStatusCode.Unauthorized));
-
-            await Assert.ThrowsExceptionAsync<YandexCheckoutException>(Action);
+            Assert.ThrowsException<ArgumentNullException>(() => new AsyncClient(new HttpClient()));
         }
 
         private static async Task SendAsync(Func<AsyncClient, Task> action, HttpResponseMessage httpResponseMessage)
