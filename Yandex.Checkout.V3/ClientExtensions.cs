@@ -20,23 +20,21 @@ public static class ClientExtensions
     public static HttpClient Confugure(this HttpClient httpClient, Client source) 
     {
         httpClient.BaseAddress = new Uri(source.ApiUrl);
-        httpClient.DefaultRequestHeaders.Add("Authorization", source.Authorization);
+        httpClient.DefaultRequestHeaders.Add(ClientBase.AuthorizationHeader, source.Authorization);
         if (!string.IsNullOrEmpty(source.UserAgent))
             httpClient.DefaultRequestHeaders.UserAgent.ParseAdd(source.UserAgent);
         
         return httpClient;
     }
 
-    public static HttpClient Confugure(this HttpClient httpClient, string shopId,
+    public static HttpClient Confugure(this HttpClient httpClient, 
+        string shopId,
         string secretKey,
-        string apiUrl = "https://api.yookassa.ru/v3/",
-        string userAgent = "Yandex.Checkout.V3 .NET Client")
+        string apiUrl = null,
+        string userAgent = ClientBase.DefaultUserAgent)
     {
-        if (!apiUrl.EndsWith("/"))
-            apiUrl += "/";
-
-        httpClient.BaseAddress = new Uri(apiUrl);
-        httpClient.DefaultRequestHeaders.Add("Authorization", Client.AuthorizationHeaderValue(shopId, secretKey));
+        httpClient.BaseAddress = new Uri(ClientBase.GetApiUrl(apiUrl));
+        httpClient.DefaultRequestHeaders.Add(ClientBase.AuthorizationHeader, ClientBase.AuthorizationHeaderValue(shopId, secretKey));
 
         if (!string.IsNullOrEmpty(userAgent))
             httpClient.DefaultRequestHeaders.UserAgent.ParseAdd(userAgent);

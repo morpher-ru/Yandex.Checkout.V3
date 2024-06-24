@@ -1,17 +1,12 @@
-﻿using System.Net;
-using System.Net.Http;
+﻿using System.Net.Http;
 using System.Text;
 
 namespace Yandex.Checkout.V3;
-using static Client;
 
-public partial class AsyncClient : IDisposable
+public partial class AsyncClient : ClientBase, IDisposable
 {
     private readonly HttpClient _httpClient;
     private readonly bool _disposeOfHttpClient;
-    public string UserAgent { get; }
-    public string ApiUrl { get; }
-    public string Authorization { get; }
 
     /// <param name="httpClient">
     /// Expects the <paramref name="httpClient"/>'s BaseAddress and Authorization headers to be set.
@@ -28,18 +23,16 @@ public partial class AsyncClient : IDisposable
         bool disposeOfHttpClient = false, 
         string shopId = null,
         string secretKey = null,
-        string apiUrl = "https://api.yookassa.ru/v3/",
-        string userAgent = "Yandex.Checkout.V3 .NET Client")
+        string apiUrl = null,
+        string userAgent = DefaultUserAgent)
+        : base(shopId, secretKey, apiUrl, userAgent)
     {
         _httpClient = httpClient;
         _disposeOfHttpClient = disposeOfHttpClient;
 
-        ApiUrl = apiUrl;
-        if (!ApiUrl.EndsWith("/"))
-            ApiUrl = apiUrl + "/";
-        UserAgent = userAgent;
-        Authorization = AuthorizationHeaderValue(shopId, secretKey);
-
+        if (!_httpClient.DefaultRequestHeaders.Contains(AuthorizationHeader)
+            && (string.IsNullOrEmpty(shopId) || string.IsNullOrEmpty(secretKey)))
+            throw new ArgumentNullException("You should either configure default headers for HttpClient or provide shopId & secretKey params");
     }
 
     /// <summary>
@@ -182,14 +175,14 @@ public partial class AsyncClient : IDisposable
                 : null
         };
 
-        if (!_httpClient.DefaultRequestHeaders.Contains("Authorization"))
-            request.Headers.Add("Authorization", Authorization);
+        if (!string.IsNullOrEmpty(Authorization))
+            request.Headers.Add(AuthorizationHeader, Authorization);
 
-        if (_httpClient.DefaultRequestHeaders.UserAgent.Count == 0)
+        if (!string.IsNullOrEmpty(UserAgent) && _httpClient.DefaultRequestHeaders.UserAgent.Count == 0)
             request.Headers.UserAgent.ParseAdd(UserAgent);
 
         if (!string.IsNullOrEmpty(idempotenceKey))
-            request.Headers.Add("Idempotence-Key", idempotenceKey);
+            request.Headers.Add(IdempotenceKeyHeader, idempotenceKey);
 
         return request;
     }

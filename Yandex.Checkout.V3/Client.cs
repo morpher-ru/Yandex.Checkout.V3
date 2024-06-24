@@ -6,12 +6,8 @@ namespace Yandex.Checkout.V3;
 /// <summary>
 /// Yandex.Checkout HTTP API client
 /// </summary>
-public class Client
+public class Client: ClientBase
 {
-    public string UserAgent { get; }
-    public string ApiUrl { get; }
-    public string Authorization { get; }
-
     /// <summary>
     /// Constructor
     /// </summary>
@@ -22,23 +18,14 @@ public class Client
     public Client(
         string shopId,
         string secretKey,
-        string apiUrl = "https://api.yookassa.ru/v3/",
-        string userAgent = "Yandex.Checkout.V3 .NET Client")
+        string apiUrl = null,
+        string userAgent = DefaultUserAgent)
+        : base(shopId, secretKey, apiUrl, userAgent)
     {
         if (string.IsNullOrWhiteSpace(shopId))
             throw new ArgumentNullException(nameof(shopId));
         if (string.IsNullOrWhiteSpace(secretKey))
             throw new ArgumentNullException(nameof(secretKey));
-        if (string.IsNullOrWhiteSpace(apiUrl))
-            throw new ArgumentNullException(nameof(apiUrl));
-        if (!Uri.TryCreate(apiUrl, UriKind.Absolute, out Uri _))
-            throw new ArgumentException($"'{nameof(apiUrl)}' is not a valid URL.");
-
-        ApiUrl = apiUrl;
-        if (!ApiUrl.EndsWith("/"))
-            ApiUrl = apiUrl + "/";
-        UserAgent = userAgent;
-        Authorization = AuthorizationHeaderValue(shopId, secretKey);
     }
 
     #region Sync
@@ -224,82 +211,7 @@ public class Client
 
     #endregion Sync
 
-    #region Parse
-
-    /// <summary>
-    /// Parses an HTTP request into a <see cref="Message"/> object.
-    /// </summary>
-    /// <returns>A <see cref="Notification"/> object subclass or null.</returns>
-    public static Notification ParseMessage(string requestHttpMethod, string requestContentType, Stream requestInputStream)
-    {
-        return ParseMessage(requestHttpMethod, requestContentType, ReadToEnd(requestInputStream));
-    }
-
-    /// <summary>
-    /// Parses an HTTP request into a <see cref="Notification"/> object.
-    /// </summary>
-    /// <returns>A <see cref="Notification"/> object subclass or null.</returns>
-    public static Notification ParseMessage(string requestHttpMethod, string requestContentType, string jsonBody)
-    {
-        if (requestHttpMethod != "POST")
-        {
-            return null;
-        }
-
-        if (!requestContentType.StartsWith(ApplicationJson))
-        {
-            return null;
-        }
-            
-        Message message = Serializer.DeserializeObject<Message>(jsonBody);
-
-        return message.Event switch
-        {
-            "payment.waiting_for_capture" =>
-                Serializer.DeserializeObject<PaymentWaitingForCaptureNotification>(jsonBody),
-            "payment.succeeded" =>
-                Serializer.DeserializeObject<PaymentSucceededNotification>(jsonBody),
-            "payment.canceled" =>
-                Serializer.DeserializeObject<PaymentCanceledNotification>(jsonBody),
-            "refund.succeeded" =>
-                Serializer.DeserializeObject<RefundSucceededNotification>(jsonBody),
-
-            _ => null // Keep our options open in case new event types are added in the future
-        };
-    }
-
-    #endregion Parse
-
     #region Helpers
-
-    public static string AuthorizationHeaderValue(string shopId, string secretKey)
-        => "Basic " + Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes(shopId + ":" + secretKey));
-
-
-    private static readonly HashSet<HttpStatusCode> KnownErrors = new()
-    {
-        HttpStatusCode.BadRequest,
-        HttpStatusCode.Unauthorized,
-        HttpStatusCode.Forbidden,
-        HttpStatusCode.NotFound,
-        (HttpStatusCode) 429, // Too Many Requests
-        HttpStatusCode.InternalServerError
-    };
-
-    internal const string ApplicationJson = "application/json";
-
-    internal static T ProcessResponse<T>(HttpStatusCode statusCode, string responseData, string contentType)
-    {
-        if (statusCode != HttpStatusCode.OK)
-        {
-            throw new YandexCheckoutException(statusCode,
-                string.IsNullOrEmpty(responseData) || !KnownErrors.Contains(statusCode) || !contentType.StartsWith(ApplicationJson)
-                    ? new Error { Code = statusCode.ToString(), Description = statusCode.ToString() }
-                    : Serializer.DeserializeObject<Error>(responseData));
-        }
-
-        return Serializer.DeserializeObject<T>(responseData);
-    }
 
     private T Query<T>(string method, object body, string url, string idempotenceKey)
     {
@@ -329,15 +241,13 @@ public class Client
         var request = (HttpWebRequest)WebRequest.Create(ApiUrl + url);
         request.Method = method;
         request.ContentType = ApplicationJson;
-        request.Headers.Add("Authorization", Authorization);
+        request.Headers.Add(AuthorizationHeader, Authorization);
 
         if (!string.IsNullOrEmpty(idempotenceKey))
-            request.Headers.Add("Idempotence-Key", idempotenceKey);
+            request.Headers.Add(IdempotenceKeyHeader, idempotenceKey);
 
-        if (UserAgent != null)
-        {
+        if (!string.IsNullOrEmpty(UserAgent))
             request.UserAgent = UserAgent;
-        }
 
         if (body != null)
         {
@@ -349,15 +259,6 @@ public class Client
         }
 
         return request;
-    }
-
-    private static string ReadToEnd(Stream stream)
-    {
-        if (stream == null) return null;
-
-        using var reader = new StreamReader(stream);
-            
-        return reader.ReadToEnd();
     }
 
     #endregion Helpers
