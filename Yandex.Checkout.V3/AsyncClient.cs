@@ -3,7 +3,7 @@ using System.Text;
 
 namespace Yandex.Checkout.V3;
 
-public partial class AsyncClient : IDisposable
+public partial class AsyncClient : ClientBase, IDisposable
 {
     private readonly HttpClient _httpClient;
     private readonly bool _disposeOfHttpClient;
@@ -12,12 +12,27 @@ public partial class AsyncClient : IDisposable
     /// Expects the <paramref name="httpClient"/>'s BaseAddress and Authorization headers to be set.
     /// </param>
     /// <param name="disposeOfHttpClient">
+    /// <param name="shopId">Shop ID. If not provided <paramref name="httpClient"/> should be configured with <see cref="ClientExtensions.Confugure(HttpClient, string, string, string, string)"/>
+    /// </param>
+    /// <param name="secretKey">Secret web api key. If not provided <paramref name="httpClient"/> should be configured with <see cref="ClientExtensions.Confugure(HttpClient, string, string, string, string)"/></param>
+    /// <param name="apiUrl">API URL</param>
+    /// <param name="userAgent">Agent name</param>
     /// Dispose of the <paramref name="httpClient"/> when this AsyncClient is disposed.
     /// </param>
-    public AsyncClient(HttpClient httpClient, bool disposeOfHttpClient = false)
+    public AsyncClient(HttpClient httpClient, 
+        bool disposeOfHttpClient = false, 
+        string shopId = null,
+        string secretKey = null,
+        string apiUrl = null,
+        string userAgent = DefaultUserAgent)
+        : base(shopId, secretKey, apiUrl, userAgent)
     {
         _httpClient = httpClient;
         _disposeOfHttpClient = disposeOfHttpClient;
+
+        if (!_httpClient.DefaultRequestHeaders.Contains(AuthorizationHeader)
+            && (string.IsNullOrEmpty(shopId) || string.IsNullOrEmpty(secretKey)))
+            throw new ArgumentNullException("You should either configure default headers for HttpClient or provide shopId & secretKey params");
     }
 
     /// <summary>
@@ -145,21 +160,29 @@ public partial class AsyncClient : IDisposable
             ? null
             : await response.Content.ReadAsStringAsync();
 
-        return Client.ProcessResponse<T>(response.StatusCode, responseData, response.Content?.Headers?.ContentType?.MediaType ?? string.Empty);
+        return ProcessResponse<T>(response.StatusCode, responseData, response.Content?.Headers?.ContentType?.MediaType ?? string.Empty);
     }
 
-    private static HttpRequestMessage CreateRequest(HttpMethod method, object body, string url,
-        string idempotenceKey)
+    private HttpRequestMessage CreateRequest(HttpMethod method, object body, string url, string idempotenceKey)
     {
+        if (_httpClient.BaseAddress == null)
+            url = ApiUrl + url;
+
         var request = new HttpRequestMessage(method, url)
         {
             Content = method == HttpMethod.Post
-                ? new StringContent(Serializer.SerializeObject(body), Encoding.UTF8, Client.ApplicationJson)
+                ? new StringContent(Serializer.SerializeObject(body), Encoding.UTF8, ApplicationJson)
                 : null
         };
 
+        if (!string.IsNullOrEmpty(Authorization))
+            request.Headers.Add(AuthorizationHeader, Authorization);
+
+        if (!string.IsNullOrEmpty(UserAgent) && _httpClient.DefaultRequestHeaders.UserAgent.Count == 0)
+            request.Headers.UserAgent.ParseAdd(UserAgent);
+
         if (!string.IsNullOrEmpty(idempotenceKey))
-            request.Headers.Add("Idempotence-Key", idempotenceKey);
+            request.Headers.Add(IdempotenceKeyHeader, idempotenceKey);
 
         return request;
     }
@@ -176,7 +199,7 @@ public partial class AsyncClient : IDisposable
     /// <returns>A <see cref="Notification"/> object subclass or null.</returns>
     public static async Task<Notification> ParseMessageAsync(string requestHttpMethod, string requestContentType, Stream requestInputStream)
     {
-        return Client.ParseMessage(requestHttpMethod, requestContentType, await ReadToEndAsync(requestInputStream));
+        return ParseMessage(requestHttpMethod, requestContentType, await ReadToEndAsync(requestInputStream));
     }
 
     private static async Task<string> ReadToEndAsync(Stream stream)

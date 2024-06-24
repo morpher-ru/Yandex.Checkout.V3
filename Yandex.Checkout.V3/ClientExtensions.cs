@@ -15,14 +15,30 @@ public static class ClientExtensions
     }
 
     private static HttpClient NewHttpClient(Client client)
-    {
-        var httpClient = new HttpClient {BaseAddress = new Uri(client.ApiUrl)};
-        
-        httpClient.DefaultRequestHeaders.Add("Authorization", client.Authorization);
+        => Confugure(new HttpClient(), client);
 
-        if (!string.IsNullOrEmpty(client.UserAgent))
-            httpClient.DefaultRequestHeaders.UserAgent.ParseAdd(client.UserAgent);
+    public static HttpClient Confugure(this HttpClient httpClient, Client source) 
+    {
+        httpClient.BaseAddress = new Uri(source.ApiUrl);
+        httpClient.DefaultRequestHeaders.Add(ClientBase.AuthorizationHeader, source.Authorization);
+        if (!string.IsNullOrEmpty(source.UserAgent))
+            httpClient.DefaultRequestHeaders.UserAgent.ParseAdd(source.UserAgent);
         
+        return httpClient;
+    }
+
+    public static HttpClient Confugure(this HttpClient httpClient, 
+        string shopId,
+        string secretKey,
+        string apiUrl = null,
+        string userAgent = ClientBase.DefaultUserAgent)
+    {
+        httpClient.BaseAddress = new Uri(ClientBase.GetApiUrl(apiUrl));
+        httpClient.DefaultRequestHeaders.Add(ClientBase.AuthorizationHeader, ClientBase.AuthorizationHeaderValue(shopId, secretKey));
+
+        if (!string.IsNullOrEmpty(userAgent))
+            httpClient.DefaultRequestHeaders.UserAgent.ParseAdd(userAgent);
+
         return httpClient;
     }
 }
