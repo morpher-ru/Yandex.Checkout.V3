@@ -69,9 +69,12 @@ namespace Yandex.Checkout.V3.Tests
             var messageHandler = new TestMessageHandler();
             messageHandler.ResponseQueue.Enqueue(httpResponseMessage);
 
-            var httpClient = new HttpClient(messageHandler) {BaseAddress = new Uri("http://ym.com")};
+            var httpClient = new HttpClient(messageHandler);
 
-            var asyncClient = new AsyncClient(httpClient);
+            var client = new Client("test_shop_id", "test_key", "http://ym.com");
+            
+            var asyncClient = new AsyncClient(httpClient, false, client);
+            
             await action(asyncClient);
         }
     }

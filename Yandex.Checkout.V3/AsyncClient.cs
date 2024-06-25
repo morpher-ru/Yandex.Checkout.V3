@@ -7,17 +7,22 @@ public partial class AsyncClient : IDisposable
 {
     private readonly HttpClient _httpClient;
     private readonly bool _disposeOfHttpClient;
+    private readonly Client _client;
 
     /// <param name="httpClient">
-    /// Expects the <paramref name="httpClient"/>'s BaseAddress and Authorization headers to be set.
+    /// The HttpClient to use.
     /// </param>
     /// <param name="disposeOfHttpClient">
     /// Dispose of the <paramref name="httpClient"/> when this AsyncClient is disposed.
     /// </param>
-    public AsyncClient(HttpClient httpClient, bool disposeOfHttpClient = false)
+    /// <param name="client">
+    /// Contains validated config such as API base URL, shopId, etc.
+    /// </param>
+    public AsyncClient(HttpClient httpClient, bool disposeOfHttpClient, Client client)
     {
         _httpClient = httpClient;
         _disposeOfHttpClient = disposeOfHttpClient;
+        _client = client;
     }
 
     /// <summary>
@@ -148,15 +153,20 @@ public partial class AsyncClient : IDisposable
         return Client.ProcessResponse<T>(response.StatusCode, responseData, response.Content?.Headers?.ContentType?.MediaType ?? string.Empty);
     }
 
-    private static HttpRequestMessage CreateRequest(HttpMethod method, object body, string url,
+    private HttpRequestMessage CreateRequest(HttpMethod method, object body, string url,
         string idempotenceKey)
     {
-        var request = new HttpRequestMessage(method, url)
+        var request = new HttpRequestMessage(method, _client.ApiUrl + url)
         {
             Content = method == HttpMethod.Post
                 ? new StringContent(Serializer.SerializeObject(body), Encoding.UTF8, Client.ApplicationJson)
                 : null
         };
+        
+        request.Headers.Add("Authorization", _client.Authorization);
+        
+        if (!string.IsNullOrEmpty(_client.UserAgent))
+            request.Headers.UserAgent.ParseAdd(_client.UserAgent);
 
         if (!string.IsNullOrEmpty(idempotenceKey))
             request.Headers.Add("Idempotence-Key", idempotenceKey);
