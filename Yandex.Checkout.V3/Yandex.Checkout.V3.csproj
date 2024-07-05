@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;net45;net40</TargetFrameworks>
-    <Version>4.0.0</Version>
+    <Version>4.1.0</Version>
     <Authors>morpher;ili</Authors>
     <Title>YooMoney/YooKassa API wrapper</Title>
     <Description>This library simplifies integration with YooMoney/YooKassa (formerly Yandex.Money / Yandex.Checkout).
@@ -15,9 +15,8 @@
     <RepositoryUrl>https://github.com/morpher-ru/Yandex.Checkout.V3</RepositoryUrl>
     <PackageProjectUrl>https://github.com/morpher-ru/Yandex.Checkout.V3</PackageProjectUrl>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <PackageReleaseNotes>Changes in this release (both are potentially breaking):
-        - Add RefundStatus.Pending
-        - Make Refund.CreatedAt nullable
+    <PackageReleaseNotes>This release adds a MakeAsync() overload that allows the use of an existing HttpClient which can be useful in case you prefer to create your HttpClients using an IHttpClientFactory or other methods.
+        One other releated change is giving up the use of HttpClient default headers and using request header instead. This allows multiple instance of AsyncClient to share the same instance of an HttpClient which can be usefule if you need to handle multiple shops in the same application.
     </PackageReleaseNotes>
     <PackageReadmeFile>README.md</PackageReadmeFile>  
     <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\Yandex.Checkout.V3.xml</DocumentationFile>
