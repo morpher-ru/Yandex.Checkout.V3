@@ -263,6 +263,10 @@ public class Client
                 Serializer.DeserializeObject<PaymentCanceledNotification>(jsonBody),
             "refund.succeeded" =>
                 Serializer.DeserializeObject<RefundSucceededNotification>(jsonBody),
+            "payout.succeeded" =>
+                Serializer.DeserializeObject<PayoutSucceededNotification>(jsonBody),
+            "payout.canceled" =>
+                Serializer.DeserializeObject<PayoutCanceledNotification>(jsonBody),
 
             _ => null // Keep our options open in case new event types are added in the future
         };
