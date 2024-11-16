@@ -64,7 +64,7 @@ AsyncClient содержит те же методы, что и Client, толь�
     }    
 ```
 
-Полный код в [примере на ASP.NET](https://github.com/morpher-ru/Yandex.Checkout.V3/blob/master/AspNetSample/Default.aspx.cs).
+Полный код в [примере на ASP.NET WebForms](https://github.com/morpher-ru/Yandex.Checkout.V3/blob/master/AspNetSample/Default.aspx.cs).
 
 ## Минимальные требования
 
@@ -116,6 +116,8 @@ MSBuild version 17.6.1+8ffc3fe3d for .NET
 ```
 
 ## Совместная работа над проектом
+
+[Задать вопрос, высказать предложение или сообщить о проблеме](https://github.com/morpher-ru/Yandex.Checkout.V3/issues/new)
 
 Если вы решили взять в работу одну из [открытых задач](https://github.com/morpher-ru/Yandex.Checkout.V3/issues),
 сообщите об этом в комментарии к задаче, чтобы предотвратить дублирование усилий.
