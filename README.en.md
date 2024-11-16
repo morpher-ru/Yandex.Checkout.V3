@@ -62,7 +62,7 @@ The sample code below implements taking a payment as detailed in the [Quick Star
     }
 ```
 
-For the full code, see the [ASP.NET sample project](https://github.com/morpher-ru/Yandex.Checkout.V3/blob/master/AspNetSample/Default.aspx.cs).
+For the full code, see the [ASP.NET WebForms sample project](https://github.com/morpher-ru/Yandex.Checkout.V3/blob/master/AspNetSample/Default.aspx.cs).
 
 ## Minimum Requirements
 
@@ -114,6 +114,8 @@ Or, if you are targeting .NET 4.0 or lower:
 ```
 
 ## Contributing
+
+[Post your question, suggestion or issue here](https://github.com/morpher-ru/Yandex.Checkout.V3/issues/new)
 
 If you would like to work on one of the [open issues](https://github.com/morpher-ru/Yandex.Checkout.V3/issues),
 please indicate this first by commenting on the issue. This is to avoid duplicating efforts.
