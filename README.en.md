@@ -11,7 +11,7 @@ The API methods covered include create payment, capture payment, cancel payment,
 
 ## Getting Started
 
-In order to take payments your website has to be able to accept notifications from Yandex.Checkout. The URL for notifications must be set on your [shop settings page](https://yookassa.ru/my/shop-settings?lang=en).
+In order to take payments your website has to be able to accept notifications from Yandex.Checkout. The URL for notifications must be set on your [shop settings page](https://yookassa.ru/my/merchant/integration/http-notifications?lang=en).
 
 Most API calls are done using the Client class. It takes your shopId and secretKey in the constructor:
 
