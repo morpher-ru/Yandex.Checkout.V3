@@ -36,7 +36,7 @@ public class Client
 
         ApiUrl = NormalizeUrl(apiUrl);
         UserAgent = userAgent;
-        Authorization = "Basic " + Convert.ToBase64String(Encoding.UTF8.GetBytes(shopId + ":" + secretKey));
+        Authorization = "Basic " + Convert.ToBase64String(Encoding.UTF8.GetBytes($"{shopId}:{secretKey}"));
     }
     
     static string NormalizeUrl(string url) => url.EndsWith("/") ? url : url + "/";
