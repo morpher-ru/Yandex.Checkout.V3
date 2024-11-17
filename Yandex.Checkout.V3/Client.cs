@@ -34,12 +34,12 @@ public class Client
         if (!Uri.TryCreate(apiUrl, UriKind.Absolute, out Uri _))
             throw new ArgumentException($"'{nameof(apiUrl)}' is not a valid URL.");
 
-        ApiUrl = apiUrl;
-        if (!ApiUrl.EndsWith("/"))
-            ApiUrl = apiUrl + "/";
+        ApiUrl = NormalizeUrl(apiUrl);
         UserAgent = userAgent;
         Authorization = "Basic " + Convert.ToBase64String(Encoding.UTF8.GetBytes(shopId + ":" + secretKey));
     }
+    
+    static string NormalizeUrl(string url) => url.EndsWith("/") ? url : url + "/";
 
     #region Sync
 
