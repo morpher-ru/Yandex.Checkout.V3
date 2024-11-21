@@ -18,6 +18,11 @@ public class Refund : NewRefund
     /// Статус
     /// </summary>
     public RefundStatus Status { get; set; }
+    
+    /// <summary>
+    /// Комментарий к статусу canceled: кто отменил возврат и по какой причине.
+    /// </summary>
+    public CancellationDetails CancellationDetails { get; set; }
 
     /// <summary>
     /// Дата создания
