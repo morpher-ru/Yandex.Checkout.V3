@@ -57,6 +57,34 @@ namespace Yandex.Checkout.V3.Tests
             Assert.AreEqual("{\"payout_token\":\"token\"}", s);
         }
 
+        [TestMethod] 
+        public void RefundCancellationDetailsDeserializedCorrectly()
+        {
+            const string json = """
+                                {
+                                        "id": "2d3df78f-0015-5000-9000-15b3448744a5",
+                                        "payment_id": "2d3de338-000f-5000-9000-1a427a10fed5",
+                                        "status": "canceled",
+                                        "created_at": "2024-01-20T15:16:31.461Z",
+                                        "amount": {
+                                            "value": "100.00",
+                                            "currency": "RUB"
+                                        },
+                                        "created_at": "2024-01-20T13:52:38.396Z",
+                                        "cancellation_details": {
+                                            "party": "yoo_money",
+                                            "reason": "expired_on_confirmation"
+                                        }
+                                }
+                                """;
+            
+            var refund = Serializer.DeserializeObject<Refund>(json);
+            
+            Assert.IsNotNull(refund.CancellationDetails);
+            Assert.AreEqual(refund.CancellationDetails.Party, "yoo_money");
+            Assert.AreEqual(refund.CancellationDetails.Reason, "expired_on_confirmation");
+        }
+        
         [TestMethod]
         public void CardPaymentMethodDeserializedCorrectly()
         {
