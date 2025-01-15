@@ -23,7 +23,7 @@ public class NewPayment
     /// Автоматический прием поступившего платежа.
     /// </summary>
     /// <remarks>
-    /// Обязательный параметр, при передаче <see cref="PaymentOrder"/>
+    /// Должен быть равен true при передаче <see cref="PaymentOrder"/>.
     /// </remarks>
     public bool? Capture { get; set; }
 
