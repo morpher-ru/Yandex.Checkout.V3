@@ -3,9 +3,9 @@
     /// <summary>
     /// Реквизиты получателя оплаты при пополнении электронного кошелька, банковского счета или баланса телефона.
     /// </summary>
-    public class ReceiverBase
+    public class Receiver
     {
-        public ReceiverBase(ReceiverType type)
+        public Receiver(ReceiverType type)
         {
             Type = type;
         }

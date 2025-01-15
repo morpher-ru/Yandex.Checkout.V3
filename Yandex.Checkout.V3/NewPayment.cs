@@ -84,5 +84,5 @@ public class NewPayment
     /// <see cref="ReceiverMobileBalance"/>,
     /// <see cref="ReceiverDigitalWallet"/>.
     /// </summary>
-    public ReceiverBase Receiver { get; set; }
+    public Receiver Receiver { get; set; }
 }

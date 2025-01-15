@@ -1,6 +1,6 @@
 ﻿namespace Yandex.Checkout.V3
 {
-    public class ReceiverBankAccount : ReceiverBase
+    public class ReceiverBankAccount : Receiver
     {
         public ReceiverBankAccount() : base(ReceiverType.BankAccount)
         {

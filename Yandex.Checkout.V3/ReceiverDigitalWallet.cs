@@ -1,6 +1,6 @@
 ﻿namespace Yandex.Checkout.V3
 {
-    public class ReceiverDigitalWallet : ReceiverBase
+    public class ReceiverDigitalWallet : Receiver
     {
         public ReceiverDigitalWallet() : base(ReceiverType.DigitalWallet)
         {

@@ -1,6 +1,6 @@
 ﻿namespace Yandex.Checkout.V3
 {
-    public class ReceiverMobileBalance : ReceiverBase
+    public class ReceiverMobileBalance : Receiver
     {
         public ReceiverMobileBalance() : base(ReceiverType.MobileBalance)
         {
