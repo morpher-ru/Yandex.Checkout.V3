@@ -60,7 +60,7 @@
         /// </summary>
         /// <remarks>
         /// Обязательный параметр, если не передан 
-        /// payment_document_number, account_number, unified_account_number или service_id.
+        /// payment_document_id, account_number, unified_account_number или service_id.
         /// </remarks>
         public string PaymentDocumentNumber { get; set; }
 
