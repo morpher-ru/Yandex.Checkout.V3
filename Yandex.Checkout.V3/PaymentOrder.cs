@@ -22,7 +22,7 @@
         /// </summary>
         /// <remarks>
         /// Обязательный параметр, если не передан 
-        /// payment_document_id, payment_document_number, unified_account_number или service_id.
+        /// PaymentDocumentId, PaymentDocumentNumber, UnifiedAccountNumber или ServiceId.
         /// </remarks>
         public string AccountNumber { get; set; }
 
@@ -51,7 +51,7 @@
         /// </summary>
         /// <remarks>
         /// Обязательный параметр, если не передан 
-        /// payment_document_number, account_number, unified_account_number или service_id.
+        /// PaymentDocumentNumber, AccountNumber, UnifiedAccountNumber или ServiceId.
         /// </remarks>
         public string PaymentDocumentId { get; set; }
 
@@ -60,7 +60,7 @@
         /// </summary>
         /// <remarks>
         /// Обязательный параметр, если не передан 
-        /// payment_document_id, account_number, unified_account_number или service_id.
+        /// PaymentDocumentId, AccountNumber, UnifiedAccountNumber или ServiceId.
         /// </remarks>
         public string PaymentDocumentNumber { get; set; }
 
@@ -94,7 +94,7 @@
         /// </summary>
         /// <remarks>
         /// Обязательный параметр, если не передан 
-        /// payment_document_number, account_number, unified_account_number или service_id.
+        /// PaymentDocumentNumber, AccountNumber, UnifiedAccountNumber или ServiceId.
         /// </remarks>
         public string ServiceId { get; set; }
 
@@ -104,7 +104,7 @@
         /// </summary>
         /// <remarks>
         /// Обязательный параметр, если не передан 
-        /// payment_document_number, account_number, unified_account_number или service_id.
+        /// PaymentDocumentNumber, AccountNumber, UnifiedAccountNumber или ServiceId.
         /// </remarks>
         public string UnifiedAccountNumber { get; set; }
     }
