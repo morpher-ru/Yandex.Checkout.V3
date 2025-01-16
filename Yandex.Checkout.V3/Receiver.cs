@@ -3,7 +3,7 @@
     /// <summary>
     /// Реквизиты получателя оплаты при пополнении электронного кошелька, банковского счета или баланса телефона.
     /// </summary>
-    public class Receiver
+    public abstract class Receiver
     {
         public Receiver(ReceiverType type)
         {

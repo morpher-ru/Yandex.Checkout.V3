@@ -511,5 +511,32 @@ namespace Yandex.Checkout.V3.Tests
             Assert.AreEqual("MasterCard", payment.PaymentMethod.Card.CardType);
             Assert.AreEqual("US", payment.PaymentMethod.Card.IssuerCountry);
         }
+
+        [TestMethod]
+        public void ReceiverDeserializedCorrectly()
+        {
+            string phoneNumber = "+70000000000";
+            string accountNumber = "00000";
+            string bic = "000000000";
+
+            var json = Serializer.SerializeObject(new ReceiverMobileBalance() { Phone = phoneNumber });
+            var payment = Serializer.DeserializeObject<Receiver>(json);
+
+            Assert.AreEqual(payment.Type, ReceiverType.MobileBalance);
+            Assert.AreEqual((payment as ReceiverMobileBalance)?.Phone, phoneNumber);
+
+            json = Serializer.SerializeObject(new ReceiverBankAccount() { AccountNumber = accountNumber, Bic = bic });
+            payment = Serializer.DeserializeObject<Receiver>(json);
+
+            Assert.AreEqual(payment.Type, ReceiverType.BankAccount);
+            Assert.AreEqual((payment as ReceiverBankAccount)?.AccountNumber, accountNumber);
+            Assert.AreEqual((payment as ReceiverBankAccount)?.Bic, bic);
+
+            json = Serializer.SerializeObject(new ReceiverDigitalWallet() { AccountNumber = accountNumber });
+            payment = Serializer.DeserializeObject<Receiver>(json);
+
+            Assert.AreEqual(payment.Type, ReceiverType.DigitalWallet);
+            Assert.AreEqual((payment as ReceiverDigitalWallet)?.AccountNumber, accountNumber);
+        }
     }
 }
