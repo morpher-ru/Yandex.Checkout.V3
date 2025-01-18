@@ -10,21 +10,13 @@ namespace Yandex.Checkout.V3
         {
             var receiver = JObject.Load(reader);
             var receiverType = receiver["type"].ToObject<ReceiverType>(serializer);
-            Receiver receiverInstance;
-            switch (receiverType)
+            Receiver receiverInstance = receiverType switch
             {
-                case ReceiverType.MobileBalance:
-                    receiverInstance = new ReceiverMobileBalance();
-                    break;
-                case ReceiverType.BankAccount:
-                    receiverInstance = new ReceiverBankAccount();
-                    break;
-                case ReceiverType.DigitalWallet:
-                    receiverInstance = new ReceiverDigitalWallet();
-                    break;
-                default:
-                    throw new ArgumentException($"Unknown receive type ({receiver["type"].Value<string>()}).");
-            }
+                ReceiverType.MobileBalance => new ReceiverMobileBalance(),
+                ReceiverType.BankAccount => new ReceiverBankAccount(),
+                ReceiverType.DigitalWallet => new ReceiverDigitalWallet(),
+                _ => throw new ArgumentException($"Unknown receive type ({receiver["type"].Value<string>()}).")
+            };
 
             serializer.Populate(receiver.CreateReader(), receiverInstance);
             return receiverInstance;
