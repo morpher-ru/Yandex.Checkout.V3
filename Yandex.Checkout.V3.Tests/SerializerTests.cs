@@ -531,28 +531,44 @@ namespace Yandex.Checkout.V3.Tests
         [TestMethod]
         public void ReceiverDeserializedCorrectly()
         {
-            string phoneNumber = "+70000000000";
-            string accountNumber = "00000";
-            string bic = "000000000";
+            const string accountNumber = "00000";
 
-            var json = Serializer.SerializeObject(new ReceiverMobileBalance() { Phone = phoneNumber });
-            var payment = Serializer.DeserializeObject<Receiver>(json);
+            var json = Serializer.SerializeObject(new ReceiverDigitalWallet { AccountNumber = accountNumber });
+            var receiver = Serializer.DeserializeObject<Receiver>(json);
 
-            Assert.AreEqual(payment.Type, ReceiverType.MobileBalance);
-            Assert.AreEqual((payment as ReceiverMobileBalance)?.Phone, phoneNumber);
+            Assert.AreEqual(receiver.Type, ReceiverType.DigitalWallet);
+            Assert.AreEqual((receiver as ReceiverDigitalWallet)?.AccountNumber, accountNumber);
+        }
 
-            json = Serializer.SerializeObject(new ReceiverBankAccount() { AccountNumber = accountNumber, Bic = bic });
-            payment = Serializer.DeserializeObject<Receiver>(json);
+        [TestMethod]
+        public void ReceiverMobileBalanceDeserializedCorrectly()
+        {
+            const string phoneNumber = "+70000000000";
 
-            Assert.AreEqual(payment.Type, ReceiverType.BankAccount);
-            Assert.AreEqual((payment as ReceiverBankAccount)?.AccountNumber, accountNumber);
-            Assert.AreEqual((payment as ReceiverBankAccount)?.Bic, bic);
+            var json = Serializer.SerializeObject(new ReceiverMobileBalance { Phone = phoneNumber });
+            var receiver = Serializer.DeserializeObject<Receiver>(json);
 
-            json = Serializer.SerializeObject(new ReceiverDigitalWallet() { AccountNumber = accountNumber });
-            payment = Serializer.DeserializeObject<Receiver>(json);
+            Assert.AreEqual(receiver.Type, ReceiverType.MobileBalance);
+            Assert.AreEqual((receiver as ReceiverMobileBalance)?.Phone, phoneNumber);
+        }
 
-            Assert.AreEqual(payment.Type, ReceiverType.DigitalWallet);
-            Assert.AreEqual((payment as ReceiverDigitalWallet)?.AccountNumber, accountNumber);
+        [TestMethod]
+        public void ReceiverBankAccountDeserializedCorrectly()
+        {
+            const string accountNumber = "00000";
+            const string bic = "000000000";
+
+            var obj = new ReceiverBankAccount
+            {
+                AccountNumber = accountNumber,
+                Bic = bic
+            };
+            var json = Serializer.SerializeObject(obj);
+            var receiver = Serializer.DeserializeObject<Receiver>(json);
+
+            Assert.AreEqual(receiver.Type, ReceiverType.BankAccount);
+            Assert.AreEqual((receiver as ReceiverBankAccount)?.AccountNumber, accountNumber);
+            Assert.AreEqual((receiver as ReceiverBankAccount)?.Bic, bic);
         }
     }
 }
