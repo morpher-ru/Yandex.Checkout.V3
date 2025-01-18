@@ -7,6 +7,22 @@ namespace Yandex.Checkout.V3.Tests
     public class SerializerTests
     {
         [TestMethod]
+        public void PaymentReceiverDeserializedCorrectly()
+        {
+            const string accountNumber = "12345678";
+            const string bic = "123";
+            var receiver = new ReceiverBankAccount {AccountNumber = accountNumber, Bic = bic};
+            var json = Serializer.SerializeObject(new Payment {Receiver = receiver});
+            var payment = Serializer.DeserializeObject<Payment>(json);
+            if (payment.Receiver is ReceiverBankAccount bankAccount)
+            {
+                Assert.AreEqual(accountNumber, bankAccount.AccountNumber);
+                Assert.AreEqual(bic, bankAccount.Bic);
+            }
+            else Assert.Fail($"Expected {nameof(ReceiverBankAccount)}");
+        }
+        
+        [TestMethod]
         public void ReceiptIndustryDetailsSerializedCorrectly()
         {
             var s = Serializer.SerializeObject(new ReceiptIndustryDetails {
