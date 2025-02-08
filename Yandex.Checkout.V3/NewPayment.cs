@@ -22,6 +22,9 @@ public class NewPayment
     /// <summary>
     /// Автоматический прием поступившего платежа.
     /// </summary>
+    /// <remarks>
+    /// Должен быть равен true при передаче <see cref="PaymentOrder"/>.
+    /// </remarks>
     public bool? Capture { get; set; }
 
     /// <summary>
@@ -64,4 +67,22 @@ public class NewPayment
     /// Присутствует, если вы хотите запомнить банковскую карту и отобразить ее при повторном платеже в виджете ЮKassa 
     /// </summary>
     public string MerchantCustomerId { get; set; }
+
+    /// <summary>
+    /// Платежное поручение — распоряжение на перевод банку для оплаты 
+    /// жилищно-коммунальных услуг (ЖКУ), сведения о платеже для регистрации в ГИС ЖКХ.
+    /// Необходимо передавать при оплате ЖКУ.
+    /// <see href="https://yookassa.ru/developers/payment-acceptance/scenario-extensions/utility-payments"/>
+    /// </summary>
+    public PaymentOrder PaymentOrder { get; set; }
+
+    /// <summary>
+    /// Реквизиты получателя оплаты при пополнении электронного кошелька, банковского счета или баланса телефона.
+    /// <see href="https://yookassa.ru/developers/payment-acceptance/scenario-extensions/receiver-data"/>
+    /// Возможные реализации:
+    /// <see cref="BankAccount"/>,
+    /// <see cref="MobileBalance"/>,
+    /// <see cref="DigitalWallet"/>.
+    /// </summary>
+    public Receiver Receiver { get; set; }
 }
