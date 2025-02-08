@@ -1,11 +1,7 @@
 ﻿namespace Yandex.Checkout.V3
 {
-    public class ReceiverBankAccount : Receiver
+    public class BankAccount : Receiver
     {
-        public ReceiverBankAccount() : base(ReceiverType.BankAccount)
-        {
-        }
-
         /// <summary>
         /// Номер банковского счета. Формат — 20 символов.
         /// </summary>

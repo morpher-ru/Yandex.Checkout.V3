@@ -9,17 +9,18 @@ namespace Yandex.Checkout.V3.Tests
         [TestMethod]
         public void PaymentReceiverDeserializedCorrectly()
         {
-            const string accountNumber = "12345678";
-            const string bic = "123";
-            var receiver = new ReceiverBankAccount {AccountNumber = accountNumber, Bic = bic};
+            // Arrange
+            var receiver = new BankAccount {AccountNumber = "12345678", Bic = "123"};
             var json = Serializer.SerializeObject(new Payment {Receiver = receiver});
+            
+            // Act
             var payment = Serializer.DeserializeObject<Payment>(json);
-            if (payment.Receiver is ReceiverBankAccount bankAccount)
-            {
-                Assert.AreEqual(accountNumber, bankAccount.AccountNumber);
-                Assert.AreEqual(bic, bankAccount.Bic);
-            }
-            else Assert.Fail($"Expected {nameof(ReceiverBankAccount)}");
+            
+            // Assert
+            var receiverBankAccount = payment.Receiver as BankAccount;
+            Assert.IsNotNull(receiverBankAccount);
+            Assert.AreEqual(receiver.AccountNumber, receiverBankAccount.AccountNumber);
+            Assert.AreEqual(receiver.Bic, receiverBankAccount.Bic);
         }
         
         [TestMethod]
@@ -529,15 +530,16 @@ namespace Yandex.Checkout.V3.Tests
         }
 
         [TestMethod]
-        public void ReceiverDeserializedCorrectly()
+        public void ReceiverDigitalWalletDeserializedCorrectly()
         {
             const string accountNumber = "00000";
 
-            var json = Serializer.SerializeObject(new ReceiverDigitalWallet { AccountNumber = accountNumber });
+            var json = Serializer.SerializeObject(new DigitalWallet { AccountNumber = accountNumber });
             var receiver = Serializer.DeserializeObject<Receiver>(json);
 
-            Assert.AreEqual(receiver.Type, ReceiverType.DigitalWallet);
-            Assert.AreEqual((receiver as ReceiverDigitalWallet)?.AccountNumber, accountNumber);
+            var receiverDigitalWallet = receiver as DigitalWallet;
+            Assert.IsNotNull(receiverDigitalWallet);
+            Assert.AreEqual(receiverDigitalWallet.AccountNumber, accountNumber);
         }
 
         [TestMethod]
@@ -545,11 +547,12 @@ namespace Yandex.Checkout.V3.Tests
         {
             const string phoneNumber = "+70000000000";
 
-            var json = Serializer.SerializeObject(new ReceiverMobileBalance { Phone = phoneNumber });
+            var json = Serializer.SerializeObject(new MobileBalance { Phone = phoneNumber });
             var receiver = Serializer.DeserializeObject<Receiver>(json);
 
-            Assert.AreEqual(receiver.Type, ReceiverType.MobileBalance);
-            Assert.AreEqual((receiver as ReceiverMobileBalance)?.Phone, phoneNumber);
+            var receiverMobileBalance = receiver as MobileBalance;
+            Assert.IsNotNull(receiverMobileBalance);
+            Assert.AreEqual(receiverMobileBalance.Phone, phoneNumber);
         }
 
         [TestMethod]
@@ -558,7 +561,7 @@ namespace Yandex.Checkout.V3.Tests
             const string accountNumber = "00000";
             const string bic = "000000000";
 
-            var obj = new ReceiverBankAccount
+            var obj = new BankAccount
             {
                 AccountNumber = accountNumber,
                 Bic = bic
@@ -566,9 +569,10 @@ namespace Yandex.Checkout.V3.Tests
             var json = Serializer.SerializeObject(obj);
             var receiver = Serializer.DeserializeObject<Receiver>(json);
 
-            Assert.AreEqual(receiver.Type, ReceiverType.BankAccount);
-            Assert.AreEqual((receiver as ReceiverBankAccount)?.AccountNumber, accountNumber);
-            Assert.AreEqual((receiver as ReceiverBankAccount)?.Bic, bic);
+            var receiverBankAccount = receiver as BankAccount;
+            Assert.IsNotNull(receiverBankAccount);
+            Assert.AreEqual(receiverBankAccount.AccountNumber, accountNumber);
+            Assert.AreEqual(receiverBankAccount.Bic, bic);
         }
     }
 }

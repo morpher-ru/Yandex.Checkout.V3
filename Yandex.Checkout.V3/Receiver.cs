@@ -5,11 +5,6 @@
     /// </summary>
     public abstract class Receiver
     {
-        public Receiver(ReceiverType type)
-        {
-            Type = type;
-        }
-
-        public ReceiverType Type { get; }
+        public string Type => GetType().Name.ToSnakeCase();
     }
 }

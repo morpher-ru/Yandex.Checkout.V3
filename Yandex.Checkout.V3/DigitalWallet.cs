@@ -1,11 +1,7 @@
 ﻿namespace Yandex.Checkout.V3
 {
-    public class ReceiverDigitalWallet : Receiver
+    public class DigitalWallet : Receiver
     {
-        public ReceiverDigitalWallet() : base(ReceiverType.DigitalWallet)
-        {
-        }
-
         /// <summary>
         /// Идентификатор электронного кошелька для пополнения. Максимум 20 символов.
         /// </summary>

@@ -80,9 +80,9 @@ public class NewPayment
     /// Реквизиты получателя оплаты при пополнении электронного кошелька, банковского счета или баланса телефона.
     /// <see href="https://yookassa.ru/developers/payment-acceptance/scenario-extensions/receiver-data"/>
     /// Возможные реализации:
-    /// <see cref="ReceiverBankAccount"/>,
-    /// <see cref="ReceiverMobileBalance"/>,
-    /// <see cref="ReceiverDigitalWallet"/>.
+    /// <see cref="BankAccount"/>,
+    /// <see cref="MobileBalance"/>,
+    /// <see cref="DigitalWallet"/>.
     /// </summary>
     public Receiver Receiver { get; set; }
 }

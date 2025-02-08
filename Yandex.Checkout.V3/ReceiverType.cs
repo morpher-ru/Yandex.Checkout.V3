@@ -4,21 +4,10 @@
     /// Получатели оплаты.
     /// </summary>
     [JsonConverter(typeof(StringEnumConverter), typeof(SnakeCaseNamingStrategy))]
-    public enum ReceiverType
+    internal enum ReceiverType
     {
-        /// <summary>
-        /// Код получателя оплаты.
-        /// </summary>
         BankAccount,
-
-        /// <summary>
-        /// Код получателя оплаты.
-        /// </summary>
         MobileBalance,
-
-        /// <summary>
-        /// Электронный кошелек.
-        /// </summary>
         DigitalWallet
     }
 }

@@ -12,9 +12,9 @@ namespace Yandex.Checkout.V3
             var receiverType = receiver["type"].ToObject<ReceiverType>(serializer);
             Receiver receiverInstance = receiverType switch
             {
-                ReceiverType.MobileBalance => new ReceiverMobileBalance(),
-                ReceiverType.BankAccount => new ReceiverBankAccount(),
-                ReceiverType.DigitalWallet => new ReceiverDigitalWallet(),
+                ReceiverType.MobileBalance => new MobileBalance(),
+                ReceiverType.BankAccount => new BankAccount(),
+                ReceiverType.DigitalWallet => new DigitalWallet(),
                 _ => throw new ArgumentException($"Unknown receive type ({receiver["type"].Value<string>()}).")
             };
 
@@ -24,7 +24,14 @@ namespace Yandex.Checkout.V3
 
         public override void WriteJson(JsonWriter writer, Receiver value, JsonSerializer serializer)
         {
-            throw new NotImplementedException();
         }
+    }
+}
+
+public static class StringUtils
+{
+    public static string ToSnakeCase(this string str)
+    {
+        return string.Concat(str.Select((x, i) => i > 0 && char.IsUpper(x) ? "_" + x.ToString() : x.ToString())).ToLower();
     }
 }
