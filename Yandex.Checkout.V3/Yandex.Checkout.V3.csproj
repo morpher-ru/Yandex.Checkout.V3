@@ -2,20 +2,20 @@
 
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;net45;net40</TargetFrameworks>
-    <Version>4.2.0</Version>
+    <Version>4.3.0</Version>
     <Authors>morpher;ili</Authors>
     <Title>YooMoney/YooKassa API wrapper</Title>
     <Description>This library simplifies integration with YooMoney/YooKassa (formerly Yandex.Money / Yandex.Checkout).
         YooMoney is a payment gateway owned by Sberbank, Russia.
         The libary offers both sync and async APIs and supports a wide range of .NET versions from .NET Framework 4.0 to .NET Core and .NET 8.
     </Description>
-    <Copyright>Copyright 2018-2024 morpher.ru</Copyright>
+    <Copyright>Copyright 2018-2025 morpher.ru</Copyright>
     <PackageTags>YooMoney;YooKassa;Yandex;money;checkout;payments;REST;RESTful;API;SDK;integration</PackageTags>
     <VersionSuffix>$(VersionSuffix)</VersionSuffix>
     <RepositoryUrl>https://github.com/morpher-ru/Yandex.Checkout.V3</RepositoryUrl>
     <PackageProjectUrl>https://github.com/morpher-ru/Yandex.Checkout.V3</PackageProjectUrl>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <PackageReleaseNotes>Метод Parse() теперь разбирает уведомления о выплатах.
+    <PackageReleaseNotes>НДС 5/7 %, оплата ЖКХ
     </PackageReleaseNotes>
     <PackageReadmeFile>README.md</PackageReadmeFile>  
     <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\Yandex.Checkout.V3.xml</DocumentationFile>
