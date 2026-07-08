@@ -98,8 +98,8 @@ namespace Yandex.Checkout.V3.Tests
             var refund = Serializer.DeserializeObject<Refund>(json);
             
             Assert.IsNotNull(refund.CancellationDetails);
-            Assert.AreEqual(refund.CancellationDetails.Party, "yoo_money");
-            Assert.AreEqual(refund.CancellationDetails.Reason, "expired_on_confirmation");
+            Assert.AreEqual(CancellationParty.YooMoney, refund.CancellationDetails.Party);
+            Assert.AreEqual(CancellationReason.ExpiredOnConfirmation, refund.CancellationDetails.Reason);
         }
         
         [TestMethod]
@@ -428,8 +428,29 @@ namespace Yandex.Checkout.V3.Tests
             Assert.AreEqual(false, payment.Refundable);
 
             // check cancellation details
-            Assert.AreEqual("yoo_money", payment.CancellationDetails.Party);
-            Assert.AreEqual("expired_on_confirmation", payment.CancellationDetails.Reason);
+            Assert.AreEqual(CancellationParty.YooMoney, payment.CancellationDetails.Party);
+            Assert.AreEqual(CancellationReason.ExpiredOnConfirmation, payment.CancellationDetails.Reason);
+        }
+
+        [TestMethod]
+        public void ThreeDSecureFailedSerializedCorrectly()
+        {
+            var details = new CancellationDetails
+            {
+                Reason = CancellationReason.ThreeDSecureFailed
+            };
+
+            string json = Serializer.SerializeObject(details);
+
+            Assert.IsTrue(json.Contains("\"reason\":\"3d_secure_failed\""), json);
+        }
+
+        [TestMethod]
+        public void ThreeDSecureFailedDeserializedCorrectly()
+        {
+            var details = Serializer.DeserializeObject<CancellationDetails>("{\"reason\":\"3d_secure_failed\"}");
+
+            Assert.AreEqual(CancellationReason.ThreeDSecureFailed, details.Reason);
         }
 
         [TestMethod]
@@ -515,8 +536,8 @@ namespace Yandex.Checkout.V3.Tests
             Assert.AreEqual("632756", payment.AuthorizationDetails.AuthCode);
 
             // check cancellation details
-            Assert.AreEqual("merchant", payment.CancellationDetails.Party);
-            Assert.AreEqual("canceled_by_merchant", payment.CancellationDetails.Reason);
+            Assert.AreEqual(CancellationParty.Merchant, payment.CancellationDetails.Party);
+            Assert.AreEqual(CancellationReason.CanceledByMerchant, payment.CancellationDetails.Reason);
 
             // check payment method
             Assert.IsNotNull(payment.PaymentMethod);
